@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { cpfMask } from "../format.js";
+import { cpfMask } from "../utils/format.js";
 import { executarSQL } from '../services/index.js';
 
 import api from '../axios/public.js';
@@ -16,7 +16,7 @@ import {
     useToast
 } from "native-base";
 
-import colors from '../colors';
+import colors from '../utils/colors';
 
 function Login({ navigation }) {
 

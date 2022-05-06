@@ -5,8 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import DatabaseInit from './database/Database';
 
-import colors from "./colors.js";
-import imagens from "./imagens.js";
+import colors from "./utils/colors.js";
+import imagens from "./utils/imagens.js";
 
 import {
   NativeBaseProvider
