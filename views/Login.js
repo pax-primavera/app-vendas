@@ -121,7 +121,7 @@ function Login({ navigation }) {
     const init = () => {
         toast.show({
             title: "(Aviso) - Pax Vendedor",
-            description: "Sincronização com 'WebVendedor' realizada.",
+            description: "Sincronização realizada com sucesso.",
             placement: "top",
             padding: 20
         });
@@ -149,7 +149,7 @@ function Login({ navigation }) {
         if (validateInputs()) {
             return toast.show({
                 title: "(Aviso) - Pax Vendedor",
-                description: "Preencha os campos corretamente!",
+                description: "Preencha os campos corretamente.",
                 placement: "top"
             });
         }

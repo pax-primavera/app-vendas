@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import { executarSQL } from '../services/index.js';
+
 import {
     Center,
     Box,
@@ -20,6 +22,7 @@ function Contrato() {
     const [religioes, setReligioes] = useState([]);
     const [logradouros, setLogradouros] = useState([]);
     const [locaisCobrancas, setLocaisCobrancas] = useState([]);
+    const [unidades, setUnidades] = useState([]);
 
     const sexo = [
         {
@@ -31,9 +34,41 @@ function Contrato() {
             nome: 'Feminino'
         }
     ];
-    
+
+    const setup = async () => {
+        const estadosCivilGet = await executarSQL(`select * from selects where tipo = 1`);
+
+        if (estadosCivilGet._array && estadosCivilGet._array.length > 0) {
+            setEstadosCivil(estadosCivilGet._array);
+        }
+
+        const religioesGet = await executarSQL(`select * from selects where tipo = 2`);
+
+        if (religioesGet._array && religioesGet._array.length > 0) {
+            setReligioes(religioesGet._array);
+        }
+
+        const logradourosGet = await executarSQL(`select * from selects where tipo = 3`);
+
+        if (logradourosGet._array && logradourosGet._array.length > 0) {
+            setLogradouros(logradourosGet._array);
+        }
+
+        const locaisCobrancasGet = await executarSQL(`select * from selects where tipo = 4`);
+
+        if (locaisCobrancasGet._array && locaisCobrancasGet._array.length > 0) {
+            setLocaisCobrancas(locaisCobrancasGet._array);
+        }
+
+        const unidadesGet = await executarSQL(`select * from selects where tipo = 5`);
+
+        if (unidadesGet._array && unidadesGet._array.length > 0) {
+            setUnidades(unidadesGet._array);
+        }
+    }
+
     useEffect(() => {
-        
+        setup();
     }, []);
 
     return (
@@ -95,7 +130,7 @@ function Contrato() {
                                         <FormControl isInvalid >
                                             <FormControl.Label>Estado Civil:</FormControl.Label>
                                             <Select accessibilityLabel="Estado Civil:" placeholder="Estado Civil:">
-                                                {estadosCivil.map((item) => <Select.Item key={item.id} label={item.nome_estado_civil} value={item.id} />)}
+                                                {estadosCivil.map((item) => <Select.Item key={item.id} label={item.descricao} value={item._id} />)}
                                             </Select>
                                         </FormControl>
                                     </Center>
@@ -119,7 +154,7 @@ function Contrato() {
                                         <FormControl isInvalid >
                                             <FormControl.Label>Religião:</FormControl.Label>
                                             <Select accessibilityLabel="Religião:" placeholder="Selecione uma religião:">
-                                                {religioes.map((item) => <Select.Item key={item.id} label={item.nome_religião} value={item.id} />)}
+                                                {religioes.map((item) => <Select.Item key={item.id} label={item.descricao} value={item._id} />)}
                                             </Select>
                                         </FormControl>
                                     </Center>
@@ -170,7 +205,7 @@ function Contrato() {
                                         <FormControl isInvalid >
                                             <FormControl.Label>Logradouro:</FormControl.Label>
                                             <Select accessibilityLabel="Logradouro:" placeholder="Selecione um logradouro:">
-                                                {logradouros.map((item) => <Select.Item key={item.id} label={item.nome_logradouro} value={item.id} />)}
+                                                {logradouros.map((item) => <Select.Item key={item.id} label={item.descricao} value={item._id} />)}
                                             </Select>
                                         </FormControl>
                                     </Center>
@@ -257,7 +292,7 @@ function Contrato() {
                                         <FormControl isInvalid >
                                             <FormControl.Label>Logradouro:</FormControl.Label>
                                             <Select accessibilityLabel="Logradouro:" placeholder="Selecione um logradouro:">
-                                                {logradouros.map((item) => <Select.Item key={item.id} label={item.nome_logradouro} value={item.id} />)}
+                                                {logradouros.map((item) => <Select.Item key={item.id} label={item.descricao} value={item._id} />)}
                                             </Select>
                                         </FormControl>
                                     </Center>
@@ -330,7 +365,7 @@ function Contrato() {
                                         <FormControl isInvalid >
                                             <FormControl.Label>Local de Cobrança:</FormControl.Label>
                                             <Select accessibilityLabel="Local de cobrança:" placeholder="Selecione um local de cobrança:">
-                                                {locaisCobrancas.map((item) => <Select.Item key={item.id} label={item.nome_cobranca} value={item.id} />)}
+                                                {locaisCobrancas.map((item) => <Select.Item key={item.id} label={item.descricao} value={item._id} />)}
                                             </Select>
                                         </FormControl>
                                     </Center>
