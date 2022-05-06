@@ -1,85 +1,98 @@
-import React from "react";
+import React, { useLayoutEffect } from 'react';
+import { Platform, StatusBar, Dimensions, Image } from "react-native";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import DatabaseInit from './database/Database';
+
+import colors from "./colors.js";
+import imagens from "./imagens.js";
+
 import {
-  Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
-  NativeBaseProvider,
-  extendTheme,
-  VStack,
-  Box,
+  NativeBaseProvider
 } from "native-base";
-import NativeBaseIcon from "./components/NativeBaseIcon";
-import { Platform } from "react-native";
 
-// Define the config
-const config = {
-  useSystemColorMode: false,
-  initialColorMode: "dark",
-};
+import { Login } from './views/Login';
+import { Home } from './views/Home';
+import { Contrato } from './views/Contrato';
 
-// extend the theme
-export const theme = extendTheme({ config });
+const Stack = createNativeStackNavigator();
+const { height } = Dimensions.get("screen");
 
-export default function App() {
+function App() {
+
+  useLayoutEffect(() => {
+    /// Construir banco local
+    new DatabaseInit();
+  }, []);
+
+  const imagemLogo = {
+    width: 200,
+    height: 65
+  };
+
+  const heightHeader = {
+    backgroundColor: colors.COLORS.WHITE,
+    height: Platform.OS === "ios" ? height * 0.12 : height * 0.070,
+  }
+
   return (
     <NativeBaseProvider>
-      <Center
-        _dark={{ bg: "blueGray.900" }}
-        _light={{ bg: "blueGray.50" }}
-        px={4}
-        flex={1}
-      >
-        <VStack space={5} alignItems="center">
-          <NativeBaseIcon />
-          <Heading size="lg">Welcome to NativeBase</Heading>
-          <HStack space={2} alignItems="center">
-            <Text>Edit</Text>
-            <Box
-              _web={{
-                _text: {
-                  fontFamily: "monospace",
-                  fontSize: "sm",
-                },
-              }}
-              px={2}
-              py={1}
-              _dark={{ bg: "blueGray.800" }}
-              _light={{ bg: "blueGray.200" }}
-            >
-              App.js
-            </Box>
-            <Text>and save to reload.</Text>
-          </HStack>
-          <Link href="https://docs.nativebase.io" isExternal>
-            <Text color="primary.500" underline fontSize={"xl"}>
-              Learn NativeBase
-            </Text>
-          </Link>
-          <ToggleDarkMode />
-        </VStack>
-      </Center>
+      <NavigationContainer>
+        <StatusBar barStyle="dark-content" hidden={false} backgroundColor="transparent" translucent={true} />
+        <Stack.Navigator initialRouteName="Login" headerMode="screen">
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={() => ({
+              headerTitle: () => (
+                <Image
+                  style={imagemLogo}
+                  source={imagens.Logo}
+                  resizeMode='contain'
+                />
+              ),
+              headerTitleAlign: "center",
+              headerBackVisible: false,
+              headerStyle: heightHeader
+            })}
+          />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={() => ({
+              headerTitle: () => (
+                <Image
+                  style={imagemLogo}
+                  source={imagens.Logo}
+                  resizeMode='contain'
+                />
+              ),
+              headerTitleAlign: "center",
+              headerBackVisible: false,
+              headerStyle: heightHeader
+            })}
+          />
+
+          <Stack.Screen
+            name="Contrato"
+            component={Contrato}
+            options={() => ({
+              headerTitle: () => (
+                <Image
+                  style={imagemLogo}
+                  source={imagens.Logo}
+                  resizeMode='contain'
+                />
+              ),
+              headerTitleAlign: "center",
+              headerStyle: heightHeader
+            })}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </NativeBaseProvider>
   );
 }
 
-// Color Switch Component
-function ToggleDarkMode() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  return (
-    <HStack space={2} alignItems="center">
-      <Text>Dark</Text>
-      <Switch
-        isChecked={colorMode === "light"}
-        onToggle={toggleColorMode}
-        aria-label={
-          colorMode === "light" ? "switch to dark mode" : "switch to light mode"
-        }
-      />
-      <Text>Light</Text>
-    </HStack>
-  );
-}
+export default App;

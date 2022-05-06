@@ -1,0 +1,1 @@
+export default  global =  'http://sistemapaxprimavera.ddns.net:2424'; 
