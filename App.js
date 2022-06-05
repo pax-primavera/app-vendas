@@ -3,7 +3,7 @@ import { Platform, StatusBar, Dimensions, Image } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import DatabaseInit from './database/Database';
+import DatabaseInit from './database/database';
 
 import colors from "./utils/colors.js";
 import imagens from "./utils/imagens.js";

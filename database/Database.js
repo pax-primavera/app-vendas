@@ -1,4 +1,4 @@
-import { DatabaseConnection } from './Connection.js';
+import { DatabaseConnection } from './connection.js';
 
 var db = null;
 

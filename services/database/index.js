@@ -1,4 +1,4 @@
-import { DatabaseConnection } from '../../database/Connection.js';
+import { DatabaseConnection } from '../../database/connection.js';
 
 import {
     Alert
