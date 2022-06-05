@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { executarSQL } from '../services/index';
-import global from '../utils/globais.js';
+import { executarSQL } from '../../../services/index';
+import global from './url.js';
 
 let instance = axios.create();
 

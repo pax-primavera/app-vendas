@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { cpfMask } from "../utils/format.js";
-import { executarSQL } from '../services/index.js';
 
-import api from '../axios/public.js';
-import apiPrivate from '../axios/private.js';
+import { cpfMask } from "../utils/generic/format.js";
+import { executarSQL } from '../services/index.js';
+import {styleInputFocus, styleButton, styleButtonText} from '../utils/styles/index.js';
+
+import api from '../utils/config/axios/public.js';
+import apiPrivate from '../utils/config/axios/private.js';
 
 import {
     Center,
@@ -16,30 +18,14 @@ import {
     useToast
 } from "native-base";
 
-import colors from '../utils/colors';
-
 function Login({ navigation }) {
 
     const toast = useToast();
 
-    const styleInputFocus = {
-        borderColor: colors.COLORS.PAXCOLOR_1,
-        backgroundColor: 'transparent'
-    };
-
-    const styleButton = {
-        borderColor: 'muted.300',
-        backgroundColor: 'green.800'
-    };
-
-    const styleButtonText = {
-        color: `white`
-    };
-
     const [cpf, setCpf] = useState(null);
     const [senha, setSenha] = useState(null);
+    
     const [carregamento, setCarregamento] = useState(false);
-
     const [error, setError] = useState({ errorCPF: false, errorSenha: false });
 
     const verificarSessao = async () => {
@@ -113,7 +99,6 @@ function Login({ navigation }) {
                     });
                 });
             });
-
             init();
         });
     }
@@ -121,7 +106,7 @@ function Login({ navigation }) {
     const init = () => {
         toast.show({
             title: "(Aviso) - Pax Vendedor",
-            description: "Sincronização realizada com sucesso.",
+            description: "Sincronizando informações!",
             placement: "top",
             padding: 20
         });
@@ -163,6 +148,9 @@ function Login({ navigation }) {
             /// Setup sincronização
             estruturarModoOffline();
         } catch (err) {
+
+            console.log(err)
+
             if (err.response.data && err.response.data.mensagem) {
                 toast.show({
                     title: "(Aviso) - Pax Vendedor",
@@ -219,7 +207,7 @@ function Login({ navigation }) {
                 }} >
                 <Center w="100%">
                     <Box safeArea w="100%" pl="10" pr="10" mb="10" >
-                        <Heading size="lg" fontWeight="800" color="green.800" >
+                        <Heading size="lg" fontWeight="500" color="green.800" >
                             Pax Vendedor
                         </Heading>
                         <Heading mt="1" fontWeight="medium" size="xs">

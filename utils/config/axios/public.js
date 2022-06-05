@@ -1,5 +1,5 @@
 import axios from 'axios';
-import global from '../utils/globais.js';
+import global from './url.js';
 
 const instance = axios.create({
     baseURL: global,

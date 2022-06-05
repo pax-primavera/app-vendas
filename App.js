@@ -15,6 +15,7 @@ import {
 import { Login } from './views/Login';
 import { Home } from './views/Home';
 import { Contrato } from './views/Contrato';
+import { Dependentes } from './views/Dependentes';
 
 const Stack = createNativeStackNavigator();
 const { height } = Dimensions.get("screen");
@@ -22,7 +23,7 @@ const { height } = Dimensions.get("screen");
 function App() {
 
   useLayoutEffect(() => {
-    /// Construir banco local
+    /// Construir banco de dados local
     new DatabaseInit();
   }, []);
 
@@ -38,8 +39,8 @@ function App() {
 
   return (
     <NativeBaseProvider>
+      <StatusBar hidden={false} backgroundColor={colors.COLORS.PAXCOLOR_1} translucent={true} />
       <NavigationContainer>
-        <StatusBar barStyle="dark-content" hidden={false} backgroundColor="transparent" translucent={true} />
         <Stack.Navigator initialRouteName="Login" headerMode="screen">
           <Stack.Screen
             name="Login"
@@ -77,6 +78,22 @@ function App() {
           <Stack.Screen
             name="Contrato"
             component={Contrato}
+            options={() => ({
+              headerTitle: () => (
+                <Image
+                  style={imagemLogo}
+                  source={imagens.Logo}
+                  resizeMode='contain'
+                />
+              ),
+              headerTitleAlign: "center",
+              headerStyle: heightHeader
+            })}
+          />
+
+          <Stack.Screen
+            name="Dependentes"
+            component={Dependentes}
             options={() => ({
               headerTitle: () => (
                 <Image

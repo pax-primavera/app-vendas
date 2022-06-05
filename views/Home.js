@@ -80,20 +80,36 @@ function Home({ navigation }) {
                     <Text color="green.800">'Contrato Offline'</Text> - Essa modalidade o vendedor faz o contrato sem a conexão com internet, ou seja, sem enviar para o sistema web/D4.
                 </Text>
             </Container>
-            <HStack space={2} m="5" justifyContent="center">
-                <Center h="40" w="50%" bg="white" rounded="md" shadow={3} >
-                    <Icon onPress={() => navigation.navigate("Contrato")} as={MaterialCommunityIcons} size="20" name="file-check-outline" color="green.800" />
-                    <Heading size="sm" fontWeight="900" color="green.800" >
-                        Contrato Online
-                    </Heading>
-                </Center>
-                <Center h="40" w="50%" bg="white" rounded="md" shadow={3}>
-                    <Icon as={MaterialCommunityIcons} size="20" name="file-cancel-outline" color="green.800" />
-                    <Heading size="sm" fontWeight="900" color="green.800" >
-                        Contrato Offline
-                    </Heading>
-                </Center>
-            </HStack>
+            <Center mt="5" ml="5" mr="5">
+                <HStack space={2} justifyContent="center">
+                    <Center h="40" w="50%" bg="white" rounded="md" shadow={3} >
+                        <Icon onPress={() => navigation.navigate("Contrato")} as={MaterialCommunityIcons} size="20" name="file-check-outline" color="green.800" />
+                        <Heading size="sm" fontWeight="900" color="green.800" >
+                            Contrato Online
+                        </Heading>
+                    </Center>
+                    <Center h="40" w="50%" bg="white" rounded="md" shadow={3}>
+                        <Icon as={MaterialCommunityIcons} size="20" name="file-cancel-outline" color="green.800" />
+                        <Heading size="sm" fontWeight="900" color="green.800" >
+                            Contrato Offline
+                        </Heading>
+                    </Center>
+                </HStack>
+                <HStack space={2} justifyContent="center" mt="2">
+                    <Center h="40" w="50%" bg="white" rounded="md" shadow={3}>
+                        <Icon as={MaterialCommunityIcons} size="20" name="file-clock-outline" color="green.800" />
+                        <Heading size="sm" fontWeight="900" color="green.800" >
+                            Contratos Pendentes
+                        </Heading>
+                    </Center>
+                    <Center h="40" w="50%" bg="white" rounded="md" shadow={3}>
+                        <Icon as={MaterialCommunityIcons} size="20" name="book-open-outline" color="green.800" />
+                        <Heading size="sm" fontWeight="900" color="green.800" >
+                            Nossos Planos
+                        </Heading>
+                    </Center>
+                </HStack>
+            </Center>
         </VStack>
     );
 }

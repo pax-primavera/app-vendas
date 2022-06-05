@@ -33,8 +33,12 @@ export default class DatabaseInit {
                 nacionalidadeTitular text,
                 naturalidadeTitular text,
                 religiaoTitular text,
+                email1 text,
+                email2 text,
+                telefone1 text,
+                telefone2 text,
                 sexoTitular text,
-                isCremado text,
+                isCremado int,
                 profissaoTitular text,
                 tipoLogradouroResidencial text,
                 nomeLogradouroResidencial text,
@@ -45,7 +49,7 @@ export default class DatabaseInit {
                 bairroResidencial text,
                 cepResidencial text,
                 cidadeResidencial text,
-                estadoResidencial text, 
+                estadoResidencial text,
                 tipoLogradouroCobranca text,
                 numeroCobranca text,
                 quadraCobranca text,
@@ -53,30 +57,22 @@ export default class DatabaseInit {
                 complementoCobranca text,
                 bairroCobranca text,
                 cepCobranca text,
-                cidadeCobranca text, 
+                cidadeCobranca text,
                 estadoCobranca text,
                 plano int,
                 enderecoCobrancaIgualResidencial int,
                 localCobranca int,
                 tipo int,
                 empresaAntiga text,
-                numContratoAntigo text, 
-                dataContratoAntigo text, 
-                diaVencimento int, 
+                numContratoAntigo text,
+                dataContratoAntigo text,
+                diaVencimento int,
                 dataPrimeiraMensalidade date,
                 melhorHorario time,
                 melhorDia int,
                 isOnline int,
                 sendByWhatsApp int,
                 is_enviado int default 0
-            );`,
-            
-            `create table if not exists contatos(
-                id integer PRIMARY KEY AUTOINCREMENT,
-                contato text,
-                titular_id integer,
-                FOREIGN KEY (titular_id) 
-                    REFERENCES titulares(id)
             );`,
 
             `create table if not exists dependentes(
@@ -87,7 +83,7 @@ export default class DatabaseInit {
                 cpf_dependente text,
                 dataNascimento date,
                 cremacao int,
-                especie int, 
+                especie int,
                 porte int,
                 resgate int,
                 raca text,
@@ -95,7 +91,7 @@ export default class DatabaseInit {
                 peso decimal(10,5),
                 cor int,
                 titular_id integer,
-                FOREIGN KEY (titular_id) 
+                FOREIGN KEY (titular_id)
                     REFERENCES titulares(id)
             );`,
 
@@ -106,7 +102,7 @@ export default class DatabaseInit {
                 tipo int,
                 unidade_id text
             );`,
-            
+
             `create table if not exists planos(
                 id integer PRIMARY KEY AUTOINCREMENT,
                 _id integer,
@@ -115,6 +111,14 @@ export default class DatabaseInit {
                 mensalidadeValor  int,
                 adicionalValor  int,
                 unidade_id text
+            );`,
+
+            `create table if not exists imagens(
+                id integer PRIMARY KEY AUTOINCREMENT,
+                imagem text,
+                titular_id integer,
+                FOREIGN KEY (titular_id)
+                    REFERENCES titulares(id)
             );`
         ];
 
