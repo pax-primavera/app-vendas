@@ -1,24 +1,15 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { executarSQL } from '../services/index.js';
+import { executarSQL } from '../services/database/index.js';
+import {Center,HStack,VStack,Icon,Heading,Text,Container} from "native-base";
 
-import {
-    Center,
-    HStack,
-    VStack,
-    Icon,
-    Heading,
-    Text,
-    Container
-} from "native-base";
-
-function Home({ navigation }) {
-
+const Home = ({ navigation }) => {
     const [usuario, setUsuario] = useState('Usuário não encontrado!');
 
     async function getUsuario() {
         const logado = await executarSQL(`select * from login`);
+
         if (logado._array && logado._array.length > 0) {
             return setUsuario(logado._array[0].usuario);
         }
@@ -74,10 +65,10 @@ function Home({ navigation }) {
                     <Text color="black" >Usuário: {usuario}</Text>
                 </Text>
                 <Text fontWeight="medium" style={styles.textCenter}>
-                    <Text color="green.800" >'Contrato Online'</Text> - Essa modalidade o vendedor faz o contrato totalmente online.
+                    <Text color="green.800" >'Novo Contrato'</Text> - Cadastrar novo contrato com seus dependente(s) e filial.
                 </Text>
                 <Text mt="1" fontWeight="medium" style={styles.textCenter}>
-                    <Text color="green.800">'Contrato Offline'</Text> - Essa modalidade o vendedor faz o contrato sem a conexão com internet, ou seja, sem enviar para o sistema web/D4.
+                    <Text color="green.800">'Planos'</Text> - Listar todos planos disponiveis em determinada filial escolhida.
                 </Text>
             </Container>
             <Center mt="5" ml="5" mr="5">
@@ -85,27 +76,14 @@ function Home({ navigation }) {
                     <Center h="40" w="50%" bg="white" rounded="md" shadow={3} >
                         <Icon onPress={() => navigation.navigate("Contrato")} as={MaterialCommunityIcons} size="20" name="file-check-outline" color="green.800" />
                         <Heading size="sm" fontWeight="900" color="green.800" >
-                            Contrato Online
+                            Novo Contrato
                         </Heading>
                     </Center>
-                    <Center h="40" w="50%" bg="white" rounded="md" shadow={3}>
-                        <Icon as={MaterialCommunityIcons} size="20" name="file-cancel-outline" color="green.800" />
-                        <Heading size="sm" fontWeight="900" color="green.800" >
-                            Contrato Offline
-                        </Heading>
-                    </Center>
-                </HStack>
-                <HStack space={2} justifyContent="center" mt="2">
-                    <Center h="40" w="50%" bg="white" rounded="md" shadow={3}>
-                        <Icon as={MaterialCommunityIcons} size="20" name="file-clock-outline" color="green.800" />
-                        <Heading size="sm" fontWeight="900" color="green.800" >
-                            Contratos Pendentes
-                        </Heading>
-                    </Center>
+
                     <Center h="40" w="50%" bg="white" rounded="md" shadow={3}>
                         <Icon as={MaterialCommunityIcons} size="20" name="book-open-outline" color="green.800" />
                         <Heading size="sm" fontWeight="900" color="green.800" >
-                            Nossos Planos
+                            Planos
                         </Heading>
                     </Center>
                 </HStack>

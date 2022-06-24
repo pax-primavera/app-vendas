@@ -1,30 +1,16 @@
 import React, { useState, useEffect } from 'react';
-
 import { cpfMask } from "../utils/generic/format.js";
-import { executarSQL } from '../services/index.js';
-import {styleInputFocus, styleButton, styleButtonText} from '../utils/styles/index.js';
-
+import { executarSQL } from '../services/database/index.js';
+import { styleInputFocus, styleButton, styleButtonText } from '../utils/styles/index.js';
 import api from '../utils/config/axios/public.js';
 import apiPrivate from '../utils/config/axios/private.js';
+import { Center, Box, VStack, FormControl, Button, Input, Heading, useToast } from "native-base";
+import { rotas } from '../utils/generic/data';
 
-import {
-    Center,
-    Box,
-    VStack,
-    FormControl,
-    Button,
-    Input,
-    Heading,
-    useToast
-} from "native-base";
-
-function Login({ navigation }) {
-
+const Login = ({ navigation }) => {
     const toast = useToast();
-
     const [cpf, setCpf] = useState(null);
     const [senha, setSenha] = useState(null);
-    
     const [carregamento, setCarregamento] = useState(false);
     const [error, setError] = useState({ errorCPF: false, errorSenha: false });
 
@@ -50,32 +36,20 @@ function Login({ navigation }) {
             );
         }
 
-        const rotas = [
-            '/lista-estado-civil', // Tipo(1)
-            '/lista-religioes', // Tipo(2)
-            '/lista-logradouros', // Tipo(3)
-            '/lista-locais-cobranca', // Tipo(4)
-            '/lista-unidades-usuario' // Tipo(5)
-        ];
-
         Promise.all(rotas.map((endpoint) => apiPrivate.get(endpoint))).then(([{ data: estadoCivil }, { data: religioes }, { data: logradouros }, { data: locaisCobranca }, { data: unidades }]) => {
 
             estadoCivil.estadoCivil.map(async (civil) => {
                 await inserirDados(civil.nome_estado_civil, civil.id, 1);
             });
-
             religioes.religioes.map(async (religiao) => {
                 await inserirDados(religiao.nome_religiao, religiao.id, 2);
             });
-
             logradouros.logradouros.map(async (logradouro) => {
                 await inserirDados(logradouro.nome_logradouro, logradouro.id, 3);
             });
-
             locaisCobranca.locaisCobranca.map(async (local) => {
                 await inserirDados(local.nome_cobranca, local.id, 4);
             });
-
             unidades.unidades.map(async (unidade) => {
                 await inserirDados(unidade.nome, unidade.id, 5);
 
@@ -110,7 +84,6 @@ function Login({ navigation }) {
             placement: "top",
             padding: 20
         });
-
         setTimeout(() => {
             /// Limpar campos
             setCpf(null);
@@ -148,9 +121,6 @@ function Login({ navigation }) {
             /// Setup sincronização
             estruturarModoOffline();
         } catch (err) {
-
-            console.log(err)
-
             if (err.response.data && err.response.data.mensagem) {
                 toast.show({
                     title: "(Aviso) - Pax Vendedor",
@@ -164,7 +134,6 @@ function Login({ navigation }) {
                     placement: "top"
                 });
             }
-
             setCarregamento(false);
         }
     }
@@ -187,7 +156,6 @@ function Login({ navigation }) {
         if (campo === 'cpf') {
             return tratarCPF(value);
         }
-
         return setSenha(value);
     }
 

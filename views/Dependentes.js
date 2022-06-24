@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useRoute } from '@react-navigation/native';
 
-import { executarSQL, insertIdSQL } from '../services/index.js';
-import { cpfMask, dataMask } from "../utils/format.js";
+import { executarSQL, insertIdSQL } from '../services/database/index.js';
+import { cpfMask, dataMask } from "../utils/generic/format.js";
 
-import { styleInputFocus, styleButton, styleButtonText, styleButtonDelete, styleButtonTextDelete} from '../utils/style.js';
+import {
+    styleInputFocus,
+    styleButton,
+    styleButtonText,
+    styleButtonDelete,
+    styleButtonTextDelete
+} from '../utils/styles/index';
 
-import colors from '../utils/colors.js';
+import colors from '../utils/styles/colors.js';
 import { Ionicons } from "@expo/vector-icons";
 import Slider from "react-native-slider";
 
@@ -25,7 +31,8 @@ import {
     Select, Button
 } from "native-base";
 
-function Dependentes({ navigation }) {
+
+const Dependentes = ({ navigation }) => {
 
     const route = useRoute();
     const toast = useToast();
