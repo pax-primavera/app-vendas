@@ -12,14 +12,20 @@ const ComponentSelect = (props) => {
             return setError(true)
         }
 
-        setSelectValue(valueInput);
+        setSelectValue(value);
 
-        await executarSQL(`
-            UPDATE 
-            ${props.table}
-            SET ${props.column} = '${value}'
-            WHERE id = ${props.contratoID}`
-        );
+        if (props && props.column) {
+            await executarSQL(`
+                UPDATE 
+                ${props.table}
+                SET ${props.column} = '${value}'
+                WHERE id = ${props.id}`
+            );
+        }
+
+        if (props && props.function) {
+            props.function(value);
+        }
 
         setError(false);
     }
@@ -36,7 +42,7 @@ const ComponentSelect = (props) => {
             >
                 {props.array.map((item) => <Select.Item
                     key={item.id}
-                    label={item.descricao}
+                    label={item[props.columnLabel]}
                     value={item._id} />
                 )}
             </Select>

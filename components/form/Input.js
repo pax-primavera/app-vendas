@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import { FormControl, Input } from "native-base";
 import { styleInputFocus, } from '../../utils/styles/index';
 import { cpfMask, dataMask } from "../../utils/generic/format";
-import { executarSQL } from '../../services/database/index.js';
+import { executarSQL } from '../../services/database/index';
+import { fieldDatas, fieldCPF } from '../../utils/generic/field.mask'
 
 const ComponentInput = (props) => {
     const [inputValue, setInputValue] = useState();
     const [error, setError] = useState(false);
 
     const treatment = (label, labelValue) => {
-        if (['cpf_dependente', 'cpfTitular'].includes(label)) {
+        if (fieldCPF.includes(label)) {
             return setInputValue(cpfMask(labelValue));
-        } else if (['dataContrato', 'dataNascTitular'].includes(label)) {
+        } else if (fieldDatas.includes(label)) {
             return setInputValue(dataMask(labelValue));
         } else {
             return setInputValue(labelValue);
@@ -21,15 +22,23 @@ const ComponentInput = (props) => {
     const change = async (value) => {
         const valueInput = treatment(props.column, value);
 
-        await executarSQL(`
-            UPDATE 
-            ${props.table} 
-            SET ${props.column} = '${valueInput}'
-            WHERE id = ${props.contratoID}`
-        );
+        if (props && props.column) {
+            await executarSQL(`
+                UPDATE 
+                ${props.table}
+                SET ${props.column} = '${valueInput}'
+                WHERE id = ${props.id}`
+            );
+        }
+
+        console.log(value)
 
         if (!value) {
             return setError(true)
+        }
+
+        if (props && props.function) {
+            props.function(value);
         }
 
         setError(false);

@@ -1,56 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useRoute } from '@react-navigation/native';
-
 import { executarSQL, insertIdSQL } from '../services/database/index.js';
 import { cpfMask, dataMask } from "../utils/generic/format.js";
-
-import {
-    styleInputFocus,
-    styleButton,
-    styleButtonText,
-    styleButtonDelete,
-    styleButtonTextDelete
-} from '../utils/styles/index';
-
-import colors from '../utils/styles/colors.js';
+import { styleInputFocus, styleButton, styleButtonText, styleButtonDelete, styleButtonTextDelete } from '../utils/styles/index';
+import { Center, HStack, VStack, Icon, Heading, Box, ScrollView, Spinner, useToast, FormControl, Input, Select, Button } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
-import Slider from "react-native-slider";
+import { cores, especies, portes } from '../utils/generic/data';
+import colors from '../utils/styles/colors.js';
 
-import {
-    Center,
-    HStack,
-    VStack,
-    Icon,
-    Heading,
-    Box,
-    ScrollView,
-    Spinner,
-    useToast,
-    FormControl,
-    Input,
-    Select, Button
-} from "native-base";
-
-
-const Dependentes = ({ navigation }) => {
-
+function Dependentes({ navigation }) {
     const route = useRoute();
     const toast = useToast();
-
     const [dependentes, setDependentes] = useState([]);
     const [parentescos, setParentescos] = useState([]);
-
     const [contratoID, setContratoID] = useState(null);
     const [tipoDependente, setTipoDependente] = useState(null);
-
     const [carregamento, setCarregamento] = useState(false);
     const [carregamentoButton, setCarregamentoButton] = useState(false);
-
     const [mensagem, setMensagem] = useState('Carregando informações locais, aguarde...');
-
-    const especies = [{ 'id': 1, 'nome': 'Canina' }, { 'id': 2, 'nome': 'Felina' }, { 'id': 3, 'nome': 'Outros' }];
-    const cores = [{ 'id': 1, 'nome': 'Branco' }, { 'id': 2, 'nome': 'Preto' }, { 'id': 3, 'nome': 'Pardo' }, { 'id': 3, 'nome': 'Preto e Branco' }];
-    const portes = [{ 'id': 1, 'nome': 'P' }, { 'id': 2, 'nome': 'M' }, { 'id': 3, 'nome': 'G' }, { 'id': 4, 'nome': 'GG' }];
 
     const setupSelecionarFilial = async (contratoID, unidadeID, tipo) => {
         // Inicial carregamento de tela
@@ -64,7 +31,6 @@ const Dependentes = ({ navigation }) => {
             setParentescos(parentescosGet._array);
             setCarregamento(false);
         }
-
         // Atribuir valores
         setContratoID(contratoID);
         setTipoDependente(tipo);
@@ -142,7 +108,6 @@ const Dependentes = ({ navigation }) => {
     }, []);
 
     const validateInputs = () => {
-
         let index = dependentes.length - 1;
 
         for (var property in dependentes[index]) {
@@ -156,7 +121,6 @@ const Dependentes = ({ navigation }) => {
             }
         }
     }
-
 
     return (
         <ScrollView h="100%">

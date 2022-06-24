@@ -5,7 +5,7 @@ import { styleInputFocus, styleButton, styleButtonText } from '../utils/styles/i
 import api from '../utils/config/axios/public.js';
 import apiPrivate from '../utils/config/axios/private.js';
 import { Center, Box, VStack, FormControl, Button, Input, Heading, useToast } from "native-base";
-import { rotas } from '../utils/generic/data';
+import { rotas, rotasUniadades } from '../utils/generic/data';
 
 const Login = ({ navigation }) => {
     const toast = useToast();
@@ -53,13 +53,7 @@ const Login = ({ navigation }) => {
             unidades.unidades.map(async (unidade) => {
                 await inserirDados(unidade.nome, unidade.id, 5);
 
-                const rotasUniadades = [
-                    `lista-planos/unidade-id=${unidade.id}`, // Tabela única,
-                    `lista-parentescos/unidade-id=${unidade.id}`, // Tipo(6),
-                    `lista-templates/unidade-id=${unidade.id}`, // Tipo(7),
-                ];
-
-                Promise.all(rotasUniadades.map((url) => apiPrivate.get(url))).then(([{ data: planos }, { data: parentescos }, { data: templates }]) => {
+                Promise.all(rotasUniadades(unidade).map((url) => apiPrivate.get(url))).then(([{ data: planos }, { data: parentescos }, { data: templates }]) => {
                     planos.planos.map(async (plano) => {
                         await inserirPlanos(plano.id, plano.nome, plano.adesaoValor, plano.mensalidadeValor, plano.adicionalValor, unidade.id);
                     });

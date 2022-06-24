@@ -6,6 +6,14 @@ const rotas = [
     '/lista-unidades-usuario' // Tipo(5)
 ];
 
+const rotasUniadades = (unidade) => {
+    return [
+        `lista-planos/unidade-id=${unidade.id}`, // Tabela única,
+        `lista-parentescos/unidade-id=${unidade.id}`, // Tipo(6),
+        `lista-templates/unidade-id=${unidade.id}`, // Tipo(7),
+    ]
+};
+
 const sexo = [
     {
         id: 1,
@@ -83,4 +91,17 @@ const portes = [
     }
 ];
 
-export { sexo, especies, cores, portes, rotas };
+const tiposContratos = [
+    {
+        id: 0,
+        _id: 0,
+        descricao: 'Novo'
+    },
+    {
+        id: 1,
+        _id: 1,
+        descricao: 'Transferência'
+    },
+];
+
+export { sexo, especies, cores, portes, rotas, tiposContratos, rotasUniadades };

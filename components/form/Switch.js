@@ -8,12 +8,18 @@ const ComponentSwitch = (props) => {
     const change = async (value) => {
         setSwitchValue(value);
 
-        await executarSQL(`
-            UPDATE 
-            ${props.table} 
-            SET ${props.column} = '${value}'
-            WHERE id = ${props.contratoID}`
-        );
+        if (props && props.column) {
+            await executarSQL(`
+                UPDATE 
+                ${props.table}
+                SET ${props.column} = '${value}'
+                WHERE id = ${props.id}`
+            );
+        }
+
+        if (props && props.function) {
+            props.function(value);
+        }
     }
 
     return (
