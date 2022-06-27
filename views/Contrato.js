@@ -722,20 +722,28 @@ function Contrato({ navigation }) {
                         </Box>
                       </Box>
                     </VStack>
-                    {/* Dependentes Pax Primavera */}
-                    <ComponentModalDependentesPax
-                      contratoID={contratoID}
-                      unidadeID={unidadeID}
-                      title="Dependente(s) Pax"
-                      isPet={false}
-                    />
-                    {/* Dependentes Pet Primavera */}
-                    <ComponentModalDependentesPax
-                      contratoID={contratoID}
-                      unidadeID={unidadeID}
-                      title="Dependente(s) Pet"
-                      isPet={true}
-                    />
+                    <VStack m="1">
+                      <Box key="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
+                        {/* Dependentes Pax Primavera */}
+                        <ComponentModalDependentesPax
+                          contratoID={contratoID}
+                          unidadeID={unidadeID}
+                          title="Dependente(s) Pax"
+                          isPet={false}
+                        />
+                      </Box>
+                    </VStack>
+                    <VStack m="1">
+                      <Box key="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
+                        {/* Dependentes Pet Primavera */}
+                        <ComponentModalDependentesPax
+                          contratoID={contratoID}
+                          unidadeID={unidadeID}
+                          title="Dependente(s) Pet"
+                          isPet={true}
+                        />
+                      </Box>
+                    </VStack>
                   </>
             }
           </>

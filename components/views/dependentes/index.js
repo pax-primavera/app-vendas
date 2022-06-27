@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { executarSQL, insertIdSQL } from '../../../services/database/index.js';
-import { styleButton, styleButtonText, web, light } from '../../../utils/styles/index';
-import { Center, VStack, Icon, Heading, Box, ScrollView, useToast, Button } from "native-base";
+import { styleButton, styleButtonText } from '../../../utils/styles/index';
+import { Center, VStack, Icon, Heading, Box, useToast, Button } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import axiosAuth from '../../../utils/config/axios/private.js';
 import ComponentAddPax from './adicionais/pax.js';
@@ -91,41 +91,38 @@ function modalDependentesPax(props) {
   }, []);
 
   return (
-    <ScrollView h="100%">
+    <VStack>
       {
         carregamento ? (
           <ComponentLoading mensagem="Carregando dependente(s)" />
         ) :
           <VStack m="2">
-            <Box maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
-              _web={web}>
-              <Center w="100%">
-                <Box w="100%" pl="5" pr="5" pb="3"  >
-                  <Heading mt="3" size="lg" fontWeight="bold" color="green.900" >
-                    {title}
-                  </Heading>
-                  <Heading mt="2" mb="1" fontWeight="medium" size="sm">
-                    Informe todas as informações corretamente!
-                  </Heading>
-                </Box>
-                {
-                  dependentes.map((item, index) => (
-                    isPet ?
-                      <ComponentAddPet
-                        item={item}
-                        table={table}
-                        deletarDependente={deletarDependente}
-                      />
-                      : <ComponentAddPax
-                        item={item}
-                        table={table}
-                        parentescos={parentescos}
-                        deletarDependente={deletarDependente}
-                      />
-                  ))
-                }
-              </Center>
-            </Box>
+            <Center w="100%">
+              <Box w="100%" pl="5" pr="5" pb="3"  >
+                <Heading mt="3" size="lg" fontWeight="bold" color="green.900" >
+                  {title}
+                </Heading>
+                <Heading mt="2" mb="1" fontWeight="medium" size="sm">
+                  Informe todas as informações corretamente!
+                </Heading>
+              </Box>
+              {
+                dependentes.map((item, index) => (
+                  isPet ?
+                    <ComponentAddPet
+                      item={item}
+                      table={table}
+                      deletarDependente={deletarDependente}
+                    />
+                    : <ComponentAddPax
+                      item={item}
+                      table={table}
+                      parentescos={parentescos}
+                      deletarDependente={deletarDependente}
+                    />
+                ))
+              }
+            </Center>
             <Button size="lg"
               mb="1"
               leftIcon={<Icon as={Ionicons} name="add" size="lg" color="white" />}
@@ -139,8 +136,7 @@ function modalDependentesPax(props) {
             </Button>
           </VStack>
       }
-    </ScrollView>
-
+    </VStack>
   );
 }
 

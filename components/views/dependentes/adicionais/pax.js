@@ -22,7 +22,6 @@ function ComponentAddPax(props) {
                         />
                     </Center>
                 </HStack>
-
                 <HStack space={2} justifyContent="center">
                     <Center w="50%" rounded="md">
                         <ComponentInput
@@ -63,7 +62,7 @@ function ComponentAddPax(props) {
             <Button size="lg"
                 mt="5"
                 mb="3"
-                leftIcon={<Icon as={Ionicons} name="remove-circle" size="lg" color="white" />}
+                leftIcon={<Icon as={Ionicons} name="remove" size="lg" color="white" />}
                 _light={styleButtonDelete}
                 _text={styleButtonTextDelete}
                 variant="outline"

@@ -32,7 +32,6 @@ function AddPet(props) {
                             placeholder='Digite a data de nascimento:'
                             id={item.id}
                             table={table}
-                            required
                             type="numeric"
                         />
                     </Center>
@@ -96,7 +95,7 @@ function AddPet(props) {
             <Button size="lg"
                 mt="5"
                 mb="3"
-                leftIcon={<Icon as={Ionicons} name="remove-circle" size="lg" color="white" />}
+                leftIcon={<Icon as={Ionicons} name="remove" size="lg" color="white" />}
                 _light={styleButtonDelete}
                 _text={styleButtonTextDelete}
                 variant="outline"
