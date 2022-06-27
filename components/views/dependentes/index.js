@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { executarSQL, insertIdSQL } from '../../../services/database/index.js';
-import { styleButton, styleButtonText } from '../../../utils/styles/index';
+import { styleButtonAdd, styleButtonTextAdd } from '../../../utils/styles/index';
 import { Center, VStack, Icon, Heading, Box, useToast, Button } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import axiosAuth from '../../../utils/config/axios/private.js';
@@ -124,10 +124,10 @@ function modalDependentesPax(props) {
               }
             </Center>
             <Button size="lg"
-              mb="1"
-              leftIcon={<Icon as={Ionicons} name="add" size="lg" color="white" />}
-              _light={styleButton}
-              _text={styleButtonText}
+              mb="4"
+              leftIcon={<Icon as={Ionicons} name="add" size="lg" color="green.900" />}
+              _light={styleButtonAdd}
+              _text={styleButtonTextAdd}
               isLoading={carregamentoButton}
               variant="outline"
               onPress={() => novoDependente()}

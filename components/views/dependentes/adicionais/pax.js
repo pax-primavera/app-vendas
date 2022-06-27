@@ -3,6 +3,7 @@ import { Center, HStack, VStack, Icon, Box, Button } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import ComponentInput from '../../../form/input';
 import ComponentSelect from '../../../form/select';
+import ComponentSwitch from '../../../form/switch';
 
 function ComponentAddPax(props) {
     const { item, table, parentescos, deletarDependente } = props;
@@ -10,6 +11,12 @@ function ComponentAddPax(props) {
     return (
         <Box key={item.id} safeArea w="100%" pl="5" pr="5" mb="5" >
             <VStack space={3} >
+                <ComponentSwitch
+                    label="Adicional cremação?"
+                    column="cremacao"
+                    id={item.id}
+                    table={table}
+                />
                 <HStack space={2} justifyContent="center">
                     <Center w="100%" rounded="md">
                         <ComponentInput
@@ -62,7 +69,7 @@ function ComponentAddPax(props) {
             <Button size="lg"
                 mt="5"
                 mb="3"
-                leftIcon={<Icon as={Ionicons} name="remove" size="lg" color="white" />}
+                leftIcon={<Icon as={Ionicons} name="remove" size="lg" color="red.800" />}
                 _light={styleButtonDelete}
                 _text={styleButtonTextDelete}
                 variant="outline"

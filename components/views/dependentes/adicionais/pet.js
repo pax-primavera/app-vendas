@@ -5,6 +5,7 @@ import { cores, especies, portes } from '../../../../utils/generic/data';
 import ComponentInput from '../../../form/input';
 import ComponentSelect from '../../../form/select';
 import ComponentSlider from '../../../form/slider';
+import ComponentSwitch from '../../../form/switch';
 
 function AddPet(props) {
     const { item, table, deletarDependente } = props;
@@ -12,6 +13,13 @@ function AddPet(props) {
     return (
         <Box key={item.id} safeArea w="100%" pl="5" pr="5" mb="5" >
             <VStack space={3} >
+
+                <ComponentSwitch
+                    label="Resgate de cinza?"
+                    column="resgate"
+                    id={item.id}
+                    table={table}
+                />
                 <HStack space={2} justifyContent="center">
                     <Center w="100%" rounded="md">
                         <ComponentInput
@@ -95,7 +103,7 @@ function AddPet(props) {
             <Button size="lg"
                 mt="5"
                 mb="3"
-                leftIcon={<Icon as={Ionicons} name="remove" size="lg" color="white" />}
+                leftIcon={<Icon as={Ionicons} name="remove" size="lg" color="red.800" />}
                 _light={styleButtonDelete}
                 _text={styleButtonTextDelete}
                 variant="outline"

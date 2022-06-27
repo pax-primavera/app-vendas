@@ -21,7 +21,7 @@ const ComponentRadio = (props) => {
                 name={props.column}
             >
                 {props.array.map((item) => <Radio
-                    colorScheme="success"
+                    colorScheme="emerald"
                     key={item.id}
                     value={item.id}
                     my={item.id}>{item[props.columnLabel]}</Radio>)}

@@ -9,7 +9,7 @@ const ComponentSlider = (props) => {
     const [sliderValue, setSliderValue] = useState(0);
 
     const change = async (value) => {
-        setSliderValue(value);
+        setSliderValue(moedaMask(value));
 
         if (props && props.function) props.function(value);
         if (props && props.column) await executarSQL(`UPDATE ${props.table} SET ${props.column} = '${value}' WHERE id = ${props.id}`);
@@ -17,7 +17,7 @@ const ComponentSlider = (props) => {
 
     return (
         <FormControl>
-            <FormControl.Label>{props.label}: {moedaMask(sliderValue)}</FormControl.Label>
+            <FormControl.Label>{props.label}: {sliderValue}</FormControl.Label>
             <Slider
                 maximumValue={props.limit}
                 minimumTrackTintColor={colors.COLORS.PAXCOLOR_1}

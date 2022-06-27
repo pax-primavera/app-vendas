@@ -24,12 +24,22 @@ const styleButtonTextOutline = {
 };
 
 const styleButtonDelete = {
-    borderColor: 'muted.300',
-    backgroundColor: 'red.800'
+    borderColor:'transparent',
+    backgroundColor: 'transparent'
 };
 
 const styleButtonTextDelete = {
-    color: 'white'
+    color:  'red.800',
+};
+
+const styleButtonAdd = {
+    borderColor:'green.800',
+    borderWidth:1,
+    backgroundColor: 'transparent'
+};
+
+const styleButtonTextAdd = {
+    color:  'green.800',
 };
 
 const web = {
@@ -41,4 +51,16 @@ const light = {
     backgroundColor: "gray.50"
 }
 
-export { web, light, styleInputFocus, styleButton, styleButtonText, styleButtonOutline, styleButtonTextOutline, styleButtonDelete, styleButtonTextDelete };
+export { 
+    styleButtonAdd, 
+    styleButtonTextAdd,
+    web, 
+    light, 
+    styleInputFocus, 
+    styleButton, 
+    styleButtonText, 
+    styleButtonOutline, 
+    styleButtonTextOutline, 
+    styleButtonDelete, 
+    styleButtonTextDelete 
+};
