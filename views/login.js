@@ -3,14 +3,15 @@ import { cpfMask } from "../utils/generic/format.js";
 import { executarSQL } from '../services/database/index.js';
 import { styleInputFocus, styleButton, styleButtonText, web, light } from '../utils/styles/index.js';
 import api from '../utils/config/axios/public.js';
-import { Center, Box, VStack, FormControl, Button, Input, Heading, useToast } from "native-base";
+import { Center, Box, VStack, FormControl, Button, Input, Heading, useToast, Text } from "native-base";
+import ComponentToast from '../components/views/toast/index';
 
 const Login = ({ navigation }) => {
   const toast = useToast();
 
   const [cpf, setCpf] = useState(null);
   const [senha, setSenha] = useState(null);
-  
+
   const [carregamento, setCarregamento] = useState(false);
   const [error, setError] = useState({ errorCPF: false, errorSenha: false });
 
@@ -33,9 +34,10 @@ const Login = ({ navigation }) => {
   const logar = async () => {
     if (validateInputs()) {
       return toast.show({
-        title: "Pax Vendedor",
-        description: "Preencha os campos corretamente.",
-        placement: "top"
+        placement: "bottom",
+        render: () => {
+          return <ComponentToast title="Aviso" message="Preencha os campos corretamente." />
+        }
       });
     }
 
@@ -57,15 +59,17 @@ const Login = ({ navigation }) => {
     } catch (err) {
       if (err.response.data && err.response.data.mensagem) {
         toast.show({
-          title: "Pax Vendedor",
-          description: err.response.data.mensagem,
-          placement: "top"
+          placement: "bottom",
+          render: () => {
+            return <ComponentToast title="Aviso" message={err.response.data.mensagem} />
+          }
         });
       } else {
         toast.show({
-          title: "Pax Vendedor",
-          description: "Não foi possivel efetuar login! Usuário não encontrado.",
-          placement: "top"
+          placement: "bottom",
+          render: () => {
+            return <ComponentToast title="Aviso" message="Não foi possivel efetuar login! Usuário não encontrado." />
+          }
         });
       }
       setCarregamento(false);
@@ -106,7 +110,7 @@ const Login = ({ navigation }) => {
             <Heading size="lg" fontWeight="900" color="green.900" >
               Pax Vendedor
             </Heading>
-            <Heading mt="1" fontWeight="bold" size="xs">
+            <Heading mt="1" fontWeight="medium" size="xs">
               Informe seu 'CPF' e 'Senha':
             </Heading>
 

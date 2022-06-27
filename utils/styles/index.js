@@ -51,6 +51,11 @@ const light = {
     backgroundColor: "gray.50"
 }
 
+const textCenter = {
+    textAlign: 'justify',
+    marginBottom: 10
+}
+
 export { 
     styleButtonAdd, 
     styleButtonTextAdd,
@@ -62,5 +67,6 @@ export {
     styleButtonOutline, 
     styleButtonTextOutline, 
     styleButtonDelete, 
-    styleButtonTextDelete 
+    styleButtonTextDelete,
+    textCenter
 };

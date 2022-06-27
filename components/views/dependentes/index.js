@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { executarSQL, insertIdSQL } from '../../../services/database/index.js';
 import { styleButtonAdd, styleButtonTextAdd } from '../../../utils/styles/index';
 import { Center, VStack, Icon, Heading, Box, useToast, Button } from "native-base";
+import colors from '../../../utils/styles/colors.js';
 import { Ionicons } from "@expo/vector-icons";
 import axiosAuth from '../../../utils/config/axios/private.js';
 import ComponentAddPax from './adicionais/pax.js';
@@ -98,8 +99,8 @@ function modalDependentesPax(props) {
         ) :
           <VStack m="2">
             <Center w="100%">
-              <Box w="100%" pl="5" pr="5" pb="3"  >
-                <Heading mt="3" size="lg" fontWeight="bold" color="green.900" >
+              <Box w="100%" pl="5" pr="5">
+                <Heading mt="3" size="lg" fontWeight="900" color={colors.COLORS.PAXCOLOR_1} >
                   {title}
                 </Heading>
                 <Heading mt="2" mb="1" fontWeight="medium" size="sm">
@@ -124,8 +125,8 @@ function modalDependentesPax(props) {
               }
             </Center>
             <Button size="lg"
-              mb="4"
-              leftIcon={<Icon as={Ionicons} name="add" size="lg" color="green.900" />}
+              m="5"
+              leftIcon={<Icon as={Ionicons} name="add" size="lg" color={colors.COLORS.PAXCOLOR_1} />}
               _light={styleButtonAdd}
               _text={styleButtonTextAdd}
               isLoading={carregamentoButton}

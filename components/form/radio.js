@@ -5,6 +5,10 @@ import { executarSQL } from '../../services/database/index.js';
 const ComponentRadio = (props) => {
     const [radioValue, setRadioValue] = useState(0);
 
+    if (props && props.value) {
+        setRadioValue(props.value);
+    }
+
     const change = async (value) => {
         setRadioValue(value);
 

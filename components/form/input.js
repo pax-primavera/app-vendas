@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { FormControl, Input } from "native-base";
 import { styleInputFocus, } from '../../utils/styles/index';
-import { cpfMask, dataMask, timeMask } from "../../utils/generic/format";
+import { cpfMask, dataMask, timeMask, cepMask } from "../../utils/generic/format";
 import { executarSQL } from '../../services/database/index';
 import { fieldDatas, fieldCPF, fieldCEPS, fieldTimes } from '../../utils/generic/field.mask'
 
 const ComponentInput = (props) => {
     const [inputValue, setInputValue] = useState();
     const [error, setError] = useState(false);
+
+    if(props && props.value){
+        setInputValue(props.value);
+    }
 
     const treatment = (label, labelValue) => {
         if (fieldCPF.includes(label)) labelValue = cpfMask(labelValue);
@@ -18,7 +22,7 @@ const ComponentInput = (props) => {
     }
 
     const change = async (value) => {
-        if ([' ', '', null].includes(value) && props.required) {
+        if ([' ', '', null, undefined].includes(value) && props.required) {
             setInputValue(null);
             setError(true);
             return;
@@ -33,7 +37,7 @@ const ComponentInput = (props) => {
     }
 
     return (
-        <FormControl isInvalid={error} isRequired={props.required | false} >
+        <FormControl isInvalid={error} isRequired={props.required | false} key={props.column} >
             <FormControl.Label>{props.label}:</FormControl.Label>
             <Input
                 keyboardType={props.type}

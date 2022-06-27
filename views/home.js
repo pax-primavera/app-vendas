@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { TouchableOpacity, Alert } from 'react-native';
 import { executarSQL } from '../services/database/index.js';
 import { Center, HStack, VStack, Icon, Heading, Text, Container, Pressable } from "native-base";
+import colors from '../utils/styles/colors.js';
+import {textCenter} from '../utils/styles/index';
 
 const Home = ({ navigation }) => {
     const [usuario, setUsuario] = useState('Usuário não encontrado!');
@@ -41,7 +43,7 @@ const Home = ({ navigation }) => {
         navigation.setOptions({
             headerLeft: () => (
                 <TouchableOpacity onPress={() => finalizarSessao()}>
-                    <Icon as={MaterialCommunityIcons} size="8" name="exit-to-app" color="green.800" />
+                    <Icon as={MaterialCommunityIcons} size="8" name="exit-to-app" color={colors.COLORS.PAXCOLOR_1} />
                 </TouchableOpacity>
             )
         });
@@ -55,32 +57,32 @@ const Home = ({ navigation }) => {
         <VStack space={1} mt="1" m="2">
             <Container mt="4" w="100%" ml="5" >
                 <Heading mb="3">
-                    <Text color="green.900">Pax Vendedor</Text>
+                    <Text color={colors.COLORS.PAXCOLOR_1}>Pax Vendedor</Text>
                 </Heading>
-                <Text mt="1" fontWeight="bold" style={styles.textCenter}>
+                <Text mt="1" fontWeight="medium" style={textCenter}>
                     <Text color="black" >Usuário: {usuario}</Text>
                 </Text>
-                <Text fontWeight="medium" style={styles.textCenter}>
-                    <Text color="green.800" >'Novo Contrato'</Text> - Cadastrar novo contrato com seus dependente(s) e filial.
+                <Text fontWeight="medium" style={textCenter}>
+                    <Text color={colors.COLORS.PAXCOLOR_1} >'Novo Contrato'</Text> - Cadastrar novo contrato com seus dependente(s) e filial.
                 </Text>
-                <Text mt="1" fontWeight="medium" style={styles.textCenter}>
-                    <Text color="green.800">'Planos'</Text> - Listar todos planos disponiveis em determinada filial escolhida.
+                <Text mt="1" fontWeight="medium" style={textCenter}>
+                    <Text color={colors.COLORS.PAXCOLOR_1}>'Planos'</Text> - Listar todos planos disponiveis em determinada filial escolhida.
                 </Text>
             </Container>
             <Center mt="5" ml="5" mr="5">
                 <HStack space={2} justifyContent="center">
                     <Pressable onPress={() => navigation.navigate("Contrato")} w="50%" bg="white" rounded="md" shadow={3}>
                         <Center h="40">
-                            <Icon as={MaterialCommunityIcons} size="20" name="file-check-outline" color="green.800" />
-                            <Heading size="sm" fontWeight="900" color="green.800" >
+                            <Icon as={MaterialCommunityIcons} size="20" name="file-check-outline" color={colors.COLORS.PAXCOLOR_1} />
+                            <Heading size="sm" fontWeight="900" color={colors.COLORS.PAXCOLOR_1} >
                                 Novo Contrato
                             </Heading>
                         </Center>
                     </Pressable>
                     <Pressable onPress={() => navigation.navigate("Planos")} w="50%" bg="white" rounded="md" shadow={3}>
                         <Center h="40">
-                            <Icon as={MaterialCommunityIcons} size="20" name="book-open-outline" color="green.800" />
-                            <Heading size="sm" fontWeight="900" color="green.800" >
+                            <Icon as={MaterialCommunityIcons} size="20" name="book-open-outline" color={colors.COLORS.PAXCOLOR_1} />
+                            <Heading size="sm" fontWeight="900" color={colors.COLORS.PAXCOLOR_1} >
                                 Planos
                             </Heading>
                         </Center>
@@ -90,15 +92,4 @@ const Home = ({ navigation }) => {
         </VStack>
     );
 }
-
-const styles = StyleSheet.create({
-    textCenter: {
-        textAlign: 'justify',
-        marginBottom: 10
-    },
-    font: {
-        fontSize: 10
-    }
-});
-
 export { Home };

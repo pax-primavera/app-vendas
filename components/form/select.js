@@ -6,6 +6,10 @@ import { executarSQL } from '../../services/database/index.js';
 const ComponentSelect = (props) => {
     const [selectValue, setSelectValue] = useState();
 
+    if (props && props.value) {
+        setSelectValue(props.value);
+    }
+
     const change = async (value) => {
         setSelectValue(value);
 

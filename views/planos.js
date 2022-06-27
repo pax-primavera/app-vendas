@@ -5,21 +5,26 @@ import axiosAuth from '../utils/config/axios/private.js';
 import { moedaMask } from "../utils/generic/format";
 import ComponentSelect from '../components/form/select';
 import ComponentLoading from '../components/views/loading/index';
+import ComponentToast from '../components/views/toast/index'
+import colors from '../utils/styles/colors';
 
 function Planos() {
   const toast = useToast();
+
   const [carregamento, setCarregamento] = useState(true);
   const [carregamentoPlanos, setCarregamentoPlanos] = useState(false);
+
   const [planos, setPlanos] = useState([]);
   const [planosPets, setPlanosPets] = useState([]);
   const [unidades, setUnidades] = useState([]);
 
   const carregarPlanoFilial = async (id) => {
     if (!id) {
-      return toast.show({
-        title: "Pax Vendedor",
-        description: "Não foi possivel carregar planos, filial não foi selecionada!",
-        placement: "top"
+      toast.show({
+        placement: "bottom",
+        render: () => {
+          return <ComponentToast title="Aviso" message={`Não foi possivel carregar planos, filial não foi selecionada!`} />
+        }
       });
     }
 
@@ -36,17 +41,19 @@ function Planos() {
       }
 
       toast.show({
-        title: "Pax Vendedor",
-        description: `Informações da filial não encontrada!`,
-        placement: "top"
+        placement: "bottom",
+        render: () => {
+          return <ComponentToast title="Aviso" message={`Informações da filial não encontrada!`} />
+        }
       });
     } catch (e) {
       return toast.show({
-        title: "Pax Vendedor",
-        description: `Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`,
-        placement: "top"
-      });
-    };
+        placement: "bottom",
+        render: () => {
+          return <ComponentToast title="Aviso" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+        }
+      })
+    }
   }
 
   const setup = async () => {
@@ -60,18 +67,19 @@ function Planos() {
       }
 
       toast.show({
-        title: "Pax Vendedor",
-        description: `Informações da filial não encontrada!`,
-        placement: "top"
+        placement: "bottom",
+        render: () => {
+          return <ComponentToast title="Aviso" message={`Informações da filial não encontrada!`} />
+        }
       });
     } catch (e) {
       return toast.show({
-        title: "Pax Vendedor",
-        description: `Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`,
-        placement: "top"
+        placement: "bottom",
+        render: () => {
+          return <ComponentToast title="Aviso" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+        }
       });
     };
-
   }
 
   useEffect(() => {
@@ -88,10 +96,10 @@ function Planos() {
               _web={web} >
               <Center w="100%">
                 <Box safeArea w="100%" pl="5" pr="5" mb="6" >
-                  <Heading size="lg" fontWeight="bold" color="green.900" >
+                  <Heading size="lg" fontWeight="900" color={colors.COLORS.PAXCOLOR_1} >
                     Planos
                   </Heading>
-                  <Heading mb="3" fontWeight="bold" size="xs">
+                  <Heading mt="1" mb="3" fontWeight="medium" size="xs">
                     Selecione uma filial para 'VER' os planos disponiveis.
                   </Heading>
 
@@ -121,7 +129,7 @@ function Planos() {
                         <Box maxW="100%" mt="1" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
                           _web={web} >
                           <VStack p="5" key={plano.nome}>
-                            <Heading color="green.900" fontSize="16">
+                            <Heading color={colors.COLORS.PAXCOLOR_1} fontSize="16" fontWeight="medium">
                               PLANO: {plano.nome}
                             </Heading>
                             <Text mt="3" fontWeight="medium">
@@ -144,7 +152,7 @@ function Planos() {
                         <Box maxW="100%" mt="1" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
                           _web={web} >
                           <VStack p="5" key={plano.nome}>
-                            <Heading color="green.900" fontSize="16">
+                            <Heading color={colors.COLORS.PAXCOLOR_1} fontSize="16" fontWeight="medium">
                               Adicional Dependente PET
                             </Heading>
                             {/* Porte P */}

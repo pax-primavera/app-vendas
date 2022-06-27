@@ -4,6 +4,7 @@ import { web, light } from '../utils/styles/index';
 import { insertIdSQL } from '../services/database/index.js';
 import { useToast } from "native-base";
 import { sexo, tiposContratos, rotas } from '../utils/generic/data';
+import colors from '../utils/styles/colors';
 import axiosAuth from '../utils/config/axios/private.js';
 import ComponentInput from '../components/form/input';
 import ComponentSelect from '../components/form/select';
@@ -11,6 +12,7 @@ import ComponentSwitch from '../components/form/switch';
 import ComponentRadio from '../components/form/radio';
 import ComponentModalDependentesPax from '../components/views/dependentes/index';
 import ComponentLoading from '../components/views/loading/index';
+import ComponentToast from '../components/views/toast/index';
 
 function Contrato({ navigation }) {
   const toast = useToast();
@@ -46,10 +48,11 @@ function Contrato({ navigation }) {
 
   const carregarPlanoFilial = async (id) => {
     if (!id) {
-      return toast.show({
-        title: "Pax Vendedor",
-        description: "Não foi possivel carregar planos, filial não foi selecionada!",
-        placement: "top"
+      toast.show({
+        placement: "bottom",
+        render: () => {
+          return <ComponentToast title="Aviso" message="Não foi possivel carregar planos, filial não foi selecionada!" />
+        }
       });
     }
 
@@ -66,15 +69,17 @@ function Contrato({ navigation }) {
       }
 
       toast.show({
-        title: "Pax Vendedor",
-        description: `Informações da filial não encontrada!`,
-        placement: "top"
+        placement: "bottom",
+        render: () => {
+          return <ComponentToast title="Aviso" message="Informações da filial não encontrada!" />
+        }
       });
     } catch (e) {
-      return toast.show({
-        title: "Pax Vendedor",
-        description: `Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`,
-        placement: "top"
+      toast.show({
+        placement: "bottom",
+        render: () => {
+          return <ComponentToast title="Aviso" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+        }
       });
     };
   }
@@ -106,10 +111,11 @@ function Contrato({ navigation }) {
         setUnidades(unidades.unidades)
       setCarregamentoTela(false);
     }).catch((e) => {
-      return toast.show({
-        title: "Pax Vendedor",
-        description: `Não foi possivel carregar informações, contate o suporte: ${e.toString()}`,
-        placement: "top"
+      toast.show({
+        placement: "bottom",
+        render: () => {
+          return <ComponentToast title="Aviso" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+        }
       });
     });
   }
@@ -130,11 +136,11 @@ function Contrato({ navigation }) {
                 {/* Informações iniciais */}
                 <Center>
                   <Box safeArea w="100%" pl="5" pr="5" mb="5" pb="5" >
-                    <Heading size="lg" fontWeight="bold" color="green.900">
+                    <Heading size="lg" fontWeight="900" color={colors.COLORS.PAXCOLOR_1}>
                       Informações Iniciais
                     </Heading>
                     <Heading mt="1" fontWeight="medium" size="xs">
-                      selecione uma 'FILIAL' e preecha data de contrato:
+                      Selecione uma 'FILIAL' e preecha data de contrato:
                     </Heading>
 
                     <VStack space={3} mt="4">
@@ -177,7 +183,7 @@ function Contrato({ navigation }) {
                     <VStack m="1">
                       <Box key="2" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                         <Box safeArea w="100%" pl="5" pr="5" mb="5" pb="5" >
-                          <Heading size="lg" fontWeight="bold" color="green.900">
+                          <Heading size="lg" fontWeight="900" color={colors.COLORS.PAXCOLOR_1}>
                             Titular
                           </Heading>
                           <Heading mt="1" fontWeight="medium" size="xs">
@@ -363,7 +369,7 @@ function Contrato({ navigation }) {
                       <Box key="3" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                         {/* Endereço - Residencial */}
                         <Box safeArea w="100%" pl="5" pr="5" mb="5" pb="5" >
-                          <Heading size="lg" fontWeight="bold" color="green.900">
+                          <Heading size="lg" fontWeight="900" color={colors.COLORS.PAXCOLOR_1}>
                             Endereço - Residencial
                           </Heading>
                           <Heading mt="1" fontWeight="medium" size="xs">
@@ -413,7 +419,6 @@ function Contrato({ navigation }) {
                                   placeholder='Digite o número da quadra:'
                                   id={contratoID}
                                   table={table}
-                                  required
                                 />
                               </Center>
                             </HStack>
@@ -425,7 +430,6 @@ function Contrato({ navigation }) {
                                   placeholder='Digite o lote:'
                                   id={contratoID}
                                   table={table}
-                                  required
                                 />
                               </Center>
                               <Center w="50%" rounded="md">
@@ -447,7 +451,6 @@ function Contrato({ navigation }) {
                                   placeholder='Digite o nome do Bairro:'
                                   id={contratoID}
                                   table={table}
-                                  required
                                 />
                               </Center>
                               <Center w="50%" rounded="md">
@@ -458,7 +461,6 @@ function Contrato({ navigation }) {
                                   placeholder='Digite o CEP:'
                                   id={contratoID}
                                   table={table}
-                                  required
                                 />
                               </Center>
                             </HStack>
@@ -493,7 +495,7 @@ function Contrato({ navigation }) {
                       <Box key="4" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                         {/* Endereço - Cobrança */}
                         <Box safeArea w="100%" pl="5" pr="5" mb="5" pb="5" >
-                          <Heading size="lg" fontWeight="bold" color="green.900">
+                          <Heading size="lg" fontWeight="900" color={colors.COLORS.PAXCOLOR_1}>
                             Endereço - Cobrança
                           </Heading>
                           <Heading mt="1" fontWeight="medium" size="xs">
@@ -626,7 +628,7 @@ function Contrato({ navigation }) {
                       <Box key="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                         {/* Termo de Adesão */}
                         <Box safeArea w="100%" pl="5" pr="5" mb="5" pb="5" >
-                          <Heading size="lg" fontWeight="bold" color="green.900">
+                          <Heading size="lg" fontWeight="900" color={colors.COLORS.PAXCOLOR_1}>
                             Termo de Adesão
                           </Heading>
                           <Heading mt="1" fontWeight="medium" size="xs">
@@ -676,6 +678,7 @@ function Contrato({ navigation }) {
                                 <ComponentInput
                                   label="Dia para cobrança"
                                   column="melhorDia"
+                                  type="numeric"
                                   placeholder='Melhor dia para cobrança:'
                                   id={contratoID}
                                   table={table}
@@ -688,6 +691,7 @@ function Contrato({ navigation }) {
                                   column="melhorHorario"
                                   placeholder='Melhor horário para cobrança:'
                                   id={contratoID}
+                                  type="numeric"
                                   table={table}
                                   required
                                 />
@@ -726,7 +730,6 @@ function Contrato({ navigation }) {
                     {/* Dependentes Pax Primavera */}
                     <VStack m="1">
                       <Box key="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
-                        {/* Dependentes Pax Primavera */}
                         <ComponentModalDependentesPax
                           contratoID={contratoID}
                           unidadeID={unidadeID}
