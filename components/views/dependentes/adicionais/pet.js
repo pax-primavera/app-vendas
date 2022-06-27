@@ -13,7 +13,6 @@ function AddPet(props) {
     return (
         <Box key={item.id} safeArea w="100%" pl="5" pr="5" mb="5" >
             <VStack space={3} >
-
                 <ComponentSwitch
                     label="Resgate de cinza?"
                     column="resgate"

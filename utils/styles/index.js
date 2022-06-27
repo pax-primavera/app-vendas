@@ -24,22 +24,22 @@ const styleButtonTextOutline = {
 };
 
 const styleButtonDelete = {
-    borderColor:'transparent',
+    borderColor: 'transparent',
     backgroundColor: 'transparent'
 };
 
 const styleButtonTextDelete = {
-    color:  'red.800',
+    color: 'red.800',
 };
 
 const styleButtonAdd = {
-    borderColor:'green.800',
-    borderWidth:1,
-    backgroundColor: 'transparent'
+    borderColor: 'green.800',
+    borderWidth: 1,
+    backgroundColor: 'transparent',
 };
 
 const styleButtonTextAdd = {
-    color:  'green.800',
+    color: 'green.800',
 };
 
 const web = {
@@ -56,17 +56,27 @@ const textCenter = {
     marginBottom: 10
 }
 
-export { 
-    styleButtonAdd, 
+const containerFoto = {
+    borderWidth: 1,
+    borderRadius: 15,
+    borderColor: colors.COLORS.PAXCOLOR_1,
+    marginTop: 15,
+    paddingTop: 12,
+    paddingBottom: 10
+}
+
+export {
+    containerFoto,
+    styleButtonAdd,
     styleButtonTextAdd,
-    web, 
-    light, 
-    styleInputFocus, 
-    styleButton, 
-    styleButtonText, 
-    styleButtonOutline, 
-    styleButtonTextOutline, 
-    styleButtonDelete, 
+    web,
+    light,
+    styleInputFocus,
+    styleButton,
+    styleButtonText,
+    styleButtonOutline,
+    styleButtonTextOutline,
+    styleButtonDelete,
     styleButtonTextDelete,
     textCenter
 };

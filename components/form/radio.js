@@ -13,22 +13,22 @@ const ComponentRadio = (props) => {
         setRadioValue(value);
 
         if (props && props.function) props.function(value);
-        if (props && props.column) await executarSQL(` UPDATE ${props.table} SET ${props.column} = '${value}' WHERE id = ${props.id}`);
+        if (props && props.column) await executarSQL(`UPDATE ${props.table} SET ${props.column} = '${value}' WHERE id = ${props.id}`);
     }
 
     return (
         <FormControl>
             <FormControl.Label>{props.label}:</FormControl.Label>
             <Radio.Group
+                key={props}
                 defaultValue={radioValue}
                 onChange={e => change(e)}
                 name={props.column}
             >
                 {props.array.map((item) => <Radio
                     colorScheme="emerald"
-                    key={item.id}
-                    value={item.id}
-                    my={item.id}>{item[props.columnLabel]}</Radio>)}
+                    key={item[props.columnLabel]}
+                    value={item.id}>{item[props.columnLabel]}</Radio>)}
             </Radio.Group>
         </FormControl>
     );

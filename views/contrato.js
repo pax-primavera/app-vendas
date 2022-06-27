@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Center, Box, VStack, Heading, HStack, ScrollView, Spinner } from "native-base";
-import { web, light } from '../utils/styles/index';
+import { Center, Box, VStack, Heading, HStack, ScrollView, Button } from "native-base";
+import { web, light, styleButtonText, styleButton } from '../utils/styles/index';
 import { insertIdSQL } from '../services/database/index.js';
 import { useToast } from "native-base";
 import { sexo, tiposContratos, rotas } from '../utils/generic/data';
@@ -13,12 +13,16 @@ import ComponentRadio from '../components/form/radio';
 import ComponentModalDependentesPax from '../components/views/dependentes/index';
 import ComponentLoading from '../components/views/loading/index';
 import ComponentToast from '../components/views/toast/index';
+import CompenentAddAnexos from '../components/views/anexos/index';
+import ComponentCheckbox from '../components/form/checkbox';
 
 function Contrato({ navigation }) {
   const toast = useToast();
   const [carregamentoTela, setCarregamentoTela] = useState(true);
   const [carregamentoRestanteFormulario, setCarregamentoRestanteFormulario] = useState(false);
   const [displayNoneContentCobranca, setDisplayNoneContentCobranca] = useState(false);
+  const [displayButtonEnviarContrato, setDisplayButtonEnviarContrato] = useState(false);
+  const [isTransferencia, setIsTransferencia] = useState(false);
 
   const [table] = useState('titulares');
   const [unidadeID, setUnidadeID] = useState(null);
@@ -44,6 +48,8 @@ function Contrato({ navigation }) {
     setContratoID(novoContrato);
   }
 
+  const verificarDisplayButtonEnviarContrato = (display) => setDisplayButtonEnviarContrato(display);
+  const verificarIsTransferencia = (display) => setIsTransferencia(display);
   const verificarDisplayContainerCobranca = (display) => setDisplayNoneContentCobranca(display);
 
   const carregarPlanoFilial = async (id) => {
@@ -718,18 +724,46 @@ function Contrato({ navigation }) {
                                   columnLabel="descricao"
                                   array={tiposContratos}
                                   id={contratoID}
+                                  function={verificarIsTransferencia}
                                   table={table}
                                   required
                                 />
                               </Center>
                             </HStack>
+                            {
+                              isTransferencia ?
+                                <HStack space={2} justifyContent="center">
+                                  <Center w="50%" rounded="md">
+                                    <ComponentInput
+                                      label="Número do contrato"
+                                      column="numContratoAntigo"
+                                      type="numeric"
+                                      placeholder='Número do contrato:'
+                                      id={contratoID}
+                                      table={table}
+                                      required
+                                    />
+                                  </Center>
+                                  <Center w="50%" rounded="md">
+                                    <ComponentInput
+                                      label="Nome da Empresa"
+                                      column="empresaAntiga"
+                                      placeholder='Nome da Empresa:'
+                                      id={contratoID}
+                                      table={table}
+                                      required
+                                    />
+                                  </Center>
+                                </HStack>
+                                : <></>
+                            }
                           </VStack>
                         </Box>
                       </Box>
                     </VStack>
                     {/* Dependentes Pax Primavera */}
                     <VStack m="1">
-                      <Box key="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
+                      <Box key="7" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                         <ComponentModalDependentesPax
                           contratoID={contratoID}
                           unidadeID={unidadeID}
@@ -740,7 +774,7 @@ function Contrato({ navigation }) {
                     </VStack>
                     {/* Dependentes Pet Primavera */}
                     <VStack m="1">
-                      <Box key="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
+                      <Box key="7" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                         <ComponentModalDependentesPax
                           contratoID={contratoID}
                           unidadeID={unidadeID}
@@ -749,7 +783,52 @@ function Contrato({ navigation }) {
                         />
                       </Box>
                     </VStack>
+                    {/* Anexos */}
+                    <VStack m="1">
+                      <Box key="8" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
+                        <CompenentAddAnexos />
+                      </Box>
+                    </VStack>
+                    {/* Gerais options */}
+                    <VStack>
+                      <Box key="8" mt="1" w="100%" pl="5" pr="5" mb="5" >
+                        <ComponentCheckbox
+                          label="Enviar contrato por WhatsApp?"
+                          column="sendByWhatsApp"
+                          id={contratoID}
+                          table={table}
+                        />
+                        <ComponentCheckbox
+                          label="Token por WhatsApp"
+                          column="envioToken"
+                          id={contratoID}
+                          table={table}
+                        />
+                        <ComponentCheckbox
+                          label="Cliente concorda e aceita os termos?"
+                          function={verificarDisplayButtonEnviarContrato}
+                        />
+                      </Box>
+                    </VStack>
+                    {/* Finalizar contrato */}
+                    {
+                      displayButtonEnviarContrato ?
+                        <VStack>
+                          <Box key="8" mt="1" w="100%" pl="5" pr="5" mb="5" pb="5" >
+                            <Button
+                              size="lg"
+                              _text={styleButtonText}
+                              _light={styleButton}
+                              onPress={() => logar()}
+                            >
+                              Finalizar Contrato
+                            </Button>
+                          </Box>
+                        </VStack> :
+                        <></>
+                    }
                   </>
+
             }
           </>
       }

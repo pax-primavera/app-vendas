@@ -9,7 +9,7 @@ const ComponentInput = (props) => {
     const [inputValue, setInputValue] = useState();
     const [error, setError] = useState(false);
 
-    if(props && props.value){
+    if (props && props.value) {
         setInputValue(props.value);
     }
 
@@ -37,9 +37,10 @@ const ComponentInput = (props) => {
     }
 
     return (
-        <FormControl isInvalid={error} isRequired={props.required | false} key={props.column} >
+        <FormControl isInvalid={error} isRequired={props.required | false} >
             <FormControl.Label>{props.label}:</FormControl.Label>
             <Input
+                key={props}
                 keyboardType={props.type}
                 placeholder={props.placeholder}
                 value={inputValue}

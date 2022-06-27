@@ -20,6 +20,7 @@ const ComponentSwitch = (props) => {
         <HStack space={1} alignItems="center">
             <Switch
                 size="lg"
+                key={props}
                 value={switchValue}
                 colorScheme="emerald"
                 onValueChange={(value) => change(value)}

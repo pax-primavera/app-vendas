@@ -81,4 +81,11 @@ const tiposContratos = [
     },
 ];
 
-export { sexo, especies, cores, portes, rotas, tiposContratos };
+export {
+    sexo,
+    especies,
+    cores,
+    portes,
+    rotas,
+    tiposContratos
+};

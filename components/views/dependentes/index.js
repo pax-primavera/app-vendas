@@ -124,7 +124,7 @@ function modalDependentesPax(props) {
                 ))
               }
             </Center>
-            <Button size="lg"
+           <Button size="lg"
               m="5"
               leftIcon={<Icon as={Ionicons} name="add" size="lg" color={colors.COLORS.PAXCOLOR_1} />}
               _light={styleButtonAdd}

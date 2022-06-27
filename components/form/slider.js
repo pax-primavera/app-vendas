@@ -19,6 +19,7 @@ const ComponentSlider = (props) => {
         <FormControl>
             <FormControl.Label>{props.label}: {sliderValue}</FormControl.Label>
             <Slider
+             key={props}
                 maximumValue={props.limit}
                 minimumTrackTintColor={colors.COLORS.PAXCOLOR_1}
                 thumbTintColor={colors.COLORS.PAXCOLOR_1}
