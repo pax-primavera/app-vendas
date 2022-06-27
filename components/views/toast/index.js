@@ -5,7 +5,7 @@ function ComponentToast(props) {
     const { title, message } = props;
 
     return (
-        <Box bg={colors.COLORS.WHITE} shadow="2" p="5" rounded="5" >
+        <Box bg={colors.COLORS.WHITE} shadow="2" p="5" rounded="5" ml="2" mr="2">
             <Text fontWeight="bold" >
                 <Text fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>{title}: </Text>{message}
             </Text>
