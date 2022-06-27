@@ -93,32 +93,6 @@ export default class DatabaseInit {
                 titular_id integer,
                 FOREIGN KEY (titular_id)
                     REFERENCES titulares(id)
-            );`,
-
-            `create table if not exists selects(
-                id integer PRIMARY KEY AUTOINCREMENT,
-                descricao text,
-                _id integer,
-                tipo int,
-                unidade_id text
-            );`,
-
-            `create table if not exists planos(
-                id integer PRIMARY KEY AUTOINCREMENT,
-                _id integer,
-                nome text,
-                adesaoValor int,
-                mensalidadeValor  int,
-                adicionalValor  int,
-                unidade_id text
-            );`,
-
-            `create table if not exists imagens(
-                id integer PRIMARY KEY AUTOINCREMENT,
-                imagem text,
-                titular_id integer,
-                FOREIGN KEY (titular_id)
-                    REFERENCES titulares(id)
             );`
         ];
 

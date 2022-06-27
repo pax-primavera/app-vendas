@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { executarSQL } from '../../services/database/index.js';
 import Slider from "react-native-slider";
 import colors from '../../utils/styles/colors';
+import { moedaMask } from '../../utils/generic/format';
 
 const ComponentSlider = (props) => {
     const [sliderValue, setSliderValue] = useState(0);
@@ -10,23 +11,13 @@ const ComponentSlider = (props) => {
     const change = async (value) => {
         setSliderValue(value);
 
-        if (props && props.column) {
-            await executarSQL(`
-                UPDATE 
-                ${props.table}
-                SET ${props.column} = '${value}'
-                WHERE id = ${props.id}`
-            );
-        }
-
-        if (props && props.function) {
-            props.function(value);
-        }
+        if (props && props.function) props.function(value);
+        if (props && props.column) await executarSQL(`UPDATE ${props.table} SET ${props.column} = '${value}' WHERE id = ${props.id}`);
     }
 
     return (
         <FormControl>
-            <FormControl.Label>{props.label}: {sliderValue}</FormControl.Label>
+            <FormControl.Label>{props.label}: {moedaMask(sliderValue)}</FormControl.Label>
             <Slider
                 maximumValue={props.limit}
                 minimumTrackTintColor={colors.COLORS.PAXCOLOR_1}

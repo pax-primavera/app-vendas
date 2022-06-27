@@ -15,21 +15,30 @@ const styleButtonText = {
 };
 
 const styleButtonOutline = {
-    borderColor:  colors.COLORS.PAXCOLOR_1,
+    borderColor: colors.COLORS.PAXCOLOR_1,
     backgroundColor: 'transparent'
 };
 
 const styleButtonTextOutline = {
-    color:  colors.COLORS.PAXCOLOR_1
+    color: colors.COLORS.PAXCOLOR_1
 };
 
 const styleButtonDelete = {
-    borderColor: 'red',
-    backgroundColor: 'transparent'
+    borderColor: 'muted.300',
+    backgroundColor: 'red.800'
 };
 
 const styleButtonTextDelete = {
-    color:  'red'
+    color: 'white'
 };
 
-export { styleInputFocus, styleButton, styleButtonText, styleButtonOutline, styleButtonTextOutline, styleButtonDelete, styleButtonTextDelete };
+const web = {
+    shadow: 2,
+    borderWidth: 0
+}
+
+const light = {
+    backgroundColor: "gray.50"
+}
+
+export { web, light, styleInputFocus, styleButton, styleButtonText, styleButtonOutline, styleButtonTextOutline, styleButtonDelete, styleButtonTextDelete };

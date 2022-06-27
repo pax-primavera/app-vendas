@@ -5,33 +5,16 @@ import { executarSQL } from '../../services/database/index.js';
 
 const ComponentSelect = (props) => {
     const [selectValue, setSelectValue] = useState();
-    const [error, setError] = useState(false);
 
     const change = async (value) => {
-        if (!value) {
-            return setError(true)
-        }
-
         setSelectValue(value);
 
-        if (props && props.column) {
-            await executarSQL(`
-                UPDATE 
-                ${props.table}
-                SET ${props.column} = '${value}'
-                WHERE id = ${props.id}`
-            );
-        }
-
-        if (props && props.function) {
-            props.function(value);
-        }
-
-        setError(false);
+        if (props && props.function) props.function(value);
+        if (props && props.column) await executarSQL(`UPDATE ${props.table} SET ${props.column} = '${value}' WHERE id = ${props.id}`);
     }
 
     return (
-        <FormControl isInvalid={error}>
+        <FormControl isRequired={props.required | false}>
             <FormControl.Label>{props.label}:</FormControl.Label>
             <Select
                 _focus={styleInputFocus}
@@ -41,9 +24,9 @@ const ComponentSelect = (props) => {
                 placeholder={props.placeholder}
             >
                 {props.array.map((item) => <Select.Item
-                    key={item.id}
+                    key={item[props.columnLabel]}
                     label={item[props.columnLabel]}
-                    value={item._id} />
+                    value={item.id} />
                 )}
             </Select>
         </FormControl>

@@ -36,4 +36,11 @@ const cepMask = value => {
     .replace(/^(\d{5})(\d)/, "$1-$2");
 }
 
-export { cpfMask, timeMask, foneMask, dataMask, cepMask }
+const moedaMask = value => {
+  return value
+    .toFixed(2)
+    .replace('.', ',')
+    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+}
+
+export { cpfMask, timeMask, foneMask, dataMask, cepMask, moedaMask }

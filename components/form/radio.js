@@ -8,18 +8,8 @@ const ComponentRadio = (props) => {
     const change = async (value) => {
         setRadioValue(value);
 
-        if (props && props.column) {
-            await executarSQL(`
-                UPDATE 
-                ${props.table}
-                SET ${props.column} = '${value}'
-                WHERE id = ${props.id}`
-            );
-        }
-
-        if (props && props.function) {
-            props.function(value);
-        }
+        if (props && props.function) props.function(value);
+        if (props && props.column) await executarSQL(` UPDATE ${props.table} SET ${props.column} = '${value}' WHERE id = ${props.id}`);
     }
 
     return (
@@ -33,9 +23,8 @@ const ComponentRadio = (props) => {
                 {props.array.map((item) => <Radio
                     colorScheme="success"
                     key={item.id}
-                    value={item._id}
-                    my={item.id}>
-                    {item.descricao.trim()}</Radio>)}
+                    value={item.id}
+                    my={item.id}>{item[props.columnLabel]}</Radio>)}
             </Radio.Group>
         </FormControl>
     );

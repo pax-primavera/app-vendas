@@ -2,7 +2,7 @@ import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { executarSQL } from '../services/database/index.js';
-import {Center,HStack,VStack,Icon,Heading,Text,Container} from "native-base";
+import { Center, HStack, VStack, Icon, Heading, Text, Container, Pressable } from "native-base";
 
 const Home = ({ navigation }) => {
     const [usuario, setUsuario] = useState('Usuário não encontrado!');
@@ -28,11 +28,7 @@ const Home = ({ navigation }) => {
                 {
                     text: "Sim",
                     onPress: async () => {
-
                         await executarSQL(`delete from login`);
-                        await executarSQL(`delete from selects`);
-                        await executarSQL(`delete from planos`);
-
                         navigation.navigate("Login");
                     },
                 },
@@ -59,9 +55,9 @@ const Home = ({ navigation }) => {
         <VStack space={1} mt="1" m="2">
             <Container mt="4" w="100%" ml="5" >
                 <Heading mb="3">
-                    <Text color="green.800">Pax Vendedor</Text>
+                    <Text color="green.900">Pax Vendedor</Text>
                 </Heading>
-                <Text mt="1" fontWeight="medium" style={styles.textCenter}>
+                <Text mt="1" fontWeight="bold" style={styles.textCenter}>
                     <Text color="black" >Usuário: {usuario}</Text>
                 </Text>
                 <Text fontWeight="medium" style={styles.textCenter}>
@@ -73,19 +69,22 @@ const Home = ({ navigation }) => {
             </Container>
             <Center mt="5" ml="5" mr="5">
                 <HStack space={2} justifyContent="center">
-                    <Center h="40" w="50%" bg="white" rounded="md" shadow={3} >
-                        <Icon onPress={() => navigation.navigate("Contrato")} as={MaterialCommunityIcons} size="20" name="file-check-outline" color="green.800" />
-                        <Heading size="sm" fontWeight="900" color="green.800" >
-                            Novo Contrato
-                        </Heading>
-                    </Center>
-
-                    <Center h="40" w="50%" bg="white" rounded="md" shadow={3}>
-                        <Icon as={MaterialCommunityIcons} size="20" name="book-open-outline" color="green.800" />
-                        <Heading size="sm" fontWeight="900" color="green.800" >
-                            Planos
-                        </Heading>
-                    </Center>
+                    <Pressable onPress={() => navigation.navigate("Contrato")} w="50%" bg="white" rounded="md" shadow={3}>
+                        <Center h="40">
+                            <Icon as={MaterialCommunityIcons} size="20" name="file-check-outline" color="green.800" />
+                            <Heading size="sm" fontWeight="900" color="green.800" >
+                                Novo Contrato
+                            </Heading>
+                        </Center>
+                    </Pressable>
+                    <Pressable onPress={() => navigation.navigate("Planos")} w="50%" bg="white" rounded="md" shadow={3}>
+                        <Center h="40">
+                            <Icon as={MaterialCommunityIcons} size="20" name="book-open-outline" color="green.800" />
+                            <Heading size="sm" fontWeight="900" color="green.800" >
+                                Planos
+                            </Heading>
+                        </Center>
+                    </Pressable>
                 </HStack>
             </Center>
         </VStack>

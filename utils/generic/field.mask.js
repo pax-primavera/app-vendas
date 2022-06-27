@@ -1,6 +1,7 @@
 const fieldDatas = [
     'dataContrato',
     'dataNascTitular',
+    'dataNascimento',
     'dataPrimeiraMensalidade'
 ];
 
