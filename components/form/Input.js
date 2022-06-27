@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { FormControl, Input } from "native-base";
 import { styleInputFocus, } from '../../utils/styles/index';
-import { cpfMask, dataMask } from "../../utils/generic/format";
+import { cpfMask, dataMask, timeMask } from "../../utils/generic/format";
 import { executarSQL } from '../../services/database/index';
-import { fieldDatas, fieldCPF } from '../../utils/generic/field.mask'
+import { fieldDatas, fieldCPF, fieldCEPS, fieldTimes } from '../../utils/generic/field.mask'
 
 const ComponentInput = (props) => {
     const [inputValue, setInputValue] = useState();
@@ -12,6 +12,8 @@ const ComponentInput = (props) => {
     const treatment = (label, labelValue) => {
         if (fieldCPF.includes(label)) labelValue = cpfMask(labelValue);
         if (fieldDatas.includes(label)) labelValue = dataMask(labelValue);
+        if (fieldCEPS.includes(label)) labelValue = cepMask(labelValue);
+        if (fieldTimes.includes(label)) labelValue = timeMask(labelValue);
         setInputValue(labelValue)
     }
 
@@ -24,9 +26,9 @@ const ComponentInput = (props) => {
 
         const valueInput = treatment(props.column, value);
 
-        if (props && props.function) props.function(value);      
+        if (props && props.function) props.function(value);
         if (props && props.column) await executarSQL(`UPDATE ${props.table} SET ${props.column} = '${valueInput}' WHERE id = ${props.id}`);
-       
+
         setError(false);
     }
 

@@ -10,4 +10,18 @@ const fieldCPF = [
     'cpfTitular'
 ];
 
-export { fieldCPF, fieldDatas };
+const fieldCEPS = [
+    'cepResidencial',
+    'cepCobranca'
+];
+
+const fieldTimes = [
+    'melhorHorario'
+];
+
+export {
+    fieldCPF,
+    fieldDatas,
+    fieldCEPS,
+    fieldTimes
+};
