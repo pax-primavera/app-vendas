@@ -14,11 +14,11 @@ const ComponentInput = (props) => {
     }
 
     const treatment = (label, labelValue) => {
-        if (fieldCPF.includes(label)) labelValue = cpfMask(labelValue);
-        if (fieldDatas.includes(label)) labelValue = dataMask(labelValue);
-        if (fieldCEPS.includes(label)) labelValue = cepMask(labelValue);
-        if (fieldTimes.includes(label)) labelValue = timeMask(labelValue);
-        setInputValue(labelValue)
+        if (fieldCPF.includes(label)) return setInputValue(cpfMask(labelValue));
+        if (fieldDatas.includes(label)) return setInputValue(dataMask(labelValue));
+        if (fieldCEPS.includes(label)) return setInputValue(cepMask(labelValue));
+        if (fieldTimes.includes(label)) return setInputValue(timeMask(labelValue));
+        return setInputValue(labelValue)
     }
 
     const change = async (value) => {
@@ -28,10 +28,10 @@ const ComponentInput = (props) => {
             return;
         }
 
-        const valueInput = treatment(props.column, value);
+        treatment(props.column, value);
 
         if (props && props.function) props.function(value);
-        if (props && props.column) await executarSQL(`UPDATE ${props.table} SET ${props.column} = '${valueInput}' WHERE id = ${props.id}`);
+        if (props && props.column) await executarSQL(`UPDATE ${props.table} SET ${props.column} = '${inputValue}' WHERE id = ${props.id}`);
 
         setError(false);
     }
@@ -40,10 +40,10 @@ const ComponentInput = (props) => {
         <FormControl isInvalid={error} isRequired={props.required | false} >
             <FormControl.Label>{props.label}:</FormControl.Label>
             <Input
-                key={props}
                 keyboardType={props.type}
                 placeholder={props.placeholder}
                 value={inputValue}
+                maxLength={props.maxLength}
                 onChangeText={async (e) => await change(e)}
                 _focus={styleInputFocus}
             />

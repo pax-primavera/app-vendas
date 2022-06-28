@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Center, Box, VStack, Heading, HStack, ScrollView, Button } from "native-base";
+import { Center, Box, VStack, Heading, HStack, ScrollView, Button, useToast } from "native-base";
 import { web, light, styleButtonText, styleButton } from '../utils/styles/index';
-import { insertIdSQL } from '../services/database/index.js';
-import { useToast } from "native-base";
+import { insertIdSQL, executarSQL } from '../services/database/index.js';
 import { sexo, tiposContratos, rotas } from '../utils/generic/data';
 import colors from '../utils/styles/colors';
 import axiosAuth from '../utils/config/axios/private.js';
@@ -34,15 +33,17 @@ function Contrato({ navigation }) {
   const [locaisCobrancas, setLocaisCobrancas] = useState([]);
   const [planos, setPlanos] = useState([]);
   const [unidades, setUnidades] = useState([]);
+  const [templates, setTemplates] = useState([]);
 
   const criarNovoContrato = async () => {
     const novoContrato = await insertIdSQL(`INSERT INTO titulares (is_enviado) VALUES (0);`);
 
     if (!novoContrato) {
       return toast.show({
-        title: "Pax Vendedor",
-        description: "Não foi possivel criar novo contrato!",
-        placement: "top"
+        placement: "bottom",
+        render: () => {
+          return <ComponentToast title="Aviso" message="Não foi possivel criar novo contrato!" />
+        }
       });
     }
     setContratoID(novoContrato);
@@ -70,6 +71,12 @@ function Contrato({ navigation }) {
 
       if (planosGet && planosGet.data.planos) {
         setPlanos(planosGet.data.planos);
+      }
+
+      const templateGet = await axiosAuth.get(`lista-templates/unidade-id=${id}`);
+
+      if (templateGet && templateGet.data.templates) {
+        setTemplates(templateGet.data.templates);
         setCarregamentoRestanteFormulario(false);
         return;
       }
@@ -88,6 +95,34 @@ function Contrato({ navigation }) {
         }
       });
     };
+  }
+
+  const sendContratoWebVendedor = async () => {
+    try {
+      await executarSQL(`update titulares set isOnline = 1 where id = '${contratoID}'`);
+
+      const contrato = await executarSQL(`select * from titulares where id = '${contratoID}'`);
+
+      if (!contrato) {
+        return toast.show({
+          placement: "bottom",
+          render: () => {
+            return <ComponentToast title="Aviso" message="Contrato não localizado!" />
+          }
+        });
+      }
+
+      const dependentes = await executarSQL(`select * from dependentes where titular_id = '${contratoID}'`);
+
+      console.log(contrato._array, dependentes._array)
+    } catch (e) {
+      toast.show({
+        placement: "bottom",
+        render: () => {
+          return <ComponentToast title="Aviso" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+        }
+      });
+    }
   }
 
   const setup = async () => {
@@ -697,6 +732,7 @@ function Contrato({ navigation }) {
                                   column="melhorHorario"
                                   placeholder='Melhor horário para cobrança:'
                                   id={contratoID}
+                                  maxLength={7}
                                   type="numeric"
                                   table={table}
                                   required
@@ -763,7 +799,7 @@ function Contrato({ navigation }) {
                     </VStack>
                     {/* Dependentes Pax Primavera */}
                     <VStack m="1">
-                      <Box key="7" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
+                      <Box key="6" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                         <ComponentModalDependentesPax
                           contratoID={contratoID}
                           unidadeID={unidadeID}
@@ -789,6 +825,26 @@ function Contrato({ navigation }) {
                         <CompenentAddAnexos />
                       </Box>
                     </VStack>
+                    {/* Templates */}
+                    <VStack m="1">
+                      <Box key="5" maxW="100%" rounded="lg" overflow="hidden" pt="5" pl="5" pr="5" mb="5" pb="5" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
+                        <Heading size="lg" fontWeight="900" color={colors.COLORS.PAXCOLOR_1}>
+                          Templates
+                        </Heading>
+                        <HStack space={2} justifyContent="center">
+                          <Center w="100%" rounded="md">
+                            <ComponentRadio
+                              label="Selecione um template de contrato"
+                              columnLabel="nome"
+                              array={templates}
+                              id={contratoID}
+                              table={table}
+                              required
+                            />
+                          </Center>
+                        </HStack>
+                      </Box>
+                    </VStack>
                     {/* Gerais options */}
                     <VStack>
                       <Box key="8" mt="1" w="100%" pl="5" pr="5" mb="5" >
@@ -799,7 +855,7 @@ function Contrato({ navigation }) {
                           table={table}
                         />
                         <ComponentCheckbox
-                          label="Token por WhatsApp"
+                          label="Token por WhatsApp?"
                           column="envioToken"
                           id={contratoID}
                           table={table}
@@ -811,24 +867,20 @@ function Contrato({ navigation }) {
                       </Box>
                     </VStack>
                     {/* Finalizar contrato */}
-                    {
-                      displayButtonEnviarContrato ?
-                        <VStack>
-                          <Box key="8" mt="1" w="100%" pl="5" pr="5" mb="5" pb="5" >
-                            <Button
-                              size="lg"
-                              _text={styleButtonText}
-                              _light={styleButton}
-                              onPress={() => logar()}
-                            >
-                              Finalizar Contrato
-                            </Button>
-                          </Box>
-                        </VStack> :
-                        <></>
-                    }
+                    <VStack>
+                      <Box key="8" mt="1" w="100%" pl="5" pr="5" mb="5" pb="5" >
+                        <Button
+                          size="lg"
+                          isDisabled={!displayButtonEnviarContrato}
+                          _text={styleButtonText}
+                          _light={styleButton}
+                          onPress={sendContratoWebVendedor}
+                        >
+                          Finalizar Contrato
+                        </Button>
+                      </Box>
+                    </VStack>
                   </>
-
             }
           </>
       }

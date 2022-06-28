@@ -20,7 +20,6 @@ const ComponentRadio = (props) => {
         <FormControl>
             <FormControl.Label>{props.label}:</FormControl.Label>
             <Radio.Group
-                key={props}
                 defaultValue={radioValue}
                 onChange={e => change(e)}
                 name={props.column}

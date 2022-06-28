@@ -21,7 +21,6 @@ const ComponentSelect = (props) => {
         <FormControl isRequired={props.required | false}>
             <FormControl.Label>{props.label}:</FormControl.Label>
             <Select
-                key={props}
                 _focus={styleInputFocus}
                 selectedValue={selectValue}
                 onValueChange={value => change(value)}

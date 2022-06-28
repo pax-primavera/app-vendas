@@ -18,7 +18,6 @@ const ComponentCheckbox = (props) => {
 
     return (
         <Checkbox
-            key={props}
             colorScheme="emerald"
             value={checkboxValue}
             onChange={(e) => change(e)}
