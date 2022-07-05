@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { FormControl, Input } from "native-base";
 import { styleInputFocus, } from '../../utils/styles/index';
-import { cpfMask, dataMask, timeMask, cepMask } from "../../utils/generic/format";
+import { cpfMask, dataMask, timeMask, cepMask, foneMask } from "../../utils/generic/format";
 import { executarSQL } from '../../services/database/index';
-import { fieldDatas, fieldCPF, fieldCEPS, fieldTimes } from '../../utils/generic/field.mask'
+import { fieldDatas, fieldCPF, fieldCEPS, fieldTimes, fieldTelefones } from '../../utils/generic/field.mask'
 
 const ComponentInput = (props) => {
     const [inputValue, setInputValue] = useState();
@@ -14,24 +14,22 @@ const ComponentInput = (props) => {
     }
 
     const treatment = (label, labelValue) => {
-        if (fieldCPF.includes(label)) return setInputValue(cpfMask(labelValue));
-        if (fieldDatas.includes(label)) return setInputValue(dataMask(labelValue));
-        if (fieldCEPS.includes(label)) return setInputValue(cepMask(labelValue));
-        if (fieldTimes.includes(label)) return setInputValue(timeMask(labelValue));
-        return setInputValue(labelValue)
+        if (fieldCPF.includes(label)) return cpfMask(labelValue);
+        if (fieldDatas.includes(label)) return dataMask(labelValue);
+        if (fieldCEPS.includes(label)) return cepMask(labelValue);
+        if (fieldTimes.includes(label)) return timeMask(labelValue);
+        if (fieldTelefones.includes(label)) return foneMask(labelValue);
+        return labelValue;
     }
 
     const change = async (value) => {
-        if ([' ', '', null, undefined].includes(value) && props.required) {
-            setInputValue(null);
-            setError(true);
-            return;
-        }
 
-        treatment(props.column, value);
+        value = treatment(props.column, value);
+        
+        setInputValue(value);
 
         if (props && props.function) props.function(value);
-        if (props && props.column) await executarSQL(`UPDATE ${props.table} SET ${props.column} = '${inputValue}' WHERE id = ${props.id}`);
+        if (props && props.column) await executarSQL(`UPDATE ${props.table} SET ${props.column} = '${value}' WHERE id = ${props.id}`);
 
         setError(false);
     }

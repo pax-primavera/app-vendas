@@ -18,6 +18,7 @@ import ComponentCheckbox from '../components/form/checkbox';
 function Contrato({ navigation }) {
   const toast = useToast();
   const [carregamentoTela, setCarregamentoTela] = useState(true);
+  const [carregamentoSend, setCarregamentoSend] = useState(false);
   const [carregamentoRestanteFormulario, setCarregamentoRestanteFormulario] = useState(false);
   const [displayNoneContentCobranca, setDisplayNoneContentCobranca] = useState(false);
   const [displayButtonEnviarContrato, setDisplayButtonEnviarContrato] = useState(false);
@@ -26,6 +27,7 @@ function Contrato({ navigation }) {
   const [table] = useState('titulares');
   const [unidadeID, setUnidadeID] = useState(null);
   const [contratoID, setContratoID] = useState(null);
+  const [templateID, setTemplateID] = useState(null);
 
   const [estadosCivil, setEstadosCivil] = useState([]);
   const [religioes, setReligioes] = useState([]);
@@ -34,35 +36,38 @@ function Contrato({ navigation }) {
   const [planos, setPlanos] = useState([]);
   const [unidades, setUnidades] = useState([]);
   const [templates, setTemplates] = useState([]);
+  const [anexos, setAnexos] = useState([]);
+
+  const verificarDisplayButtonEnviarContrato = (display) => setDisplayButtonEnviarContrato(display);
+  const verificarIsTransferencia = (display) => setIsTransferencia(display);
+  const verificarDisplayContainerCobranca = (display) => setDisplayNoneContentCobranca(display);
+  const getAnexos = (anexos) => setAnexos(anexos);
+  const getTemplateID = (id) => setTemplateID(id);
 
   const criarNovoContrato = async () => {
     const novoContrato = await insertIdSQL(`INSERT INTO titulares (is_enviado) VALUES (0);`);
 
     if (!novoContrato) {
       return toast.show({
-        placement: "bottom",
+        placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso" message="Não foi possivel criar novo contrato!" />
+          return <ComponentToast title="ATENÇÃO!" message="Não foi possivel criar novo contrato!" />
         }
       });
     }
     setContratoID(novoContrato);
   }
 
-  const verificarDisplayButtonEnviarContrato = (display) => setDisplayButtonEnviarContrato(display);
-  const verificarIsTransferencia = (display) => setIsTransferencia(display);
-  const verificarDisplayContainerCobranca = (display) => setDisplayNoneContentCobranca(display);
-
   const carregarPlanoFilial = async (id) => {
     if (!id) {
       toast.show({
-        placement: "bottom",
+        placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso" message="Não foi possivel carregar planos, filial não foi selecionada!" />
+          return <ComponentToast title="ATENÇÃO!" message="Não foi possivel carregar planos, filial não foi selecionada!" />
         }
       });
     }
-
+    /// setar valores
     setUnidadeID(id);
     setCarregamentoRestanteFormulario(true);
 
@@ -82,44 +87,155 @@ function Contrato({ navigation }) {
       }
 
       toast.show({
-        placement: "bottom",
+        placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso" message="Informações da filial não encontrada!" />
+          return <ComponentToast title="ATENÇÃO!" message="Informações da filial não encontrada!" />
         }
       });
     } catch (e) {
       toast.show({
-        placement: "bottom",
+        placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+          return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
         }
       });
     };
   }
 
   const sendContratoWebVendedor = async () => {
+    setCarregamentoSend(true);
+
     try {
+      /// validações
+      if (!templateID) {
+        return toast.show({
+          placement: "top",
+          render: () => {
+            return <ComponentToast title="ATENÇÃO!" message="Template não foi selecionado!" />
+          }
+        });
+      }
+
+      if (!unidadeID) {
+        return toast.show({
+          placement: "top",
+          render: () => {
+            return <ComponentToast title="ATENÇÃO!" message="Unidade não foi selecionado!" />
+          }
+        });
+      }
+
       await executarSQL(`update titulares set isOnline = 1 where id = '${contratoID}'`);
 
       const contrato = await executarSQL(`select * from titulares where id = '${contratoID}'`);
 
       if (!contrato) {
         return toast.show({
-          placement: "bottom",
+          placement: "top",
           render: () => {
-            return <ComponentToast title="Aviso" message="Contrato não localizado!" />
+            return <ComponentToast title="ATENÇÃO!" message="Contrato não localizado!" />
           }
         });
       }
 
-      const dependentes = await executarSQL(`select * from dependentes where titular_id = '${contratoID}'`);
+      const dependentesHumanos = await executarSQL(`
+        select 
+          nome,
+          dataNascimento,
+          parentesco,
+          cpf_dependente,
+          cremacao  
+        from dependentes 
+        where titular_id = '${contratoID}'
+        and is_pet = 0
+      `);
 
-      console.log(contrato._array, dependentes._array)
-    } catch (e) {
+      const dependentesPets = await executarSQL(`
+          select 
+            nome,
+            especie,
+            porte,
+            resgate,
+            dataNascimento,
+            raca,
+            altura,
+            peso,
+            cor
+          from dependentes 
+          where titular_id = '${contratoID}'
+          and is_pet = 1
+      `);
+
+      const contratoCliente = {
+        ...contrato._array[0],
+        dependentesPets: dependentesPets._array,
+        dependentes: dependentesHumanos._array
+      }
+
+      let novoContratoBody = new FormData();
+
+      anexos.map(async foto => {
+        let fileExtension = foto.uri.substr(foto.uri.lastIndexOf(".") + 1);
+
+        let nameArquivo = foto.uri.substr(
+          foto.uri.lastIndexOf("ImagePicker/") + 12
+        );
+
+        await novoContratoBody.append("anexos[]", {
+          type: `image/${fileExtension}`,
+          uri: foto.uri,
+          name: `anexo_${nameArquivo}`,
+        });
+      });
+
+      novoContratoBody.append("body", JSON.stringify(contratoCliente));
+
+      const request = await axiosAuth.post(`/cadastro-contrato/unidade-id=${unidadeID}/templeate-id=${templateID}`,
+        novoContratoBody,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          }
+        }
+      );
+
+      if (request.data && request.data.assinatura) {
+        toast.show({
+          placement: "top",
+          render: () => {
+            return <ComponentToast title="Realizado!" message={"Contrato enviado com sucesso!"} />
+          }
+        });
+
+        return navigation.navigate("Assinatura", request.data.assinatura);
+      }
+
       toast.show({
-        placement: "bottom",
+        placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+          return <ComponentToast title="Falha!" message={"Não foi possivel enviar contrato!"} />
+        }
+      });
+
+      setCarregamentoSend(false);
+
+    } catch (e) {
+      setCarregamentoSend(false);
+
+      if (e && e.response.data.error) {
+        toast.show({
+          placement: "top",
+          render: () => {
+            return <ComponentToast title="ATENÇÃO!" message={e.response.data.error} />
+          }
+        });
+        return;
+      }
+
+      toast.show({
+        placement: "top",
+        render: () => {
+          return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
         }
       });
     }
@@ -153,9 +269,9 @@ function Contrato({ navigation }) {
       setCarregamentoTela(false);
     }).catch((e) => {
       toast.show({
-        placement: "bottom",
+        placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+          return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
         }
       });
     });
@@ -362,6 +478,7 @@ function Contrato({ navigation }) {
                                 <ComponentInput
                                   label="Telefone"
                                   column="telefone1"
+                                  type="numeric"
                                   placeholder='Digite um telefone:'
                                   id={contratoID}
                                   table={table}
@@ -383,6 +500,7 @@ function Contrato({ navigation }) {
                                 <ComponentInput
                                   label="Telefone Secundário"
                                   column="telefone2"
+                                  type="numeric"
                                   placeholder='Digite um telefone:'
                                   id={contratoID}
                                   table={table}
@@ -480,7 +598,6 @@ function Contrato({ navigation }) {
                                   placeholder='Complemento residencial:'
                                   id={contratoID}
                                   table={table}
-                                  required
                                 />
                               </Center>
                             </HStack>
@@ -822,7 +939,7 @@ function Contrato({ navigation }) {
                     {/* Anexos */}
                     <VStack m="1">
                       <Box key="8" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
-                        <CompenentAddAnexos />
+                        <CompenentAddAnexos function={getAnexos} />
                       </Box>
                     </VStack>
                     {/* Templates */}
@@ -839,6 +956,7 @@ function Contrato({ navigation }) {
                               array={templates}
                               id={contratoID}
                               table={table}
+                              function={getTemplateID}
                               required
                             />
                           </Center>
@@ -875,6 +993,7 @@ function Contrato({ navigation }) {
                           _text={styleButtonText}
                           _light={styleButton}
                           onPress={sendContratoWebVendedor}
+                          isLoading={carregamentoSend}
                         >
                           Finalizar Contrato
                         </Button>

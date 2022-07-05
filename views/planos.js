@@ -21,9 +21,9 @@ function Planos() {
   const carregarPlanoFilial = async (id) => {
     if (!id) {
       toast.show({
-        placement: "bottom",
+        placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso" message={`Não foi possivel carregar planos, filial não foi selecionada!`} />
+          return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar planos, filial não foi selecionada!`} />
         }
       });
     }
@@ -41,16 +41,16 @@ function Planos() {
       }
 
       toast.show({
-        placement: "bottom",
+        placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso" message={`Informações da filial não encontrada!`} />
+          return <ComponentToast title="ATENÇÃO!" message={`Informações da filial não encontrada!`} />
         }
       });
     } catch (e) {
       return toast.show({
-        placement: "bottom",
+        placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+          return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
         }
       })
     }
@@ -67,16 +67,16 @@ function Planos() {
       }
 
       toast.show({
-        placement: "bottom",
+        placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso" message={`Informações da filial não encontrada!`} />
+          return <ComponentToast title="ATENÇÃO!" message={`Informações da filial não encontrada!`} />
         }
       });
     } catch (e) {
       return toast.show({
-        placement: "bottom",
+        placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+          return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
         }
       });
     };

@@ -7,7 +7,7 @@ import { Login } from '../views/login';
 import { Home } from '../views/home';
 import { Contrato } from '../views/contrato';
 import { Planos } from '../views/planos';
-
+import { Assinatura } from '../views/assinatura';
 const Stack = createNativeStackNavigator();
 const { height } = Dimensions.get("screen");
 
@@ -21,7 +21,7 @@ const heightHeader = {
     height: Platform.OS === "ios" ? height * 0.16 : height * 0.80,
 }
 
-const Routes = () => {
+const Routes = ({ navigation }) => {
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Login" headerMode="screen">
@@ -70,6 +70,22 @@ const Routes = () => {
                         headerTitleAlign: "center",
                         headerBackVisible: false,
                         headerStyle: heightHeader
+                    })}
+                />
+                <Stack.Screen
+                    name="Assinatura"
+                    component={Assinatura}
+                    options={() => ({
+                        headerTitle: () => (
+                            <Image
+                                style={imagemLogo}
+                                source={imagens.Logo}
+                                resizeMode='contain'
+                            />
+                        ),
+                        headerTitleAlign: "center",
+                        headerBackVisible: false,
+                        headerStyle: heightHeader,
                     })}
                 />
                 <Stack.Screen

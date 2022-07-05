@@ -19,9 +19,15 @@ const fieldTimes = [
     'melhorHorario'
 ];
 
+const fieldTelefones = [
+    'telefone1',
+    'telefone2'
+];
+
 export {
     fieldCPF,
     fieldDatas,
     fieldCEPS,
-    fieldTimes
+    fieldTimes,
+    fieldTelefones
 };

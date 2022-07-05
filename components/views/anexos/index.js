@@ -3,13 +3,17 @@ import { VStack, Heading, Box } from "native-base";
 import colors from "../../../utils/styles/colors";
 import ComponentUpload from './upload/index';
 
-function CompenentAddAnexos() {
+function CompenentAddAnexos(props) {
     const [anexos, setAnexos] = useState([]);
 
     let updateAnexosItems = (value) => {
         let anexosPrev = anexos;
         anexosPrev.push(value);
         setAnexos(anexosPrev);
+
+        if (props && props.function) {
+            props.function(anexos)
+        }
     }
 
     return (

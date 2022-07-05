@@ -28,7 +28,7 @@ const ComponentSelect = (props) => {
                 placeholder={props.placeholder}
             >
                 {props.array.map((item) => <Select.Item
-                    key={item[props.columnLabel]}
+                    // key={item[props.columnLabel]}
                     label={item[props.columnLabel]}
                     value={item.id} />
                 )}

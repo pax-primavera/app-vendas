@@ -3,7 +3,7 @@ import { cpfMask } from "../utils/generic/format.js";
 import { executarSQL } from '../services/database/index.js';
 import { styleInputFocus, styleButton, styleButtonText, web, light } from '../utils/styles/index.js';
 import api from '../utils/config/axios/public.js';
-import { Center, Box, VStack, FormControl, Button, Input, Heading, useToast, Text } from "native-base";
+import { Center, Box, VStack, FormControl, Button, Input, Heading, useToast } from "native-base";
 import ComponentToast from '../components/views/toast/index';
 
 const Login = ({ navigation }) => {
@@ -34,9 +34,9 @@ const Login = ({ navigation }) => {
   const logar = async () => {
     if (validateInputs()) {
       return toast.show({
-        placement: "bottom",
+        placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso" message="Preencha os campos corretamente." />
+          return <ComponentToast title="ATENÇÃO!" message="Preencha os campos corretamente." />
         }
       });
     }
@@ -59,16 +59,16 @@ const Login = ({ navigation }) => {
     } catch (err) {
       if (err.response.data && err.response.data.mensagem) {
         toast.show({
-          placement: "bottom",
+          placement: "top",
           render: () => {
-            return <ComponentToast title="Aviso" message={err.response.data.mensagem} />
+            return <ComponentToast title="ATENÇÃO!" message={err.response.data.mensagem} />
           }
         });
       } else {
         toast.show({
-          placement: "bottom",
+          placement: "top",
           render: () => {
-            return <ComponentToast title="Aviso" message="Não foi possivel efetuar login! Usuário não encontrado." />
+            return <ComponentToast title="ATENÇÃO!" message="Não foi possivel efetuar login! Usuário não encontrado." />
           }
         });
       }
