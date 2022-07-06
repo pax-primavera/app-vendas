@@ -124,9 +124,9 @@ function Planos() {
                 :
                 <>
                   {
-                    planos.map((plano) => {
+                    planos.map((plano, index) => {
                       return (
-                        <Box maxW="100%" mt="1" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
+                        <Box key={index} maxW="100%" mt="1" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
                           _web={web} >
                           <VStack p="5" key={plano.nome}>
                             <Heading color={colors.COLORS.PAXCOLOR_1} fontSize="16" fontWeight="medium">
@@ -147,9 +147,9 @@ function Planos() {
                     })
                   }
                   {
-                    planosPets.map((plano) => {
+                    planosPets.map((plano, index) => {
                       return (
-                        <Box maxW="100%" mt="1" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
+                        <Box key={index + 1} maxW="100%" mt="1" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
                           _web={web} >
                           <VStack p="5" key={plano.nome}>
                             <Heading color={colors.COLORS.PAXCOLOR_1} fontSize="16" fontWeight="medium">

@@ -109,22 +109,24 @@ function modalDependentesPax(props) {
               </Box>
               {
                 dependentes.map((item, index) => (
-                  isPet ?
+                  isPet === 1 ?
                     <ComponentAddPet
                       item={item}
                       table={table}
                       deletarDependente={deletarDependente}
+                      key={index}
                     />
                     : <ComponentAddPax
                       item={item}
                       table={table}
                       parentescos={parentescos}
                       deletarDependente={deletarDependente}
+                      key={index}
                     />
                 ))
               }
             </Center>
-           <Button size="lg"
+            <Button size="lg"
               m="5"
               leftIcon={<Icon as={Ionicons} name="add" size="lg" color={colors.COLORS.PAXCOLOR_1} />}
               _light={styleButtonAdd}

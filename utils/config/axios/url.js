@@ -1,1 +1,1 @@
-export default  global =  'http://sistemapaxprimavera.ddns.net:2424'; 
+export default  global =  'http://sistemadourados.ddns.net:2024'; 
