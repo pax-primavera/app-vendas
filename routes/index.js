@@ -84,7 +84,7 @@ const Routes = () => {
                 />
                 <Stack.Screen
                     name="contratoContentTitular"
-                    component={ContratoContentDependentes}
+                    component={ContratoContentTitular}
                     options={() => ({
                         headerTitle: () => (
                             <Image
