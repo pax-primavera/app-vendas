@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import colors from "../utils/styles/colors.js";
 import imagens from "../utils/generic/imagens.js";
+import {imagemLogo} from "../utils/generic/imagens";
 import { Login } from '../views/login';
 import { Home } from '../views/home';
 import { Planos } from '../views/planos';
@@ -19,11 +20,6 @@ import { ContratoContentAssinatura } from '../views/contrato.assinatura';
 const Stack = createNativeStackNavigator();
 const { height } = Dimensions.get("screen");
 
-const imagemLogo = {
-    width: 200,
-    height: 65
-};
-
 const heightHeader = {
     backgroundColor: colors.COLORS.WHITE,
     height: Platform.OS === "ios" ? height * 0.16 : height * 0.80,
@@ -37,16 +33,7 @@ const Routes = ({ navigation }) => {
                     name="Login"
                     component={Login}
                     options={() => ({
-                        headerTitle: () => (
-                            <Image
-                                style={imagemLogo}
-                                source={imagens.Logo}
-                                resizeMode='contain'
-                            />
-                        ),
-                        headerTitleAlign: "center",
-                        headerBackVisible: false,
-                        headerStyle: heightHeader
+                        headerShown: false
                     })}
                 />
                 <Stack.Screen
@@ -185,7 +172,7 @@ const Routes = ({ navigation }) => {
                         headerStyle: heightHeader
                     })}
                 />
-                  <Stack.Screen
+                <Stack.Screen
                     name="contratoContentFinalizar"
                     component={ContratoContentFinalizar}
                     options={() => ({

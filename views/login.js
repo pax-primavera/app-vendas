@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { cpfMask } from "../utils/generic/format.js";
 import { executarSQL } from '../services/database/index.js';
-import { styleInputFocus, styleButton, styleButtonText, web, light } from '../utils/styles/index.js';
+import { styleInputFocus, styleButton, styleButtonText, web, light, container } from '../utils/styles/index.js';
 import api from '../utils/config/axios/public.js';
-import { Center, Box, VStack, FormControl, Button, Input, Heading, useToast } from "native-base";
+import { Box, VStack, FormControl, Button, Input, Heading, useToast, Image } from "native-base";
 import ComponentToast from '../components/views/toast/index';
 import colors from '../utils/styles/colors';
+import imagens from "../utils/generic/imagens.js";
 
 const Login = ({ navigation }) => {
   const toast = useToast();
@@ -103,39 +104,48 @@ const Login = ({ navigation }) => {
   }, []);
 
   return (
-    <VStack m="2">
-      <Box maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
-        _web={web}>
-        <Center w="100%">
-          <Box safeArea w="100%" pl="5" pr="5" mb="7" >
-            <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>
-              Pax Vendedor
-            </Heading>
-            <Heading mt="1" fontWeight="medium" size="xs">
-              Informe seu 'CPF' e 'Senha':
-            </Heading>
+    <VStack m="2" style={container}>
+      <Box
+        safeArea
+        w="100%"
+        pl="6"
+        pr="6"
+        maxW="100%"
+        rounded="md"
+        overflow="hidden"
+        borderColor="coolGray.200"
+        borderWidth="1"
+        _light={light}
+        _web={web}
+      >
+        <Image
+          source={imagens.Logo}
+          height="100"
+          resizeMode='contain'
+        />
+        <Heading mt="1" mb="4" fontWeight="medium" textAlign="center" fontSize="16">
+          Informe seu 'CPF' e 'Senha':
+        </Heading>
 
-            <VStack space={3} mt="2">
-              <FormControl isInvalid={error.errorCPF} >
-                <FormControl.Label>CPF:</FormControl.Label>
-                <Input keyboardType='numeric' value={cpf} onChangeText={e => changeInput('cpf', e)} _focus={styleInputFocus} placeholder='Digite seu CPF:' />
-              </FormControl>
-              <FormControl isInvalid={error.errorSenha} >
-                <FormControl.Label>Senha:</FormControl.Label>
-                <Input type="password" value={senha} onChangeText={e => changeInput('senha', e)} _focus={styleInputFocus} placeholder='Digite sua senha:' />
-              </FormControl>
-              <Button mt="2"
-                size="lg"
-                isLoading={carregamento}
-                _text={styleButtonText}
-                _light={styleButton}
-                onPress={() => logar()}
-              >
-                Entrar
-              </Button>
-            </VStack>
-          </Box>
-        </Center>
+        <VStack space={3} mt="2" mb="10">
+          <FormControl isInvalid={error.errorCPF} >
+            <FormControl.Label>CPF:</FormControl.Label>
+            <Input keyboardType='numeric' value={cpf} onChangeText={e => changeInput('cpf', e)} _focus={styleInputFocus} placeholder='Digite seu CPF:' />
+          </FormControl>
+          <FormControl isInvalid={error.errorSenha} >
+            <FormControl.Label>Senha:</FormControl.Label>
+            <Input type="password" value={senha} onChangeText={e => changeInput('senha', e)} _focus={styleInputFocus} placeholder='Digite sua senha:' />
+          </FormControl>
+          <Button mt="2"
+            size="lg"
+            isLoading={carregamento}
+            _text={styleButtonText}
+            _light={styleButton}
+            onPress={() => logar()}
+          >
+            Entrar
+          </Button>
+        </VStack>
       </Box>
     </VStack>
   );

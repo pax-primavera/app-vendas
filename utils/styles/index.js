@@ -65,7 +65,20 @@ const containerFoto = {
     paddingBottom: 10
 }
 
+const container = {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+}
+
+const imagemLogo = {
+    width: 200,
+    height: 65
+}
+
 export {
+    imagemLogo,
+    container,
     containerFoto,
     styleButtonAdd,
     styleButtonTextAdd,
