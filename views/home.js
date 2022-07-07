@@ -4,7 +4,7 @@ import { TouchableOpacity, Alert } from 'react-native';
 import { executarSQL } from '../services/database/index.js';
 import { Center, HStack, VStack, Icon, Heading, Text, Container, Pressable } from "native-base";
 import colors from '../utils/styles/colors.js';
-import {textCenter} from '../utils/styles/index';
+import { textCenter } from '../utils/styles/index';
 
 const Home = ({ navigation }) => {
     const [usuario, setUsuario] = useState('Usuário não encontrado!');
@@ -71,10 +71,10 @@ const Home = ({ navigation }) => {
             </Container>
             <Center mt="5" ml="5" mr="5">
                 <HStack space={2} justifyContent="center">
-                    <Pressable onPress={() => navigation.navigate("Contrato")} w="50%" bg="white" rounded="md" shadow={3}>
+                    <Pressable onPress={() => navigation.navigate("ContratoInicial")} w="50%" bg="white" rounded="md" shadow={3}>
                         <Center h="40">
                             <Icon as={MaterialCommunityIcons} size="20" name="file-check-outline" color={colors.COLORS.PAXCOLOR_1} />
-                            <Heading size="sm" fontWeight="900" color={colors.COLORS.PAXCOLOR_1} >
+                            <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
                                 Novo Contrato
                             </Heading>
                         </Center>
@@ -82,7 +82,7 @@ const Home = ({ navigation }) => {
                     <Pressable onPress={() => navigation.navigate("Planos")} w="50%" bg="white" rounded="md" shadow={3}>
                         <Center h="40">
                             <Icon as={MaterialCommunityIcons} size="20" name="book-open-outline" color={colors.COLORS.PAXCOLOR_1} />
-                            <Heading size="sm" fontWeight="900" color={colors.COLORS.PAXCOLOR_1} >
+                            <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
                                 Planos
                             </Heading>
                         </Center>

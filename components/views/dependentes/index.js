@@ -97,10 +97,10 @@ function modalDependentesPax(props) {
         carregamento ? (
           <ComponentLoading mensagem="Carregando dependente(s)" />
         ) :
-          <VStack m="2">
+          <VStack m="1">
             <Center w="100%">
               <Box w="100%" pl="5" pr="5">
-                <Heading mt="3" size="lg" fontWeight="900" color={colors.COLORS.PAXCOLOR_1} >
+                <Heading  size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
                   {title}
                 </Heading>
                 <Heading mt="2" mb="1" fontWeight="medium" size="sm">

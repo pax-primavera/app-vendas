@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { FormControl, Input } from "native-base";
 import { styleInputFocus, } from '../../utils/styles/index';
-import { cpfMask, dataMask, timeMask, cepMask, foneMask } from "../../utils/generic/format";
+import { cpfMask, dataMask, timeMask, cepMask, foneMask, dataMaskEUA } from "../../utils/generic/format";
 import { executarSQL } from '../../services/database/index';
 import { fieldDatas, fieldCPF, fieldCEPS, fieldTimes, fieldTelefones } from '../../utils/generic/field.mask'
 
 const ComponentInput = (props) => {
     const [inputValue, setInputValue] = useState();
-    const [error, setError] = useState(false);
-
     if (props && props.value) {
         setInputValue(props.value);
     }
@@ -25,17 +23,19 @@ const ComponentInput = (props) => {
     const change = async (value) => {
 
         value = treatment(props.column, value);
-        
+
         setInputValue(value);
+
+        if (fieldDatas.includes(props.column)) {
+            value = dataMaskEUA(value);
+        }
 
         if (props && props.function) props.function(value);
         if (props && props.column) await executarSQL(`UPDATE ${props.table} SET ${props.column} = '${value}' WHERE id = ${props.id}`);
-
-        setError(false);
     }
 
     return (
-        <FormControl isInvalid={error} isRequired={props.required | false} >
+        <FormControl isRequired={props.required | false} >
             <FormControl.Label>{props.label}:</FormControl.Label>
             <Input
                 keyboardType={props.type}

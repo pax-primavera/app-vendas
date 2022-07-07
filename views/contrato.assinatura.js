@@ -6,7 +6,7 @@ import { Icon } from "native-base";
 import colors from '../utils/styles/colors.js';
 import { useRoute } from '@react-navigation/native';
 
-const Assinatura = ({ navigation }) => {
+const ContratoContentAssinatura = ({ navigation }) => {
     const route = useRoute();
 
     const { emailSignatario, uuidDocumento, cpfSignatario, nomeSignatario } = route.params;
@@ -78,4 +78,4 @@ const Assinatura = ({ navigation }) => {
     />
 }
 
-export { Assinatura };
+export { ContratoContentAssinatura };

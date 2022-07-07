@@ -71,7 +71,7 @@ export default class DatabaseInit {
                 melhorHorario time,
                 melhorDia int,
                 isOnline int default 1,
-                sendByWhatsApp int default 1,
+                sendByWhatsApp int default 0,
                 is_enviado int default 0
             );`,
 

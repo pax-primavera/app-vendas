@@ -5,6 +5,7 @@ import { styleInputFocus, styleButton, styleButtonText, web, light } from '../ut
 import api from '../utils/config/axios/public.js';
 import { Center, Box, VStack, FormControl, Button, Input, Heading, useToast } from "native-base";
 import ComponentToast from '../components/views/toast/index';
+import colors from '../utils/styles/colors';
 
 const Login = ({ navigation }) => {
   const toast = useToast();
@@ -34,7 +35,7 @@ const Login = ({ navigation }) => {
   const logar = async () => {
     if (validateInputs()) {
       return toast.show({
-        placement: "top",
+        placement: "bottom",
         render: () => {
           return <ComponentToast title="ATENÇÃO!" message="Preencha os campos corretamente." />
         }
@@ -55,18 +56,18 @@ const Login = ({ navigation }) => {
         setCarregamento(false);
         /// Redirecionar pata tela principal
         return navigation.navigate("Home");
-      }, 1000);
+      }, 500);
     } catch (err) {
       if (err.response.data && err.response.data.mensagem) {
         toast.show({
-          placement: "top",
+          placement: "bottom",
           render: () => {
             return <ComponentToast title="ATENÇÃO!" message={err.response.data.mensagem} />
           }
         });
       } else {
         toast.show({
-          placement: "top",
+          placement: "bottom",
           render: () => {
             return <ComponentToast title="ATENÇÃO!" message="Não foi possivel efetuar login! Usuário não encontrado." />
           }
@@ -107,7 +108,7 @@ const Login = ({ navigation }) => {
         _web={web}>
         <Center w="100%">
           <Box safeArea w="100%" pl="5" pr="5" mb="7" >
-            <Heading size="lg" fontWeight="900" color="green.900" >
+            <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>
               Pax Vendedor
             </Heading>
             <Heading mt="1" fontWeight="medium" size="xs">

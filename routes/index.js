@@ -5,9 +5,17 @@ import colors from "../utils/styles/colors.js";
 import imagens from "../utils/generic/imagens.js";
 import { Login } from '../views/login';
 import { Home } from '../views/home';
-import { Contrato } from '../views/contrato';
 import { Planos } from '../views/planos';
-import { Assinatura } from '../views/assinatura';
+import { ContratoContentInicial } from '../views/contrato.inicial';
+import { ContratoContentTitular } from '../views/contrato.titular';
+import { ContratoContentEnderecoResidencial } from '../views/contrato.endereco.residencial';
+import { ContratoContentEnderecoCobranca } from '../views/contrato.endereco.cobranca';
+import { ContratoContentTermoAdesao } from '../views/contrato.termo.adesao';
+import { ContratoContentDependentes } from '../views/contrato.dependentes';
+import { ContratoContentAnexos } from '../views/contrato.anexos';
+import { ContratoContentFinalizar } from '../views/contrato.finalizar';
+import { ContratoContentAssinatura } from '../views/contrato.assinatura';
+
 const Stack = createNativeStackNavigator();
 const { height } = Dimensions.get("screen");
 
@@ -73,8 +81,128 @@ const Routes = ({ navigation }) => {
                     })}
                 />
                 <Stack.Screen
-                    name="Assinatura"
-                    component={Assinatura}
+                    name="ContratoInicial"
+                    component={ContratoContentInicial}
+                    options={() => ({
+                        headerTitle: () => (
+                            <Image
+                                style={imagemLogo}
+                                source={imagens.Logo}
+                                resizeMode='contain'
+                            />
+                        ),
+                        headerTitleAlign: "center",
+                        headerStyle: heightHeader
+                    })}
+                />
+                <Stack.Screen
+                    name="contratoContentTitular"
+                    component={ContratoContentTitular}
+                    options={() => ({
+                        headerTitle: () => (
+                            <Image
+                                style={imagemLogo}
+                                source={imagens.Logo}
+                                resizeMode='contain'
+                            />
+                        ),
+                        headerTitleAlign: "center",
+                        headerStyle: heightHeader
+                    })}
+                />
+                <Stack.Screen
+                    name="contratoContentEnderecoResidencial"
+                    component={ContratoContentEnderecoResidencial}
+                    options={() => ({
+                        headerTitle: () => (
+                            <Image
+                                style={imagemLogo}
+                                source={imagens.Logo}
+                                resizeMode='contain'
+                            />
+                        ),
+                        headerTitleAlign: "center",
+                        headerStyle: heightHeader
+                    })}
+                />
+                <Stack.Screen
+                    name="contratoContentEnderecoCobranca"
+                    component={ContratoContentEnderecoCobranca}
+                    options={() => ({
+                        headerTitle: () => (
+                            <Image
+                                style={imagemLogo}
+                                source={imagens.Logo}
+                                resizeMode='contain'
+                            />
+                        ),
+                        headerTitleAlign: "center",
+                        headerStyle: heightHeader
+                    })}
+                />
+                <Stack.Screen
+                    name="contratoContentTermoAdesao"
+                    component={ContratoContentTermoAdesao}
+                    options={() => ({
+                        headerTitle: () => (
+                            <Image
+                                style={imagemLogo}
+                                source={imagens.Logo}
+                                resizeMode='contain'
+                            />
+                        ),
+                        headerTitleAlign: "center",
+                        headerStyle: heightHeader
+                    })}
+                />
+                <Stack.Screen
+                    name="contratoContentDependentes"
+                    component={ContratoContentDependentes}
+                    options={() => ({
+                        headerTitle: () => (
+                            <Image
+                                style={imagemLogo}
+                                source={imagens.Logo}
+                                resizeMode='contain'
+                            />
+                        ),
+                        headerTitleAlign: "center",
+                        headerStyle: heightHeader
+                    })}
+                />
+                <Stack.Screen
+                    name="contratoContentAnexos"
+                    component={ContratoContentAnexos}
+                    options={() => ({
+                        headerTitle: () => (
+                            <Image
+                                style={imagemLogo}
+                                source={imagens.Logo}
+                                resizeMode='contain'
+                            />
+                        ),
+                        headerTitleAlign: "center",
+                        headerStyle: heightHeader
+                    })}
+                />
+                  <Stack.Screen
+                    name="contratoContentFinalizar"
+                    component={ContratoContentFinalizar}
+                    options={() => ({
+                        headerTitle: () => (
+                            <Image
+                                style={imagemLogo}
+                                source={imagens.Logo}
+                                resizeMode='contain'
+                            />
+                        ),
+                        headerTitleAlign: "center",
+                        headerStyle: heightHeader
+                    })}
+                />
+                <Stack.Screen
+                    name="contratoContentAssinatura"
+                    component={ContratoContentAssinatura}
                     options={() => ({
                         headerTitle: () => (
                             <Image
@@ -86,21 +214,6 @@ const Routes = ({ navigation }) => {
                         headerTitleAlign: "center",
                         headerBackVisible: false,
                         headerStyle: heightHeader,
-                    })}
-                />
-                <Stack.Screen
-                    name="Contrato"
-                    component={Contrato}
-                    options={() => ({
-                        headerTitle: () => (
-                            <Image
-                                style={imagemLogo}
-                                source={imagens.Logo}
-                                resizeMode='contain'
-                            />
-                        ),
-                        headerTitleAlign: "center",
-                        headerStyle: heightHeader
                     })}
                 />
             </Stack.Navigator>

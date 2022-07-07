@@ -1,11 +1,3 @@
-const rotas = [
-    '/lista-estado-civil', // Tipo(1)
-    '/lista-religioes', // Tipo(2)
-    '/lista-logradouros', // Tipo(3)
-    '/lista-locais-cobranca', // Tipo(4)
-    '/lista-unidades-usuario' // Tipo(5)
-];
-
 const sexo = [
     {
         id: 1,
@@ -86,6 +78,5 @@ export {
     especies,
     cores,
     portes,
-    rotas,
     tiposContratos
 };

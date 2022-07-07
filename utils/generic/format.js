@@ -1,3 +1,6 @@
+import moment from "moment";
+moment.locale('pt-br');
+
 const cpfMask = value => {
   return value
     .replace(/\D/g, '')
@@ -23,6 +26,10 @@ const foneMask = value => {
     .replace(/(-\d{4})\d+?$/, '$1')
 }
 
+const dataMaskEUA = value => {
+  return moment(value).format("YYYY-MM-DD");
+}
+
 const dataMask = value => {
   return value
     .replace(/\D/g, "")
@@ -44,4 +51,4 @@ const moedaMask = value => {
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
 }
 
-export { cpfMask, timeMask, foneMask, dataMask, cepMask, moedaMask }
+export { cpfMask, timeMask, foneMask, dataMask, cepMask, moedaMask, dataMaskEUA }

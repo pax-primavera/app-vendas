@@ -21,7 +21,7 @@ function Planos() {
   const carregarPlanoFilial = async (id) => {
     if (!id) {
       toast.show({
-        placement: "top",
+        placement: "bottom",
         render: () => {
           return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar planos, filial não foi selecionada!`} />
         }
@@ -41,14 +41,14 @@ function Planos() {
       }
 
       toast.show({
-        placement: "top",
+        placement: "bottom",
         render: () => {
           return <ComponentToast title="ATENÇÃO!" message={`Informações da filial não encontrada!`} />
         }
       });
     } catch (e) {
       return toast.show({
-        placement: "top",
+        placement: "bottom",
         render: () => {
           return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
         }
@@ -67,14 +67,14 @@ function Planos() {
       }
 
       toast.show({
-        placement: "top",
+        placement: "bottom",
         render: () => {
           return <ComponentToast title="ATENÇÃO!" message={`Informações da filial não encontrada!`} />
         }
       });
     } catch (e) {
       return toast.show({
-        placement: "top",
+        placement: "bottom",
         render: () => {
           return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
         }
@@ -90,13 +90,13 @@ function Planos() {
     <ScrollView h="100%">
       {
         carregamento ?
-          <ComponentLoading mensagem="Carregando filial" />
+          <ComponentLoading mensagem="Carregando filiais" />
           : <VStack m="2">
             <Box maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
               _web={web} >
               <Center w="100%">
                 <Box safeArea w="100%" pl="5" pr="5" mb="6" >
-                  <Heading size="lg" fontWeight="900" color={colors.COLORS.PAXCOLOR_1} >
+                  <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
                     Planos
                   </Heading>
                   <Heading mt="1" mb="3" fontWeight="medium" size="xs">
