@@ -94,8 +94,7 @@ function Planos() {
           : <VStack m="2">
             <Box maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
               _web={web} >
-              <Center w="100%">
-                <Box safeArea w="100%" pl="5" pr="5" mb="6" >
+                <Box safeArea w="100%" pl="5" pr="5" mb="10" >
                   <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
                     Planos
                   </Heading>
@@ -116,7 +115,6 @@ function Planos() {
                     </Center>
                   </HStack>
                 </Box>
-              </Center>
             </Box>
             {
               carregamentoPlanos ?
