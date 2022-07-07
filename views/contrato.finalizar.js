@@ -55,7 +55,7 @@ function ContratoContentFinalizar({ navigation }) {
                 return toast.show({
                     placement: "bottom",
                     render: () => {
-                        return <ComponentToast title="ATENÇÃO!" message="Selecione um template!" />
+                        return <ComponentToast title="Aviso!" message="Selecione um template!" />
                     }
                 });
             }
@@ -66,7 +66,7 @@ function ContratoContentFinalizar({ navigation }) {
                 return toast.show({
                     placement: "bottom",
                     render: () => {
-                        return <ComponentToast title="ATENÇÃO!" message="Contrato não localizado!" />
+                        return <ComponentToast title="Aviso!" message="Contrato não localizado!" />
                     }
                 });
             }
@@ -148,7 +148,7 @@ function ContratoContentFinalizar({ navigation }) {
                 toast.show({
                     placement: "bottom",
                     render: () => {
-                        return <ComponentToast title="ATENÇÃO!" message={e.response.data.error} />
+                        return <ComponentToast title="Aviso!" message={e.response.data.error} />
                     }
                 });
                 return;
@@ -157,7 +157,7 @@ function ContratoContentFinalizar({ navigation }) {
             toast.show({
                 placement: "bottom",
                 render: () => {
-                    return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel enviar contrato, contate o suporte: ${e.toString()}`} />
+                    return <ComponentToast title="Aviso!" message={`Não foi possivel enviar contrato, contate o suporte: ${e.toString()}`} />
                 }
             });
         }
@@ -165,7 +165,7 @@ function ContratoContentFinalizar({ navigation }) {
 
     const finalizar = () => {
         Alert.alert(
-            "ATENÇÃO!",
+            "Aviso!",
             "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
             [
                 {
@@ -202,7 +202,7 @@ function ContratoContentFinalizar({ navigation }) {
             toast.show({
                 placement: "bottom",
                 render: () => {
-                    return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+                    return <ComponentToast title="Aviso!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
                 }
             });
         });

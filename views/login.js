@@ -37,7 +37,7 @@ const Login = ({ navigation }) => {
       return toast.show({
         placement: "bottom",
         render: () => {
-          return <ComponentToast title="ATENÇÃO!" message="Preencha os campos corretamente." />
+          return <ComponentToast title="Aviso!" message="Preencha os campos corretamente." />
         }
       });
     }
@@ -62,14 +62,14 @@ const Login = ({ navigation }) => {
         toast.show({
           placement: "bottom",
           render: () => {
-            return <ComponentToast title="ATENÇÃO!" message={err.response.data.mensagem} />
+            return <ComponentToast title="Aviso!" message={err.response.data.mensagem} />
           }
         });
       } else {
         toast.show({
           placement: "bottom",
           render: () => {
-            return <ComponentToast title="ATENÇÃO!" message="Não foi possivel efetuar login! Usuário não encontrado." />
+            return <ComponentToast title="Aviso!" message="Não foi possivel efetuar login! Usuário não encontrado." />
           }
         });
       }

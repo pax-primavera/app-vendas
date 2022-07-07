@@ -79,7 +79,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
             toast.show({
                 placement: "bottom",
                 render: () => {
-                    return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+                    return <ComponentToast title="Aviso!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
                 }
             });
         });
@@ -87,7 +87,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
 
     const proximoPasso = () => {
         Alert.alert(
-            "ATENÇÃO!",
+            "Aviso!",
             "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
             [
                 {

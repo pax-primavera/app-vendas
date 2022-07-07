@@ -99,7 +99,7 @@ function ContratoContentTitular({ navigation }) {
             toast.show({
                 placement: "bottom",
                 render: () => {
-                    return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+                    return <ComponentToast title="Aviso!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
                 }
             });
         });
@@ -107,7 +107,7 @@ function ContratoContentTitular({ navigation }) {
 
     const proximoPasso = () => {
         Alert.alert(
-            "ATENÇÃO!",
+            "Aviso!",
             "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
             [
                 {
@@ -121,24 +121,14 @@ function ContratoContentTitular({ navigation }) {
 
                         if (contrato && new Date(contrato.dataNascTitular) == 'Invalid Date') {
                             setCarregamentoButton(false);
-
-                            return toast.show({
-                                placement: "bottom",
-                                render: () => {
-                                    return <ComponentToast title="ATENÇÃO!" message="Data de nascimento inválida!" />
-                                }
-                            });
+                            Alert.alert("Aviso!", "Data de nascimento inválida!");
+                            return;
                         }
 
                         if (contrato.cpfTitular != null && contrato.cpfTitular.length < 14) {
                             setCarregamentoButton(false);
-
-                            return toast.show({
-                                placement: "bottom",
-                                render: () => {
-                                    return <ComponentToast title="ATENÇÃO!" message="CPF inválido!" />
-                                }
-                            });
+                            Alert.alert("Aviso!", "CPF inválido!");
+                            return;
                         }
 
                         if (!unidadeID ||
@@ -150,13 +140,8 @@ function ContratoContentTitular({ navigation }) {
                             !contrato.profissaoTitular
                         ) {
                             setCarregamentoButton(false);
-
-                            return toast.show({
-                                placement: "bottom",
-                                render: () => {
-                                    return <ComponentToast title="ATENÇÃO!" message="Preencha todos os campos obrigatórios para prosseguir!" />
-                                }
-                            });
+                            Alert.alert("Aviso!", "Preencha todos os campos obrigatórios para prosseguir!")
+                            return;
                         }
 
                         setCarregamentoButton(false);

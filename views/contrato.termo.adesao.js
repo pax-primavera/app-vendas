@@ -87,7 +87,7 @@ function ContratoContentTermoAdesao({ navigation }) {
             toast.show({
                 placement: "bottom",
                 render: () => {
-                    return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+                    return <ComponentToast title="Aviso!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
                 }
             });
         });
@@ -95,7 +95,7 @@ function ContratoContentTermoAdesao({ navigation }) {
 
     const proximoPasso = () => {
         Alert.alert(
-            "ATENÇÃO!",
+            "Aviso!",
             "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
             [
                 {
@@ -109,24 +109,14 @@ function ContratoContentTermoAdesao({ navigation }) {
 
                         if (contrato && new Date(contrato.dataPrimeiraMensalidade) == 'Invalid Date') {
                             setCarregamentoButton(false);
-
-                            return toast.show({
-                                placement: "bottom",
-                                render: () => {
-                                    return <ComponentToast title="ATENÇÃO!" message="Data Primeira mensalidade inválida!" />
-                                }
-                            });
+                            Alert.alert("Aviso!", "Data Primeira mensalidade inválida!");
+                            return;
                         }
 
                         if (dataMaskEUA(contrato.dataPrimeiraMensalidade) < dataMaskEUA(new Date())) {
                             setCarregamentoButton(false);
-
-                            return toast.show({
-                                placement: "bottom",
-                                render: () => {
-                                    return <ComponentToast title="ATENÇÃO!" message="Data Primeira mensalidade inválida, não pode ser menor que a data atual!" />
-                                }
-                            });
+                            Alert.alert("Aviso!", "Data Primeira mensalidade inválida, não pode ser menor que a data atual!");
+                            return;
                         }
 
                         if (!contrato.plano ||
@@ -135,13 +125,8 @@ function ContratoContentTermoAdesao({ navigation }) {
                             !contrato.localCobranca
                         ) {
                             setCarregamentoButton(false);
-
-                            return toast.show({
-                                placement: "bottom",
-                                render: () => {
-                                    return <ComponentToast title="ATENÇÃO!" message="Preencha todos os campos obrigatórios para prosseguir!" />
-                                }
-                            });
+                            Alert.alert("Aviso!", "Preencha todos os campos obrigatórios para prosseguir!");
+                            return;
                         }
 
                         setCarregamentoButton(false);

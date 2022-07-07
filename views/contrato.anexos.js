@@ -50,7 +50,7 @@ function ContratoContentAnexos({ navigation }) {
 
     const proximoPasso = () => {
         Alert.alert(
-            "ATENÇÃO!",
+            "Aviso!",
             "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
             [
                 {
@@ -64,13 +64,8 @@ function ContratoContentAnexos({ navigation }) {
 
                         if (!anexo1 || !anexo2 || !anexo3) {
                             setCarregamentoButton(false);
-
-                            return toast.show({
-                                placement: "bottom",
-                                render: () => {
-                                    return <ComponentToast title="ATENÇÃO!" message="Envie todos os anexos, está faltando arquivo(s)!" />
-                                }
-                            });
+                            Alert.alert("Aviso!", "Envie todos os anexos, está faltando arquivo(s)!");
+                            return;
                         }
 
                         setCarregamentoButton(false);

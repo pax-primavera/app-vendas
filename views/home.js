@@ -41,7 +41,7 @@ const Home = ({ navigation }) => {
 
     const abrirNovoContrato = () => {
         Alert.alert(
-            "ATENÇÃO!",
+            "Aviso!",
             "Deseja cadastrar um 'NOVO CONTRATO ONLINE'?",
             [
                 {

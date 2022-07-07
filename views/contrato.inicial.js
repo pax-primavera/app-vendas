@@ -60,7 +60,7 @@ function ContratoContentInicial({ navigation }) {
         return toast.show({
           placement: "bottom",
           render: () => {
-            return <ComponentToast title="ATENÇÃO!" message="Não foi possivel criar novo contrato!" />
+            return <ComponentToast title="Aviso!" message="Não foi possivel criar novo contrato!" />
           }
         });
       }
@@ -82,7 +82,7 @@ function ContratoContentInicial({ navigation }) {
         toast.show({
           placement: "bottom",
           render: () => {
-            return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+            return <ComponentToast title="Aviso!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
           }
         });
       });
@@ -92,7 +92,7 @@ function ContratoContentInicial({ navigation }) {
       toast.show({
         placement: "bottom",
         render: () => {
-          return <ComponentToast title="ATENÇÃO!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+          return <ComponentToast title="Aviso!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
         }
       });
     }
@@ -100,7 +100,7 @@ function ContratoContentInicial({ navigation }) {
 
   const proximoPasso = () => {
     Alert.alert(
-      "ATENÇÃO!",
+      "Aviso!",
       "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
       [
         {
@@ -115,46 +115,26 @@ function ContratoContentInicial({ navigation }) {
 
             if (!unidadeID) {
               setCarregamentoButton(false);
-
-              return toast.show({
-                placement: "bottom",
-                render: () => {
-                  return <ComponentToast title="ATENÇÃO!" message="Filial não selecionada!" />
-                }
-              });
+              Alert.alert("Aviso!", "Filial não selecionada!");
+              return;
             }
 
             if (!contrato.dataContrato) {
               setCarregamentoButton(false);
-
-              return toast.show({
-                placement: "bottom",
-                render: () => {
-                  return <ComponentToast title="ATENÇÃO!" message="Data de contrato é obrigatória" />
-                }
-              });
+              Alert.alert("Aviso!", "Data de contrato é obrigatório!");
+              return;
             }
 
             if (contrato && new Date(contrato.dataContrato) == 'Invalid Date') {
               setCarregamentoButton(false);
-
-              return toast.show({
-                placement: "bottom",
-                render: () => {
-                  return <ComponentToast title="ATENÇÃO!" message="Data de contrato inválida!" />
-                }
-              });
+              Alert.alert("Aviso!", "Data de contrato inválida!");
+              return;
             }
 
             if (dataMaskEUA(contrato.dataContrato) < dataMaskEUA(new Date())) {
               setCarregamentoButton(false);
-
-              return toast.show({
-                placement: "bottom",
-                render: () => {
-                  return <ComponentToast title="ATENÇÃO!" message="Data de contrato inválida, não pode ser menor que a data atual!" />
-                }
-              });
+              Alert.alert("Aviso!", "Data de contrato inválida, não pode ser menor que a data atual!");
+              return;
             }
 
             setCarregamentoButton(false);
