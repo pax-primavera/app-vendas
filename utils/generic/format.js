@@ -26,7 +26,7 @@ const foneMask = value => {
 }
 
 const dataMaskEUA = value => {
-  return moment(value).format("YYYY-MM-DD");
+  return moment(new Date(value)).format("YYYY-MM-DD");
 }
 
 const dataMask = value => {
