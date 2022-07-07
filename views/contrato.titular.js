@@ -10,6 +10,7 @@ import { fieldDatas, fieldCPF, fieldCEPS, fieldTelefones } from '../utils/generi
 import { executarSQL } from '../services/database/index.js';
 import ComponentLoading from '../components/views/loading/index';
 import ComponentToast from '../components/views/toast/index';
+import { Alert } from 'react-native';
 
 function ContratoContentTitular({ navigation }) {
     /// Config
@@ -105,51 +106,67 @@ function ContratoContentTitular({ navigation }) {
     }
 
     const proximoPasso = () => {
-        setCarregamentoButton(true);
+        Alert.alert(
+            "ATENÇÃO!",
+            "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
+            [
+                {
+                    text: "Não",
+                    style: "cancel",
+                },
+                {
+                    text: "Sim",
+                    onPress: () => {
+                        setCarregamentoButton(true);
 
-        if (contrato && new Date(contrato.dataNascTitular) == 'Invalid Date') {
-            setCarregamentoButton(false);
+                        if (contrato && new Date(contrato.dataNascTitular) == 'Invalid Date') {
+                            setCarregamentoButton(false);
 
-            return toast.show({
-                placement: "bottom",
-                render: () => {
-                    return <ComponentToast title="ATENÇÃO!" message="Data de nascimento inválida!" />
-                }
-            });
-        }
+                            return toast.show({
+                                placement: "bottom",
+                                render: () => {
+                                    return <ComponentToast title="ATENÇÃO!" message="Data de nascimento inválida!" />
+                                }
+                            });
+                        }
 
-        if (contrato.cpfTitular != null && contrato.cpfTitular.length < 14) {
-            setCarregamentoButton(false);
+                        if (contrato.cpfTitular != null && contrato.cpfTitular.length < 14) {
+                            setCarregamentoButton(false);
 
-            return toast.show({
-                placement: "bottom",
-                render: () => {
-                    return <ComponentToast title="ATENÇÃO!" message="CPF inválido!" />
-                }
-            });
-        }
+                            return toast.show({
+                                placement: "bottom",
+                                render: () => {
+                                    return <ComponentToast title="ATENÇÃO!" message="CPF inválido!" />
+                                }
+                            });
+                        }
 
-        if (!unidadeID ||
-            !contrato.cpfTitular ||
-            !contrato.email1 ||
-            !contrato.telefone1 ||
-            !contrato.rgTitular ||
-            !contrato.sexoTitular ||
-            !contrato.profissaoTitular
-        ) {
-            setCarregamentoButton(false);
+                        if (!unidadeID ||
+                            !contrato.cpfTitular ||
+                            !contrato.email1 ||
+                            !contrato.telefone1 ||
+                            !contrato.rgTitular ||
+                            !contrato.sexoTitular ||
+                            !contrato.profissaoTitular
+                        ) {
+                            setCarregamentoButton(false);
 
-            return toast.show({
-                placement: "bottom",
-                render: () => {
-                    return <ComponentToast title="ATENÇÃO!" message="Preencha todos os campos obrigatórios para prosseguir!" />
-                }
-            });
-        }
+                            return toast.show({
+                                placement: "bottom",
+                                render: () => {
+                                    return <ComponentToast title="ATENÇÃO!" message="Preencha todos os campos obrigatórios para prosseguir!" />
+                                }
+                            });
+                        }
 
-        setCarregamentoButton(false);
+                        setCarregamentoButton(false);
 
-        return navigation.navigate("contratoContentEnderecoResidencial", { contratoID, unidadeID });
+                        return navigation.navigate("contratoContentEnderecoResidencial", { contratoID, unidadeID });
+                    },
+                },
+            ],
+            { cancelable: false }
+        );
     }
 
     useEffect(() => {

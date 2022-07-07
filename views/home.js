@@ -39,6 +39,26 @@ const Home = ({ navigation }) => {
         );
     }
 
+    const abrirNovoContrato = () => {
+        Alert.alert(
+            "ATENÇÃO!",
+            "Deseja cadastrar um 'NOVO CONTRATO ONLINE'?",
+            [
+                {
+                    text: "Não",
+                    style: "cancel",
+                },
+                {
+                    text: "Sim",
+                    onPress:  () => {
+                        navigation.navigate("ContratoInicial")
+                    },
+                },
+            ],
+            { cancelable: false }
+        );
+    }
+
     useLayoutEffect(() => {
         navigation.setOptions({
             headerLeft: () => (
@@ -71,25 +91,25 @@ const Home = ({ navigation }) => {
             </Container>
             <Center mt="5" ml="5" mr="5">
                 <HStack space={2} justifyContent="center">
-                    <Pressable onPress={() => navigation.navigate("ContratoInicial")} w="50%" bg="white" rounded="md" shadow={3}>
-                        <Center h="40">
-                            <Icon as={MaterialCommunityIcons} size="20" name="file-check-outline" color={colors.COLORS.PAXCOLOR_1} />
-                            <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
-                                Novo Contrato
-                            </Heading>
-                        </Center>
-                    </Pressable>
-                    <Pressable onPress={() => navigation.navigate("Planos")} w="50%" bg="white" rounded="md" shadow={3}>
-                        <Center h="40">
-                            <Icon as={MaterialCommunityIcons} size="20" name="book-open-outline" color={colors.COLORS.PAXCOLOR_1} />
-                            <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
-                                Planos
-                            </Heading>
-                        </Center>
-                    </Pressable>
-                </HStack>
-            </Center>
-        </VStack>
+                    <Pressable onPress={abrirNovoContrato} w="50%" bg="white" rounded="md" shadow={3}>
+                    <Center h="40">
+                        <Icon as={MaterialCommunityIcons} size="20" name="file-check-outline" color={colors.COLORS.PAXCOLOR_1} />
+                        <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
+                            Novo Contrato
+                        </Heading>
+                    </Center>
+                </Pressable>
+                <Pressable onPress={() => navigation.navigate("Planos")} w="50%" bg="white" rounded="md" shadow={3}>
+                    <Center h="40">
+                        <Icon as={MaterialCommunityIcons} size="20" name="book-open-outline" color={colors.COLORS.PAXCOLOR_1} />
+                        <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
+                            Planos
+                        </Heading>
+                    </Center>
+                </Pressable>
+            </HStack>
+        </Center>
+        </VStack >
     );
 }
 export { Home };

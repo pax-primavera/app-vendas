@@ -7,6 +7,7 @@ import axiosAuth from '../utils/config/axios/private.js';
 import { executarSQL } from '../services/database/index.js';
 import ComponentToast from '../components/views/toast/index';
 import ComponentLoading from '../components/views/loading/index';
+import { Alert } from 'react-native';
 
 function ContratoContentFinalizar({ navigation }) {
     /// Config
@@ -162,6 +163,27 @@ function ContratoContentFinalizar({ navigation }) {
         }
     }
 
+    const finalizar = () => {
+        Alert.alert(
+            "ATENÇÃO!",
+            "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
+            [
+                {
+                    text: "Não",
+                    style: "cancel",
+                },
+                {
+                    text: "Sim",
+                    onPress: () => {
+                        finalizarContrato()
+                    }
+                },
+            ],
+            { cancelable: false }
+        );
+
+    }
+
     const setup = async () => {
         setCarregamentoTela(true);
 
@@ -271,7 +293,7 @@ function ContratoContentFinalizar({ navigation }) {
                                 isDisabled={!isAceitoTermo}
                                 isLoading={carregamentoButton}
                                 _light={styleButton}
-                                onPress={finalizarContrato}
+                                onPress={finalizar}
                             >
                                 Finalizar
                             </Button>

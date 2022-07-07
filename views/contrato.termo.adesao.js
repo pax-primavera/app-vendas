@@ -10,6 +10,7 @@ import { fieldDatas, fieldTimes } from '../utils/generic/field.mask'
 import { executarSQL } from '../services/database/index.js';
 import ComponentToast from '../components/views/toast/index';
 import ComponentLoading from '../components/views/loading/index';
+import { Alert } from 'react-native';
 
 function ContratoContentTermoAdesao({ navigation }) {
     /// Config
@@ -93,48 +94,64 @@ function ContratoContentTermoAdesao({ navigation }) {
     }
 
     const proximoPasso = () => {
-        setCarregamentoButton(true);
+        Alert.alert(
+            "ATENÇÃO!",
+            "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
+            [
+                {
+                    text: "Não",
+                    style: "cancel",
+                },
+                {
+                    text: "Sim",
+                    onPress: () => {
+                        setCarregamentoButton(true);
 
-        if (contrato && new Date(contrato.dataPrimeiraMensalidade) == 'Invalid Date') {
-            setCarregamentoButton(false);
+                        if (contrato && new Date(contrato.dataPrimeiraMensalidade) == 'Invalid Date') {
+                            setCarregamentoButton(false);
 
-            return toast.show({
-                placement: "bottom",
-                render: () => {
-                    return <ComponentToast title="ATENÇÃO!" message="Data Primeira mensalidade inválida!" />
-                }
-            });
-        }
+                            return toast.show({
+                                placement: "bottom",
+                                render: () => {
+                                    return <ComponentToast title="ATENÇÃO!" message="Data Primeira mensalidade inválida!" />
+                                }
+                            });
+                        }
 
-        if (dataMaskEUA(contrato.dataPrimeiraMensalidade) < dataMaskEUA(new Date())) {
-            setCarregamentoButton(false);
+                        if (dataMaskEUA(contrato.dataPrimeiraMensalidade) < dataMaskEUA(new Date())) {
+                            setCarregamentoButton(false);
 
-            return toast.show({
-                placement: "bottom",
-                render: () => {
-                    return <ComponentToast title="ATENÇÃO!" message="Data Primeira mensalidade inválida, não pode ser menor que a data atual!" />
-                }
-            });
-        }
+                            return toast.show({
+                                placement: "bottom",
+                                render: () => {
+                                    return <ComponentToast title="ATENÇÃO!" message="Data Primeira mensalidade inválida, não pode ser menor que a data atual!" />
+                                }
+                            });
+                        }
 
-        if (!contrato.plano ||
-            !contrato.diaVencimento ||
-            !contrato.dataPrimeiraMensalidade ||
-            !contrato.localCobranca
-        ) {
-            setCarregamentoButton(false);
+                        if (!contrato.plano ||
+                            !contrato.diaVencimento ||
+                            !contrato.dataPrimeiraMensalidade ||
+                            !contrato.localCobranca
+                        ) {
+                            setCarregamentoButton(false);
 
-            return toast.show({
-                placement: "bottom",
-                render: () => {
-                    return <ComponentToast title="ATENÇÃO!" message="Preencha todos os campos obrigatórios para prosseguir!" />
-                }
-            });
-        }
+                            return toast.show({
+                                placement: "bottom",
+                                render: () => {
+                                    return <ComponentToast title="ATENÇÃO!" message="Preencha todos os campos obrigatórios para prosseguir!" />
+                                }
+                            });
+                        }
 
-        setCarregamentoButton(false);
+                        setCarregamentoButton(false);
 
-        return navigation.navigate("contratoContentDependentes", { contratoID, unidadeID });
+                        return navigation.navigate("contratoContentDependentes", { contratoID, unidadeID });
+                    }
+                },
+            ],
+            { cancelable: false }
+        );
     }
 
     useEffect(() => {

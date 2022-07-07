@@ -9,6 +9,7 @@ import ComponentToast from '../components/views/toast/index';
 import { styleInputFocus } from '../utils/styles/index';
 import { fieldDatas } from '../utils/generic/field.mask'
 import { dataMask, dataMaskEUA } from "../utils/generic/format";
+import { Alert } from 'react-native';
 
 function ContratoContentInicial({ navigation }) {
   const toast = useToast();
@@ -98,55 +99,72 @@ function ContratoContentInicial({ navigation }) {
   }
 
   const proximoPasso = () => {
-    setCarregamentoButton(true);
+    Alert.alert(
+      "ATENÇÃO!",
+      "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
+      [
+        {
+          text: "Não",
+          style: "cancel",
+        },
+        {
+          text: "Sim",
+          onPress: () => {
 
-    if (!unidadeID) {
-      setCarregamentoButton(false);
+            setCarregamentoButton(true);
 
-      return toast.show({
-        placement: "bottom",
-        render: () => {
-          return <ComponentToast title="ATENÇÃO!" message="Filial não selecionada!" />
-        }
-      });
-    }
+            if (!unidadeID) {
+              setCarregamentoButton(false);
 
-    if (!contrato.dataContrato) {
-      setCarregamentoButton(false);
+              return toast.show({
+                placement: "bottom",
+                render: () => {
+                  return <ComponentToast title="ATENÇÃO!" message="Filial não selecionada!" />
+                }
+              });
+            }
 
-      return toast.show({
-        placement: "bottom",
-        render: () => {
-          return <ComponentToast title="ATENÇÃO!" message="Data de contrato é obrigatória" />
-        }
-      });
-    }
+            if (!contrato.dataContrato) {
+              setCarregamentoButton(false);
 
-    if (contrato && new Date(contrato.dataContrato) == 'Invalid Date') {
-      setCarregamentoButton(false);
+              return toast.show({
+                placement: "bottom",
+                render: () => {
+                  return <ComponentToast title="ATENÇÃO!" message="Data de contrato é obrigatória" />
+                }
+              });
+            }
 
-      return toast.show({
-        placement: "bottom",
-        render: () => {
-          return <ComponentToast title="ATENÇÃO!" message="Data de contrato inválida!" />
-        }
-      });
-    }
+            if (contrato && new Date(contrato.dataContrato) == 'Invalid Date') {
+              setCarregamentoButton(false);
 
-    if (dataMaskEUA(contrato.dataContrato) < dataMaskEUA(new Date())) {
-      setCarregamentoButton(false);
+              return toast.show({
+                placement: "bottom",
+                render: () => {
+                  return <ComponentToast title="ATENÇÃO!" message="Data de contrato inválida!" />
+                }
+              });
+            }
 
-      return toast.show({
-        placement: "bottom",
-        render: () => {
-          return <ComponentToast title="ATENÇÃO!" message="Data de contrato inválida, não pode ser menor que a data atual!" />
-        }
-      });
-    }
+            if (dataMaskEUA(contrato.dataContrato) < dataMaskEUA(new Date())) {
+              setCarregamentoButton(false);
 
-    setCarregamentoButton(false);
+              return toast.show({
+                placement: "bottom",
+                render: () => {
+                  return <ComponentToast title="ATENÇÃO!" message="Data de contrato inválida, não pode ser menor que a data atual!" />
+                }
+              });
+            }
 
-    return navigation.navigate("contratoContentTitular", { contratoID, unidadeID });
+            setCarregamentoButton(false);
+
+            return navigation.navigate("contratoContentTitular", { contratoID, unidadeID });
+          }
+        },
+      ],
+      { cancelable: false }
+    );
   }
 
   useEffect(() => {

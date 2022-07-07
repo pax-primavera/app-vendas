@@ -6,6 +6,7 @@ import { useRoute } from '@react-navigation/native';
 import ComponentToast from '../components/views/toast/index';
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons } from "@expo/vector-icons"
+import { Alert } from 'react-native';
 
 function ContratoContentAnexos({ navigation }) {
     /// Config
@@ -48,30 +49,46 @@ function ContratoContentAnexos({ navigation }) {
     };
 
     const proximoPasso = () => {
-        setCarregamentoButton(true);
+        Alert.alert(
+            "ATENÇÃO!",
+            "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
+            [
+                {
+                    text: "Não",
+                    style: "cancel",
+                },
+                {
+                    text: "Sim",
+                    onPress: () => {
+                        setCarregamentoButton(true);
 
-        if (!anexo1 || !anexo2 || !anexo3) {
-            setCarregamentoButton(false);
+                        if (!anexo1 || !anexo2 || !anexo3) {
+                            setCarregamentoButton(false);
 
-            return toast.show({
-                placement: "bottom",
-                render: () => {
-                    return <ComponentToast title="ATENÇÃO!" message="Envie todos os anexos, está faltando arquivo(s)!" />
-                }
-            });
-        }
+                            return toast.show({
+                                placement: "bottom",
+                                render: () => {
+                                    return <ComponentToast title="ATENÇÃO!" message="Envie todos os anexos, está faltando arquivo(s)!" />
+                                }
+                            });
+                        }
 
-        setCarregamentoButton(false);
+                        setCarregamentoButton(false);
 
-        return navigation.navigate("contratoContentFinalizar", {
-            anexos: [
-                tratamentoImagem(anexo1),
-                tratamentoImagem(anexo2),
-                tratamentoImagem(anexo3)
+                        return navigation.navigate("contratoContentFinalizar", {
+                            anexos: [
+                                tratamentoImagem(anexo1),
+                                tratamentoImagem(anexo2),
+                                tratamentoImagem(anexo3)
+                            ],
+                            unidadeID,
+                            contratoID
+                        });
+                    }
+                },
             ],
-            unidadeID,
-            contratoID
-        });
+            { cancelable: false }
+        );
     }
 
     return (

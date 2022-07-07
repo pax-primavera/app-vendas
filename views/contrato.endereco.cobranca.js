@@ -9,6 +9,7 @@ import { fieldCEPS } from '../utils/generic/field.mask'
 import { executarSQL } from '../services/database/index.js';
 import ComponentToast from '../components/views/toast/index';
 import ComponentLoading from '../components/views/loading/index';
+import { Alert } from 'react-native';
 
 function ContratoContentEnderecoCobranca({ navigation }) {
     /// Config
@@ -86,7 +87,23 @@ function ContratoContentEnderecoCobranca({ navigation }) {
     }
 
     const proximoPasso = () => {
-        return navigation.navigate("contratoContentTermoAdesao", { contratoID, unidadeID });
+        Alert.alert(
+            "ATENÇÃO!",
+            "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
+            [
+                {
+                    text: "Não",
+                    style: "cancel",
+                },
+                {
+                    text: "Sim",
+                    onPress: () => {
+                        return navigation.navigate("contratoContentTermoAdesao", { contratoID, unidadeID });
+                    }
+                },
+            ],
+            { cancelable: false }
+        );
     }
 
     useEffect(() => {
