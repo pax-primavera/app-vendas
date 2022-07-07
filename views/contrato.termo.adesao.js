@@ -70,10 +70,7 @@ function ContratoContentTermoAdesao({ navigation }) {
     const setup = async () => {
         setCarregamentoTela(true);
 
-        Promise.all([
-            `lista-planos/unidade-id=${unidadeID}`,
-            `/lista-locais-cobranca`
-        ].map((endpoint) => axiosAuth.get(endpoint))).then((
+        Promise.all([`lista-planos/unidade-id=${unidadeID}`, `/lista-locais-cobranca`].map((endpoint) => axiosAuth.get(endpoint))).then((
             [
                 { data: planos },
                 { data: locaisCobranca }
@@ -123,7 +120,7 @@ function ContratoContentTermoAdesao({ navigation }) {
                             return;
                         }
 
-                        if (![0,1].includes(contrato.tipo)) {
+                        if (![0, 1].includes(contrato.tipo)) {
                             Alert.alert("Aviso!", "Tipo de contrato não selecionado!");
                             return;
                         }
@@ -161,7 +158,7 @@ function ContratoContentTermoAdesao({ navigation }) {
                     ?
                     <ComponentLoading mensagem="Carregando informações" />
                     :
-                    <VStack m="1">
+                    <VStack m="2">
                         <Box key="2" safeArea w="100%" pl="5" pr="5" mb="5" pb="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                             <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>
                                 Termo de Adesão

@@ -211,7 +211,7 @@ function ContratoContentFinalizar({ navigation }) {
                     ?
                     <ComponentLoading mensagem="Carregando informações" />
                     :
-                    <VStack m="1">
+                    <VStack m="2">
                         <Box key="2" safeArea w="100%" pl="5" pr="5" mb="5" pb="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                             <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>
                                 Finalização Contrato
@@ -246,7 +246,7 @@ function ContratoContentFinalizar({ navigation }) {
                                             isDisabled={carregamentoButton}
                                             colorScheme="emerald"
                                             value={contrato.sendByWhatsApp}
-                                            onChange={async (e) => await changeInput(e, 'sendByWhatsApp')}
+                                            onChange={(e) => changeInput(e, 'sendByWhatsApp')}
                                             key="sendByWhatsApp"
                                         >
                                             Enviar contrato por WhatsApp?
@@ -257,7 +257,7 @@ function ContratoContentFinalizar({ navigation }) {
                                             isDisabled={carregamentoButton}
                                             colorScheme="emerald"
                                             value={contrato.envioToken}
-                                            onChange={async (e) => await changeInput(e, 'envioToken')}
+                                            onChange={(e) => changeInput(e, 'envioToken')}
                                             key="envioToken"
                                         >
                                             Token por WhatsApp?

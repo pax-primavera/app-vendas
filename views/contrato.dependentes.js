@@ -16,7 +16,7 @@ function ContratoContentDependentes({ navigation }) {
 
     return (
         <ScrollView h="100%">
-            <VStack m="1">
+            <VStack m="2">
                 <Box key="1" safeArea w="100%" mb="2" pb="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                     <ComponentModalDependentesPax
                         contratoID={contratoID}

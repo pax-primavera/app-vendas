@@ -81,7 +81,7 @@ function ContratoContentAnexos({ navigation }) {
 
     return (
         <ScrollView h="100%">
-            <VStack m="1">
+            <VStack m="2">
                 <Box key="2" safeArea w="100%" pl="2" pr="2" mb="2" pb="2" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                     <Heading size="lg" pl="3" pr="3" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
                         Anexos
@@ -93,13 +93,6 @@ function ContratoContentAnexos({ navigation }) {
                         <VStack style={containerFoto}>
                             <VStack pl="5" pr="5">
                                 <Text fontWeight="bold">Fotografe a frente do documento de identidade do cliente.</Text>
-                                <Text>
-                                    {
-                                        !anexo1 ?
-                                            <Text fontWeight="bold" color="red.800">Não Anexado</Text> :
-                                            <Text fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>Anexado</Text>
-                                    }
-                                </Text>
                             </VStack>
                             <Button size="lg"
                                 m="5"
@@ -116,13 +109,6 @@ function ContratoContentAnexos({ navigation }) {
                         <VStack style={containerFoto}>
                             <VStack pl="5" pr="5">
                                 <Text fontWeight="bold">Fotografe o verso do documento de identidade do cliente.</Text>
-                                <Text>
-                                    {
-                                        !anexo2 ?
-                                            <Text fontWeight="bold" color="red.800">Não Anexado</Text> :
-                                            <Text fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>Anexado</Text>
-                                    }
-                                </Text>
                             </VStack>
                             <Button size="lg"
                                 m="5"
@@ -140,11 +126,6 @@ function ContratoContentAnexos({ navigation }) {
                             <VStack pl="5" pr="5">
                                 <Text fontWeight="bold">Fotografe o cliente de perfil.</Text>
                                 <Text>PEÇA AUTORIZAÇÃO DELE ANTES</Text>
-                                <Text> {
-                                    !anexo3 ?
-                                        <Text fontWeight="bold" color="red.800">Não Anexado</Text> :
-                                        <Text fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>Anexado</Text>
-                                }</Text>
                             </VStack>
                             <Button size="lg"
                                 m="5"

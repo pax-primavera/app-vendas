@@ -66,9 +66,7 @@ function ContratoContentInicial({ navigation }) {
 
       setContratoID(novoContrato);
 
-      Promise.all([
-        '/lista-unidades-usuario'
-      ].map((endpoint) => axiosAuth.get(endpoint))).then((
+      Promise.all(['/lista-unidades-usuario'].map((endpoint) => axiosAuth.get(endpoint))).then((
         [
           { data: unidades }
         ]
@@ -118,7 +116,7 @@ function ContratoContentInicial({ navigation }) {
               Alert.alert("Aviso!", "Data de contrato é obrigatório!");
               return;
             }
-            
+
             if (contrato && new Date(contrato.dataContrato) == 'Invalid Date') {
               Alert.alert("Aviso!", "Data de contrato inválida!");
               return;
@@ -146,7 +144,7 @@ function ContratoContentInicial({ navigation }) {
         carregamentoTela
           ?
           <ComponentLoading mensagem="Carregando informações" />
-          : <VStack m="1">
+          : <VStack m="2">
             <Box key="1" safeArea w="100%" pl="5" pr="5" mb="5" pb="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
               _web={web} >
               {/* Informações iniciais */}
@@ -164,7 +162,7 @@ function ContratoContentInicial({ navigation }) {
                       keyboardType='numeric'
                       placeholder='Digite a data de contrato:'
                       value={contrato.dataContrato}
-                      onChangeText={async (e) => await changeInput(e, 'dataContrato')}
+                      onChangeText={(e) => changeInput(e, 'dataContrato')}
                       _focus={styleInputFocus}
                     />
                   </FormControl>

@@ -129,7 +129,7 @@ function Planos() {
                         <Box key={index} maxW="100%" mt="1" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
                           _web={web} >
                           <VStack p="5" key={plano.nome}>
-                            <Heading color={colors.COLORS.PAXCOLOR_1} fontSize="16" fontWeight="medium">
+                            <Heading color={colors.COLORS.PAXCOLOR_1} fontSize="16" fontWeight="bold">
                               PLANO: {plano.nome}
                             </Heading>
                             <Text mt="3" fontWeight="medium">
@@ -152,7 +152,7 @@ function Planos() {
                         <Box key={index + 1} maxW="100%" mt="1" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
                           _web={web} >
                           <VStack p="5" key={plano.nome}>
-                            <Heading color={colors.COLORS.PAXCOLOR_1} fontSize="16" fontWeight="medium">
+                            <Heading color={colors.COLORS.PAXCOLOR_1} fontSize="16" fontWeight="bold">
                               Adicional Dependente PET
                             </Heading>
                             {/* Porte P */}

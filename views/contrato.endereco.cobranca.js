@@ -117,7 +117,7 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                     ?
                     <ComponentLoading mensagem="Carregando informações" />
                     :
-                    <VStack m="1">
+                    <VStack m="2">
                         <Box key="2" safeArea w="100%" pl="5" pr="5" mb="5" pb="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                             <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>
                                 Endereço - Cobrança
@@ -130,7 +130,7 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                     size="lg"
                                     value={contrato.enderecoCobrancaIgualResidencial}
                                     colorScheme="emerald"
-                                    onValueChange={async (e) => await changeInput(e, 'enderecoCobrancaIgualResidencial')}
+                                    onValueChange={(e) => changeInput(e, 'enderecoCobrancaIgualResidencial')}
                                 />
                                 <Text>Endereço de cobrança será o mesmo do residencial?</Text>
                             </HStack>
@@ -142,7 +142,7 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                             _focus={styleInputFocus}
                                             selectedValue={contrato.tipoLogradouroCobranca}
                                             isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onValueChange={async (e) => await changeInput(e, 'tipoLogradouroCobranca')}
+                                            onValueChange={(e) => changeInput(e, 'tipoLogradouroCobranca')}
                                             accessibilityLabel="Selecione um logradouro:"
                                             placeholder="Selecione um logradouro:"
                                         >
@@ -161,7 +161,7 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                             placeholder='Informe o nome da rua:'
                                             value={contrato.nomeLogradouroCobranca}
                                             isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'nomeLogradouroCobranca')}
+                                            onChangeText={(e) => changeInput(e, 'nomeLogradouroCobranca')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -176,7 +176,7 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                             placeholder='Digite o número da residencia:'
                                             isDisabled={contrato.enderecoCobrancaIgualResidencial}
                                             value={contrato.numeroCobranca}
-                                            onChangeText={async (e) => await changeInput(e, 'numeroCobranca')}
+                                            onChangeText={(e) => changeInput(e, 'numeroCobranca')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -188,7 +188,7 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                             placeholder='Digite um número de telefone:'
                                             value={contrato.quadraCobranca}
                                             isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'quadraCobranca')}
+                                            onChangeText={(e) => changeInput(e, 'quadraCobranca')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -202,7 +202,7 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                             placeholder='Digite o lote da residencia:'
                                             value={contrato.loteCobranca}
                                             isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'loteCobranca')}
+                                            onChangeText={(e) => changeInput(e, 'loteCobranca')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -214,7 +214,7 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                             placeholder='Digite o Complemento da residencia:'
                                             value={contrato.complementoCobranca}
                                             isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'complementoCobranca')}
+                                            onChangeText={(e) => changeInput(e, 'complementoCobranca')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -228,7 +228,7 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                             placeholder='Digite o bairro da residencia:'
                                             value={contrato.bairroCobranca}
                                             isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'bairroCobranca')}
+                                            onChangeText={(e) => changeInput(e, 'bairroCobranca')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -241,7 +241,7 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                             placeholder='Digite o CEP da residencia:'
                                             value={contrato.cepCobranca}
                                             isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'cepCobranca')}
+                                            onChangeText={(e) => changeInput(e, 'cepCobranca')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -255,7 +255,7 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                             placeholder='Digite o nome da cidade:'
                                             value={contrato.cidadeCobranca}
                                             isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'cidadeCobranca')}
+                                            onChangeText={(e) => changeInput(e, 'cidadeCobranca')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -267,7 +267,7 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                             placeholder='Digite o estado:'
                                             value={contrato.estadoCobranca}
                                             isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'estadoCobranca')}
+                                            onChangeText={(e) => changeInput(e, 'estadoCobranca')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>

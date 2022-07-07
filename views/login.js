@@ -3,7 +3,7 @@ import { cpfMask } from "../utils/generic/format.js";
 import { executarSQL } from '../services/database/index.js';
 import { styleInputFocus, styleButton, styleButtonText, web, light, container } from '../utils/styles/index.js';
 import api from '../utils/config/axios/public.js';
-import { Box, VStack, FormControl, Button, Input, Heading, useToast, Image } from "native-base";
+import { Box, VStack, FormControl, Button, Input, Heading, useToast, Image, Center } from "native-base";
 import ComponentToast from '../components/views/toast/index';
 import imagens from "../utils/generic/imagens.js";
 
@@ -103,7 +103,7 @@ const Login = ({ navigation }) => {
   }, []);
 
   return (
-    <VStack m="2" style={container}>
+    <VStack m="8" style={container}>
       <Box
         safeArea
         w="100%"
@@ -117,25 +117,29 @@ const Login = ({ navigation }) => {
         _light={light}
         _web={web}
       >
-        <Image
-          source={imagens.Logo}
-          height="100"
-          resizeMode='contain'
-          alt='Logo'
-        />
+        <Center>
+          <Image
+            source={imagens.Logo}
+            height="100"
+            resizeMode='contain'
+            alt='Logo'
+          />
+        </Center>
         <Heading mt="1" mb="2" fontWeight="medium" textAlign="center" fontSize="16">
           Informe seu 'CPF' e 'Senha':
         </Heading>
         <VStack space={3} mt="2" mb="10">
           <FormControl isInvalid={error.errorCPF} >
             <FormControl.Label>CPF:</FormControl.Label>
-            <Input keyboardType='numeric' value={cpf} onChangeText={e => changeInput('cpf', e)} _focus={styleInputFocus} placeholder='Digite seu CPF:' />
+            <Input isDisabled={carregamento} keyboardType='numeric' value={cpf} onChangeText={e => changeInput('cpf', e)} _focus={styleInputFocus} placeholder='Digite seu CPF:' />
           </FormControl>
           <FormControl isInvalid={error.errorSenha} >
             <FormControl.Label>Senha:</FormControl.Label>
-            <Input type="password" value={senha} onChangeText={e => changeInput('senha', e)} _focus={styleInputFocus} placeholder='Digite sua senha:' />
+            <Input isDisabled={carregamento} type="password" value={senha} onChangeText={e => changeInput('senha', e)} _focus={styleInputFocus} placeholder='Digite sua senha:' />
           </FormControl>
-          <Button mt="2"
+          <Button
+            mt="2"
+            mb="2"
             size="lg"
             isLoading={carregamento}
             _text={styleButtonText}

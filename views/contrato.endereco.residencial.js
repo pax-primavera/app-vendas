@@ -117,7 +117,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                     ?
                     <ComponentLoading mensagem="Carregando informações" />
                     :
-                    <VStack m="1">
+                    <VStack m="2">
                         <Box key="2" safeArea w="100%" pl="5" pr="5" mb="5" pb="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                             <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>
                                 Endereço - Residencial
@@ -132,7 +132,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                         <Select
                                             _focus={styleInputFocus}
                                             selectedValue={contrato.tipoLogradouroResidencial}
-                                            onValueChange={async (e) => await changeInput(e, 'tipoLogradouroResidencial')}
+                                            onValueChange={(e) => changeInput(e, 'tipoLogradouroResidencial')}
                                             accessibilityLabel="Selecione um logradouro:"
                                             placeholder="Selecione um logradouro:"
                                         >
@@ -150,7 +150,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                         <Input
                                             placeholder='Informe o nome da rua:'
                                             value={contrato.nomeLogradouroResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'nomeLogradouroResidencial')}
+                                            onChangeText={(e) => changeInput(e, 'nomeLogradouroResidencial')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -164,7 +164,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                             keyboardType='numeric'
                                             placeholder='Digite o número da residencia:'
                                             value={contrato.numeroResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'numeroResidencial')}
+                                            onChangeText={(e) => changeInput(e, 'numeroResidencial')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -175,7 +175,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                         <Input
                                             placeholder='Digite um número de telefone:'
                                             value={contrato.quadraResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'quadraResidencial')}
+                                            onChangeText={(e) => changeInput(e, 'quadraResidencial')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -188,7 +188,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                         <Input
                                             placeholder='Digite o lote da residencia:'
                                             value={contrato.loteResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'loteResidencial')}
+                                            onChangeText={(e) => changeInput(e, 'loteResidencial')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -199,7 +199,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                         <Input
                                             placeholder='Digite o Complemento da residencia:'
                                             value={contrato.complementoResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'complementoResidencial')}
+                                            onChangeText={(e) => changeInput(e, 'complementoResidencial')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -212,7 +212,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                         <Input
                                             placeholder='Digite o bairro da residencia:'
                                             value={contrato.bairroResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'bairroResidencial')}
+                                            onChangeText={(e) => changeInput(e, 'bairroResidencial')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -224,7 +224,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                             keyboardType='numeric'
                                             placeholder='Digite o CEP da residencia:'
                                             value={contrato.cepResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'cepResidencial')}
+                                            onChangeText={(e) => changeInput(e, 'cepResidencial')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -237,7 +237,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                         <Input
                                             placeholder='Digite o nome da cidade:'
                                             value={contrato.cidadeResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'cidadeResidencial')}
+                                            onChangeText={(e) => changeInput(e, 'cidadeResidencial')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -248,7 +248,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                         <Input
                                             placeholder='Digite o estado:'
                                             value={contrato.estadoResidencial}
-                                            onChangeText={async (e) => await changeInput(e, 'estadoResidencial')}
+                                            onChangeText={(e) => changeInput(e, 'estadoResidencial')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>

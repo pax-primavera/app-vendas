@@ -78,10 +78,7 @@ function ContratoContentTitular({ navigation }) {
     const setup = async () => {
         setCarregamentoTela(true);
 
-        Promise.all([
-            '/lista-estado-civil',
-            '/lista-religioes'
-        ].map((endpoint) => axiosAuth.get(endpoint))).then((
+        Promise.all(['/lista-estado-civil','/lista-religioes'].map((endpoint) => axiosAuth.get(endpoint))).then((
             [
                 { data: estadoCivil },
                 { data: religioes }
@@ -95,6 +92,7 @@ function ContratoContentTitular({ navigation }) {
             }
             setCarregamentoTela(false);
         }).catch((e) => {
+            console.log(e.response.data)
             toast.show({
                 placement: "bottom",
                 render: () => {
@@ -169,7 +167,7 @@ function ContratoContentTitular({ navigation }) {
                     ?
                     <ComponentLoading mensagem="Carregando informações" />
                     :
-                    <VStack m="1">
+                    <VStack m="2">
                         <Box key="2" safeArea w="100%" pl="5" pr="5" mb="5" pb="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                             <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>
                                 Titular
@@ -182,7 +180,7 @@ function ContratoContentTitular({ navigation }) {
                                     size="lg"
                                     value={contrato.isCremado}
                                     colorScheme="emerald"
-                                    onValueChange={async (e) => await changeInput(e, 'isCremado')}
+                                    onValueChange={(e) => changeInput(e, 'isCremado')}
                                 />
                                 <Text>Adicional cremação?</Text>
                             </HStack>
@@ -193,7 +191,7 @@ function ContratoContentTitular({ navigation }) {
                                         <Input
                                             placeholder='Digite o nome completo:'
                                             value={contrato.nomeTitular}
-                                            onChangeText={async (e) => await changeInput(e, 'nomeTitular')}
+                                            onChangeText={(e) => changeInput(e, 'nomeTitular')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -207,7 +205,7 @@ function ContratoContentTitular({ navigation }) {
                                             keyboardType='numeric'
                                             placeholder='Digite o CPF:'
                                             value={contrato.cpfTitular}
-                                            onChangeText={async (e) => await changeInput(e, 'cpfTitular')}
+                                            onChangeText={(e) => changeInput(e, 'cpfTitular')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -219,7 +217,7 @@ function ContratoContentTitular({ navigation }) {
                                             keyboardType='numeric'
                                             placeholder='Digite o RG:'
                                             value={contrato.rgTitular}
-                                            onChangeText={async (e) => await changeInput(e, 'rgTitular')}
+                                            onChangeText={(e) => changeInput(e, 'rgTitular')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -233,7 +231,7 @@ function ContratoContentTitular({ navigation }) {
                                             keyboardType='numeric'
                                             placeholder='Digite a data de nascimento:'
                                             value={contrato.dataNascTitular}
-                                            onChangeText={async (e) => await changeInput(e, 'dataNascTitular')}
+                                            onChangeText={(e) => changeInput(e, 'dataNascTitular')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -244,7 +242,7 @@ function ContratoContentTitular({ navigation }) {
                                         <Select
                                             _focus={styleInputFocus}
                                             selectedValue={contrato.estadoCivilTitular}
-                                            onValueChange={async (e) => await changeInput(e, 'estadoCivilTitular')}
+                                            onValueChange={(e) => changeInput(e, 'estadoCivilTitular')}
                                             accessibilityLabel="Estado Civil:"
                                             placeholder="Estado Civil:"
                                         >
@@ -264,7 +262,7 @@ function ContratoContentTitular({ navigation }) {
                                         <Input
                                             placeholder='Digite a Naturalidade:'
                                             value={contrato.naturalidadeTitular}
-                                            onChangeText={async (e) => await changeInput(e, 'naturalidadeTitular')}
+                                            onChangeText={(e) => changeInput(e, 'naturalidadeTitular')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -275,7 +273,7 @@ function ContratoContentTitular({ navigation }) {
                                         <Input
                                             placeholder='Digite a Nacionalidade:'
                                             value={contrato.nacionalidadeTitular}
-                                            onChangeText={async (e) => await changeInput(e, 'nacionalidadeTitular')}
+                                            onChangeText={(e) => changeInput(e, 'nacionalidadeTitular')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -288,7 +286,7 @@ function ContratoContentTitular({ navigation }) {
                                         <Select
                                             _focus={styleInputFocus}
                                             selectedValue={contrato.religiaoTitular}
-                                            onValueChange={async (e) => await changeInput(e, 'religiaoTitular')}
+                                            onValueChange={(e) => changeInput(e, 'religiaoTitular')}
                                             accessibilityLabel="Selecione uma religião:"
                                             placeholder="Selecione uma religião:"
                                         >
@@ -306,7 +304,7 @@ function ContratoContentTitular({ navigation }) {
                                         <Select
                                             _focus={styleInputFocus}
                                             selectedValue={contrato.sexoTitular}
-                                            onValueChange={async (e) => await changeInput(e, 'sexoTitular')}
+                                            onValueChange={(e) => changeInput(e, 'sexoTitular')}
                                             accessibilityLabel="Selecione um gênero:"
                                             placeholder="Selecione um gênero:"
                                         >
@@ -326,7 +324,7 @@ function ContratoContentTitular({ navigation }) {
                                         <Input
                                             placeholder='Digite um Email:'
                                             value={contrato.email1}
-                                            onChangeText={async (e) => await changeInput(e, 'email1')}
+                                            onChangeText={(e) => changeInput(e, 'email1')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -338,7 +336,7 @@ function ContratoContentTitular({ navigation }) {
                                             keyboardType='numeric'
                                             placeholder='Digite um número de telefone:'
                                             value={contrato.telefone1}
-                                            onChangeText={async (e) => await changeInput(e, 'telefone1')}
+                                            onChangeText={(e) => changeInput(e, 'telefone1')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -351,7 +349,7 @@ function ContratoContentTitular({ navigation }) {
                                         <Input
                                             placeholder='Digite um Email:'
                                             value={contrato.email2}
-                                            onChangeText={async (e) => await changeInput(e, 'email2')}
+                                            onChangeText={(e) => changeInput(e, 'email2')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -363,7 +361,7 @@ function ContratoContentTitular({ navigation }) {
                                             keyboardType='numeric'
                                             placeholder='Digite um número de telefone:'
                                             value={contrato.telefone2}
-                                            onChangeText={async (e) => await changeInput(e, 'telefone2')}
+                                            onChangeText={(e) => changeInput(e, 'telefone2')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -376,7 +374,7 @@ function ContratoContentTitular({ navigation }) {
                                         <Input
                                             placeholder='Informe a profissão do titular:'
                                             value={contrato.profissaoTitular}
-                                            onChangeText={async (e) => await changeInput(e, 'profissaoTitular')}
+                                            onChangeText={(e) => changeInput(e, 'profissaoTitular')}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
