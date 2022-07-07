@@ -125,7 +125,6 @@ const Login = ({ navigation }) => {
         <Heading mt="1" mb="2" fontWeight="medium" textAlign="center" fontSize="16">
           Informe seu 'CPF' e 'Senha':
         </Heading>
-
         <VStack space={3} mt="2" mb="10">
           <FormControl isInvalid={error.errorCPF} >
             <FormControl.Label>CPF:</FormControl.Label>
