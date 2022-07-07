@@ -5,7 +5,6 @@ import { styleInputFocus, styleButton, styleButtonText, web, light, container } 
 import api from '../utils/config/axios/public.js';
 import { Box, VStack, FormControl, Button, Input, Heading, useToast, Image } from "native-base";
 import ComponentToast from '../components/views/toast/index';
-import colors from '../utils/styles/colors';
 import imagens from "../utils/generic/imagens.js";
 
 const Login = ({ navigation }) => {
@@ -108,8 +107,8 @@ const Login = ({ navigation }) => {
       <Box
         safeArea
         w="100%"
-        pl="6"
-        pr="6"
+        pl="8"
+        pr="8"
         maxW="100%"
         rounded="md"
         overflow="hidden"
@@ -123,7 +122,7 @@ const Login = ({ navigation }) => {
           height="100"
           resizeMode='contain'
         />
-        <Heading mt="1" mb="4" fontWeight="medium" textAlign="center" fontSize="16">
+        <Heading mt="1" mb="2" fontWeight="medium" textAlign="center" fontSize="16">
           Informe seu 'CPF' e 'Senha':
         </Heading>
 
