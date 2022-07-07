@@ -25,7 +25,7 @@ const heightHeader = {
     height: Platform.OS === "ios" ? height * 0.16 : height * 0.80,
 }
 
-const Routes = ({ navigation }) => {
+const Routes = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Login" headerMode="screen">
@@ -84,7 +84,7 @@ const Routes = ({ navigation }) => {
                 />
                 <Stack.Screen
                     name="contratoContentTitular"
-                    component={ContratoContentTitular}
+                    component={ContratoContentDependentes}
                     options={() => ({
                         headerTitle: () => (
                             <Image

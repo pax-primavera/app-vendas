@@ -12,7 +12,6 @@ const ComponentSwitch = (props) => {
     const change = async (value) => {
         setSwitchValue(value);
 
-        if (props && props.function) props.function(value);
         if (props && props.column) await executarSQL(`UPDATE ${props.table} SET ${props.column} = '${value}' WHERE id = ${props.id}`);
     }
 
