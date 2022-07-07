@@ -23,7 +23,6 @@ function ContratoContentTermoAdesao({ navigation }) {
     const [locaisCobrancas, setLocaisCobrancas] = useState([]);
     /// Booleanos
     const [carregamentoTela, setCarregamentoTela] = useState(true);
-    const [carregamentoButton, setCarregamentoButton] = useState(false);
     /// Objects
     const [contrato, setContrato] = useState(
         {
@@ -33,7 +32,7 @@ function ContratoContentTermoAdesao({ navigation }) {
             melhorDia: null,
             melhorHorario: null,
             localCobranca: null,
-            tipo: null,
+            tipo: 0,
             empresaAntiga: null,
             numContratoAntigo: null
         }
@@ -54,6 +53,10 @@ function ContratoContentTermoAdesao({ navigation }) {
                 [column]: valueInput
             }
         })
+
+        if (fieldDatas.includes(column)) {
+            value = dataMaskEUA(value);
+        }
 
         if (value != null) {
             await executarSQL(`
@@ -105,32 +108,40 @@ function ContratoContentTermoAdesao({ navigation }) {
                 {
                     text: "Sim",
                     onPress: () => {
-                        setCarregamentoButton(true);
-
                         if (contrato && new Date(contrato.dataPrimeiraMensalidade) == 'Invalid Date') {
-                            setCarregamentoButton(false);
                             Alert.alert("Aviso!", "Data Primeira mensalidade inválida!");
                             return;
                         }
 
+                        if (!contrato.dataPrimeiraMensalidade) {
+                            Alert.alert("Aviso!", "Data primeira mensalidade é obrigatório!");
+                            return;
+                        }
+
                         if (dataMaskEUA(contrato.dataPrimeiraMensalidade) < dataMaskEUA(new Date())) {
-                            setCarregamentoButton(false);
                             Alert.alert("Aviso!", "Data Primeira mensalidade inválida, não pode ser menor que a data atual!");
                             return;
                         }
 
-                        if (!contrato.plano ||
-                            !contrato.diaVencimento ||
-                            !contrato.dataPrimeiraMensalidade ||
-                            !contrato.localCobranca
-                        ) {
-                            setCarregamentoButton(false);
-                            Alert.alert("Aviso!", "Preencha todos os campos obrigatórios para prosseguir!");
+                        if (![0,1].includes(contrato.tipo)) {
+                            Alert.alert("Aviso!", "Tipo de contrato não selecionado!");
                             return;
                         }
 
-                        setCarregamentoButton(false);
+                        if (!contrato.plano) {
+                            Alert.alert("Aviso!", "Plano não selecionado!");
+                            return;
+                        }
 
+                        if (!contrato.diaVencimento) {
+                            Alert.alert("Aviso!", "Dia de vencimento é obrigatório!");
+                            return;
+                        }
+
+                        if (!contrato.localCobranca) {
+                            Alert.alert("Aviso!", "Local de cobrança não selecionado!");
+                            return;
+                        }
                         return navigation.navigate("contratoContentDependentes", { contratoID, unidadeID });
                     }
                 },
@@ -273,7 +284,6 @@ function ContratoContentTermoAdesao({ navigation }) {
                                 size="lg"
                                 _text={styleButtonText}
                                 _light={styleButton}
-                                isLoading={carregamentoButton}
                                 onPress={proximoPasso}
                             >
                                 Prosseguir

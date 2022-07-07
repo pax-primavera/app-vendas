@@ -96,10 +96,12 @@ apply from: new File(["node", "--print", "require.resolve('react-native/package.
  */
 def enableSeparateBuildPerCPUArchitecture = false
 
-/**
+def shrinkResources = true
+/** 
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
+
 
 /**
  * The preferred build flavor of JavaScriptCore.

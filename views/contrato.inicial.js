@@ -18,7 +18,6 @@ function ContratoContentInicial({ navigation }) {
   const [contratoID, setContratoID] = useState(null);
   /// Booleanos
   const [carregamentoTela, setCarregamentoTela] = useState(true);
-  const [carregamentoButton, setCarregamentoButton] = useState(false);
   const [unidades, setUnidades] = useState([]);
   /// Objects
   const [contrato, setContrato] = useState({ dataContrato: null });
@@ -110,35 +109,25 @@ function ContratoContentInicial({ navigation }) {
         {
           text: "Sim",
           onPress: () => {
-
-            setCarregamentoButton(true);
-
             if (!unidadeID) {
-              setCarregamentoButton(false);
               Alert.alert("Aviso!", "Filial não selecionada!");
               return;
             }
 
             if (!contrato.dataContrato) {
-              setCarregamentoButton(false);
               Alert.alert("Aviso!", "Data de contrato é obrigatório!");
               return;
             }
-
+            
             if (contrato && new Date(contrato.dataContrato) == 'Invalid Date') {
-              setCarregamentoButton(false);
               Alert.alert("Aviso!", "Data de contrato inválida!");
               return;
             }
 
             if (dataMaskEUA(contrato.dataContrato) < dataMaskEUA(new Date())) {
-              setCarregamentoButton(false);
               Alert.alert("Aviso!", "Data de contrato inválida, não pode ser menor que a data atual!");
               return;
             }
-
-            setCarregamentoButton(false);
-
             return navigation.navigate("contratoContentTitular", { contratoID, unidadeID });
           }
         },
@@ -208,7 +197,6 @@ function ContratoContentInicial({ navigation }) {
                 _text={styleButtonText}
                 _light={styleButton}
                 onPress={proximoPasso}
-                isLoading={carregamentoButton}
               >
                 Prosseguir
               </Button>

@@ -52,23 +52,15 @@ function ContratoContentFinalizar({ navigation }) {
 
         try {
             if (!templateID) {
-                return toast.show({
-                    placement: "bottom",
-                    render: () => {
-                        return <ComponentToast title="Aviso!" message="Selecione um template!" />
-                    }
-                });
+                Alert.alert("Aviso!", "Selecione um template!");
+                return;
             }
 
             const contrato = await executarSQL(`select * from titulares where id = '${contratoID}'`);
 
             if (!contrato) {
-                return toast.show({
-                    placement: "bottom",
-                    render: () => {
-                        return <ComponentToast title="Aviso!" message="Contrato não localizado!" />
-                    }
-                });
+                Alert.alert("Aviso!", "Contrato não localizado!");
+                return;
             }
 
             const dependentesHumanos = await executarSQL(`
@@ -284,7 +276,6 @@ function ContratoContentFinalizar({ navigation }) {
                                     </HStack>
                                 </FormControl>
                             </Center>
-
                             <Button
                                 mt="6"
                                 mb="4"

@@ -23,7 +23,6 @@ function ContratoContentTitular({ navigation }) {
     const [religioes, setReligioes] = useState([]);
     /// Booleanos
     const [carregamentoTela, setCarregamentoTela] = useState(true);
-    const [carregamentoButton, setCarregamentoButton] = useState(false);
     /// Objects
     const [contrato, setContrato] = useState(
         {
@@ -117,35 +116,40 @@ function ContratoContentTitular({ navigation }) {
                 {
                     text: "Sim",
                     onPress: () => {
-                        setCarregamentoButton(true);
-
                         if (contrato && new Date(contrato.dataNascTitular) == 'Invalid Date') {
-                            setCarregamentoButton(false);
                             Alert.alert("Aviso!", "Data de nascimento inválida!");
                             return;
                         }
 
                         if (contrato.cpfTitular != null && contrato.cpfTitular.length < 14) {
-                            setCarregamentoButton(false);
                             Alert.alert("Aviso!", "CPF inválido!");
                             return;
                         }
 
-                        if (!unidadeID ||
-                            !contrato.cpfTitular ||
-                            !contrato.email1 ||
-                            !contrato.telefone1 ||
-                            !contrato.rgTitular ||
-                            !contrato.sexoTitular ||
-                            !contrato.profissaoTitular
-                        ) {
-                            setCarregamentoButton(false);
-                            Alert.alert("Aviso!", "Preencha todos os campos obrigatórios para prosseguir!")
+                        if (!contrato.email1) {
+                            Alert.alert("Aviso!", "Email é obrigatório!");
                             return;
                         }
 
-                        setCarregamentoButton(false);
+                        if (!contrato.telefone1) {
+                            Alert.alert("Aviso!", "Telefone é obrigatório!");
+                            return;
+                        }
 
+                        if (!contrato.rgTitular) {
+                            Alert.alert("Aviso!", "RG é obrigatório!");
+                            return;
+                        }
+
+                        if (!contrato.sexoTitular) {
+                            Alert.alert("Aviso!", "Genêro não selecionado!");
+                            return;
+                        }
+
+                        if (!contrato.profissaoTitular) {
+                            Alert.alert("Aviso!", "Pofissão é obrigatório!");
+                            return;
+                        }
                         return navigation.navigate("contratoContentEnderecoResidencial", { contratoID, unidadeID });
                     },
                 },
@@ -382,7 +386,6 @@ function ContratoContentTitular({ navigation }) {
                                 mt="6"
                                 mb="4"
                                 size="lg"
-                                isLoading={carregamentoButton}
                                 _text={styleButtonText}
                                 _light={styleButton}
                                 onPress={proximoPasso}

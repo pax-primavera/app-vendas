@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Pax Vendedor",
-    "slug": "VendasDigitais",
+    "slug": "PaxVendedorBeta",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

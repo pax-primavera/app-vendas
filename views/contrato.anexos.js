@@ -12,8 +12,6 @@ function ContratoContentAnexos({ navigation }) {
     /// Config
     const route = useRoute();
     const toast = useToast();
-    /// Booleanos
-    const [carregamentoButton, setCarregamentoButton] = useState(false);
     /// Parametros
     const { contratoID, unidadeID } = route.params;
     /// Imagens(Anexos)
@@ -60,15 +58,10 @@ function ContratoContentAnexos({ navigation }) {
                 {
                     text: "Sim",
                     onPress: () => {
-                        setCarregamentoButton(true);
-
                         if (!anexo1 || !anexo2 || !anexo3) {
-                            setCarregamentoButton(false);
                             Alert.alert("Aviso!", "Envie todos os anexos, está faltando arquivo(s)!");
                             return;
                         }
-
-                        setCarregamentoButton(false);
 
                         return navigation.navigate("contratoContentFinalizar", {
                             anexos: [
@@ -103,8 +96,8 @@ function ContratoContentAnexos({ navigation }) {
                                 <Text>
                                     {
                                         !anexo1 ?
-                                            <Text fontWeight="bold" color="red.800">Não preenchido</Text> :
-                                            <Text fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>Preenchido</Text>
+                                            <Text fontWeight="bold" color="red.800">Não Anexado</Text> :
+                                            <Text fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>Anexado</Text>
                                     }
                                 </Text>
                             </VStack>
@@ -126,8 +119,8 @@ function ContratoContentAnexos({ navigation }) {
                                 <Text>
                                     {
                                         !anexo2 ?
-                                            <Text fontWeight="bold" color="red.800">Não preenchido</Text> :
-                                            <Text fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>Preenchido</Text>
+                                            <Text fontWeight="bold" color="red.800">Não Anexado</Text> :
+                                            <Text fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>Anexado</Text>
                                     }
                                 </Text>
                             </VStack>
@@ -149,8 +142,8 @@ function ContratoContentAnexos({ navigation }) {
                                 <Text>PEÇA AUTORIZAÇÃO DELE ANTES</Text>
                                 <Text> {
                                     !anexo3 ?
-                                        <Text fontWeight="bold" color="red.800">Não preenchido</Text> :
-                                        <Text fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>Preenchido</Text>
+                                        <Text fontWeight="bold" color="red.800">Não Anexado</Text> :
+                                        <Text fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>Anexado</Text>
                                 }</Text>
                             </VStack>
                             <Button size="lg"
@@ -172,7 +165,6 @@ function ContratoContentAnexos({ navigation }) {
                         size="lg"
                         _text={styleButtonText}
                         _light={styleButton}
-                        isLoading={carregamentoButton}
                         onPress={proximoPasso}
                     >
                         Prosseguir
