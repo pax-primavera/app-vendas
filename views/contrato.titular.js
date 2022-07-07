@@ -126,6 +126,11 @@ function ContratoContentTitular({ navigation }) {
                             return;
                         }
 
+                        if (!contrato.rgTitular) {
+                            Alert.alert("Aviso!", "RG é obrigatório!");
+                            return;
+                        }
+
                         if (!contrato.email1) {
                             Alert.alert("Aviso!", "Email é obrigatório!");
                             return;
@@ -135,12 +140,7 @@ function ContratoContentTitular({ navigation }) {
                             Alert.alert("Aviso!", "Telefone é obrigatório!");
                             return;
                         }
-
-                        if (!contrato.rgTitular) {
-                            Alert.alert("Aviso!", "RG é obrigatório!");
-                            return;
-                        }
-
+                        
                         if (!contrato.sexoTitular) {
                             Alert.alert("Aviso!", "Genêro não selecionado!");
                             return;

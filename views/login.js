@@ -121,6 +121,7 @@ const Login = ({ navigation }) => {
           source={imagens.Logo}
           height="100"
           resizeMode='contain'
+          alt='Logo'
         />
         <Heading mt="1" mb="2" fontWeight="medium" textAlign="center" fontSize="16">
           Informe seu 'CPF' e 'Senha':

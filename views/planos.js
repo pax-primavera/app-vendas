@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Center, Box, Heading, VStack, useToast, HStack, ScrollView, Text } from "native-base";
-import { web, light } from '../utils/styles/index';
+import { Center, Box, Heading, VStack, useToast, HStack, ScrollView, Text, Select, FormControl } from "native-base";
+import { web, light, styleInputFocus } from '../utils/styles/index';
 import axiosAuth from '../utils/config/axios/private.js';
 import { moedaMask } from "../utils/generic/format";
-import ComponentSelect from '../components/form/select';
 import ComponentLoading from '../components/views/loading/index';
 import ComponentToast from '../components/views/toast/index'
 import colors from '../utils/styles/colors';
@@ -94,27 +93,30 @@ function Planos() {
           : <VStack m="2">
             <Box maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
               _web={web} >
-                <Box safeArea w="100%" pl="5" pr="5" mb="10" >
-                  <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
-                    Planos
-                  </Heading>
-                  <Heading mt="1" mb="3" fontWeight="medium" size="xs">
-                    Selecione uma filial para 'VER' os planos disponiveis.
-                  </Heading>
-
-                  <HStack space={5} justifyContent="center">
-                    <Center w="100%" rounded="md">
-                      <ComponentSelect
-                        label="Filial"
-                        function={carregarPlanoFilial}
-                        placeholder='Selecione uma filial:'
-                        array={unidades}
-                        columnLabel="nome"
-                        required
-                      />
-                    </Center>
-                  </HStack>
-                </Box>
+              <Box safeArea w="100%" pl="5" pr="5" mb="10" >
+                <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
+                  Planos
+                </Heading>
+                <Heading mt="1" mb="3" fontWeight="medium" size="xs">
+                  Selecione uma filial para 'VER' os planos disponiveis.
+                </Heading>
+                <HStack space={5} justifyContent="center">
+                  <Center w="100%" rounded="md">
+                    <FormControl isRequired>
+                      <FormControl.Label>Planos:</FormControl.Label>
+                      <Select _focus={styleInputFocus}
+                        onValueChange={carregarPlanoFilial}
+                        accessibilityLabel="Selecione uma filial:"
+                        placeholder="Selecione uma filial:"
+                      >
+                        {unidades.map((item) =>
+                          <Select.Item key={item['nome']} label={item['nome']} value={item.id} />
+                        )}
+                      </Select>
+                    </FormControl>
+                  </Center>
+                </HStack>
+              </Box>
             </Box>
             {
               carregamentoPlanos ?
