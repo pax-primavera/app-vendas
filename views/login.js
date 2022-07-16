@@ -65,7 +65,7 @@ const Login = ({ navigation }) => {
       return toast.show({
         placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso." message="Campo obrigatório, digite um 'CPF." />
+          return <ComponentToast title="Aviso." message="Campo obrigatório, digite um 'CPF'" />
         }
       });
     }
@@ -74,7 +74,7 @@ const Login = ({ navigation }) => {
       return toast.show({
         placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso." message="Campo obrigatório, digite uma 'Senha." />
+          return <ComponentToast title="Aviso." message="Campo obrigatório, digite uma 'Senha'" />
         }
       });
     }
