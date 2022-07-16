@@ -41,7 +41,7 @@ function ContratoContentFinalizar({ navigation }) {
                 Alert.alert("Aviso.", "Contrato não localizado!");
                 return;
             }
-
+            
             const dependentesHumanos = await executarSQL(`
                 select 
                 nome,
@@ -134,6 +134,10 @@ function ContratoContentFinalizar({ navigation }) {
         }
     }
 
+    const isEnvioToken = (envioToken) => {
+        return envioToken ? 2 : 1
+    }
+
     const finalizar = async () => {
         Alert.alert(
             "Aviso.",
@@ -148,9 +152,9 @@ function ContratoContentFinalizar({ navigation }) {
                     onPress: async () => {
                         await executarSQL(`
                             UPDATE titulares
-                            SET envioToken = ${isBoolean(envioToken)},
+                            SET envioToken = ${isEnvioToken(envioToken)},
                             sendByWhatsApp = ${isBoolean(sendByWhatsApp)}
-                            WHERE id = ${contratoID}`
+                            WHERE id = ${contratoID} `
                         );
 
                         finalizarContrato()
@@ -179,7 +183,7 @@ function ContratoContentFinalizar({ navigation }) {
             toast.show({
                 placement: "top",
                 render: () => {
-                    return <ComponentToast message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+                    return <ComponentToast message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()} `} />
                 }
             });
         });
