@@ -120,11 +120,7 @@ const Login = ({ navigation }) => {
   }
 
   useEffect(() => {
-
-    setTimeout(() => {
-      verificarSessao();
-    }, 1000);
-
+    verificarSessao();
   }, []);
 
   return (
