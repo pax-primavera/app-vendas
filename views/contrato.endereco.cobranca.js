@@ -21,53 +21,30 @@ function ContratoContentEnderecoCobranca({ navigation }) {
     const [logradouros, setLogradouros] = useState([]);
     /// Booleanos
     const [carregamentoTela, setCarregamentoTela] = useState(true);
-    /// Objects
-    const [contrato, setContrato] = useState(
-        {
-            tipoLogradouroCobranca: null,
-            nomeLogradouroCobranca: null,
-            numeroCobranca: null,
-            quadraCobranca: null,
-            loteCobranca: null,
-            complementoCobranca: null,
-            bairroCobranca: null,
-            cepCobranca: null,
-            cidadeCobranca: null,
-            estadoCobranca: null,
-            enderecoCobrancaIgualResidencial: false
-        }
-    );
+    /// Fields
+    const [tipoLogradouroCobranca, setTipoLogradouroCobranca] = useState(null),
+        [nomeLogradouroCobranca, setNomeLogradouroCobranca] = useState(null),
+        [numeroCobranca, setNumeroCobranca] = useState(null),
+        [quadraCobranca, setQuadraCobranca] = useState(null),
+        [loteCobranca, setLoteCobranca] = useState(null),
+        [complementoCobranca, setComplementoCobranca] = useState(null),
+        [bairroCobranca, setBairroCobranca] = useState(null),
+        [cepCobranca, setCepCobranca] = useState(null),
+        [cidadeCobranca, setCidadeCobranca] = useState(null),
+        [estadoCobranca, setEstadoCobranca] = useState(null),
+        [enderecoCobrancaIgualResidencial, setEnderecoCobrancaIgualResidencial] = useState(false);
 
-    const treatment = (label, labelValue) => {
+    const changeInput = (labelValue, label) => {
         if (fieldCEPS.includes(label)) return cepMask(labelValue);
         return labelValue;
-    }
-
-    const changeInput = async (value, column) => {
-        let valueInput = treatment(column, value);
-
-        setContrato(prev => {
-            return {
-                ...prev,
-                [column]: valueInput
-            }
-        })
-
-        if (value != null) {
-            await executarSQL(`
-                UPDATE titulares
-                SET ${column} = '${valueInput}'
-                WHERE id = ${contratoID}`
-            );
-        };
     }
 
     const setup = async () => {
         setCarregamentoTela(true);
 
-        Promise.all([
-            '/lista-logradouros'
-        ].map((endpoint) => axiosAuth.get(endpoint))).then((
+        const urls = ['/lista-logradouros'];
+
+        Promise.all(urls.map((endpoint) => axiosAuth.get(endpoint))).then((
             [
                 { data: logradouros }
             ]
@@ -78,18 +55,18 @@ function ContratoContentEnderecoCobranca({ navigation }) {
             setCarregamentoTela(false);
         }).catch((e) => {
             toast.show({
-                placement: "bottom",
+                placement: "top",
                 render: () => {
-                    return <ComponentToast title="Aviso!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+                    return <ComponentToast title="Aviso." message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
                 }
             });
         });
     }
 
-    const proximoPasso = () => {
+    const PROSSEGUIR = async () => {
         Alert.alert(
-            "Aviso!",
-            "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
+            "Aviso.",
+            "Deseja PROSSEGUIR para proxima 'ETAPA'? Verifique os dados só por garantia!",
             [
                 {
                     text: "Não",
@@ -97,7 +74,24 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                 },
                 {
                     text: "Sim",
-                    onPress: () => {
+                    onPress: async () => {
+
+                        await executarSQL(`
+                            UPDATE titulares
+                            SET tipoLogradouroCobranca = '${tipoLogradouroCobranca}',
+                            nomeLogradouroCobranca = '${nomeLogradouroCobranca}',
+                            numeroCobranca = '${numeroCobranca}',
+                            quadraCobranca = '${quadraCobranca}',
+                            loteCobranca = '${loteCobranca}',
+                            complementoCobranca = '${complementoCobranca}',
+                            bairroCobranca = '${bairroCobranca}',
+                            cepCobranca = '${cepCobranca}',
+                            cidadeCobranca = '${cidadeCobranca}',
+                            estadoCobranca = '${estadoCobranca}',
+                            enderecoCobrancaIgualResidencial = '${enderecoCobrancaIgualResidencial}'
+                            WHERE id = ${contratoID}`
+                        );
+
                         return navigation.navigate("contratoContentTermoAdesao", { contratoID, unidadeID });
                     }
                 },
@@ -128,21 +122,21 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                             <HStack space={1} alignItems="center">
                                 <Switch
                                     size="lg"
-                                    value={contrato.enderecoCobrancaIgualResidencial}
+                                    value={enderecoCobrancaIgualResidencial}
                                     colorScheme="emerald"
-                                    onValueChange={(e) => changeInput(e, 'enderecoCobrancaIgualResidencial')}
+                                    onValueChange={(e) => setEnderecoCobrancaIgualResidencial(e)}
                                 />
                                 <Text>Endereço de cobrança será o mesmo do residencial?</Text>
                             </HStack>
                             <HStack space={2} justifyContent="center">
                                 <Center w="50%" rounded="md">
-                                    <FormControl isRequired>
+                                    <FormControl>
                                         <FormControl.Label>Logradouro:</FormControl.Label>
                                         <Select
                                             _focus={styleInputFocus}
-                                            selectedValue={contrato.tipoLogradouroCobranca}
-                                            isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onValueChange={(e) => changeInput(e, 'tipoLogradouroCobranca')}
+                                            selectedValue={tipoLogradouroCobranca}
+                                            isDisabled={enderecoCobrancaIgualResidencial}
+                                            onValueChange={(e) => setTipoLogradouroCobranca(changeInput(e, 'tipoLogradouroCobranca'))}
                                             accessibilityLabel="Selecione um logradouro:"
                                             placeholder="Selecione um logradouro:"
                                         >
@@ -155,13 +149,13 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                     </FormControl>
                                 </Center>
                                 <Center w="50%" rounded="md">
-                                    <FormControl isRequired >
+                                    <FormControl >
                                         <FormControl.Label>Rua:</FormControl.Label>
                                         <Input
                                             placeholder='Informe o nome da rua:'
-                                            value={contrato.nomeLogradouroCobranca}
-                                            isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={(e) => changeInput(e, 'nomeLogradouroCobranca')}
+                                            value={nomeLogradouroCobranca}
+                                            isDisabled={enderecoCobrancaIgualResidencial}
+                                            onChangeText={(e) => setNomeLogradouroCobranca(changeInput(e, 'nomeLogradouroCobranca'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -174,9 +168,9 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                         <Input
                                             keyboardType='numeric'
                                             placeholder='Digite o número da residencia:'
-                                            isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            value={contrato.numeroCobranca}
-                                            onChangeText={(e) => changeInput(e, 'numeroCobranca')}
+                                            isDisabled={enderecoCobrancaIgualResidencial}
+                                            value={numeroCobranca}
+                                            onChangeText={(e) => setNumeroCobranca(changeInput(e, 'numeroCobranca'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -186,9 +180,9 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                         <FormControl.Label>Quadra:</FormControl.Label>
                                         <Input
                                             placeholder='Digite um número de telefone:'
-                                            value={contrato.quadraCobranca}
-                                            isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={(e) => changeInput(e, 'quadraCobranca')}
+                                            value={quadraCobranca}
+                                            isDisabled={enderecoCobrancaIgualResidencial}
+                                            onChangeText={(e) => setQuadraCobranca(changeInput(e, 'quadraCobranca'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -200,9 +194,9 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                         <FormControl.Label>Lote:</FormControl.Label>
                                         <Input
                                             placeholder='Digite o lote da residencia:'
-                                            value={contrato.loteCobranca}
-                                            isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={(e) => changeInput(e, 'loteCobranca')}
+                                            value={loteCobranca}
+                                            isDisabled={enderecoCobrancaIgualResidencial}
+                                            onChangeText={(e) => setLoteCobranca(changeInput(e, 'loteCobranca'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -212,9 +206,9 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                         <FormControl.Label>Complemento:</FormControl.Label>
                                         <Input
                                             placeholder='Digite o Complemento da residencia:'
-                                            value={contrato.complementoCobranca}
-                                            isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={(e) => changeInput(e, 'complementoCobranca')}
+                                            value={complementoCobranca}
+                                            isDisabled={enderecoCobrancaIgualResidencial}
+                                            onChangeText={(e) => setComplementoCobranca(changeInput(e, 'complementoCobranca'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -226,9 +220,9 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                         <FormControl.Label>Bairro:</FormControl.Label>
                                         <Input
                                             placeholder='Digite o bairro da residencia:'
-                                            value={contrato.bairroCobranca}
-                                            isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={(e) => changeInput(e, 'bairroCobranca')}
+                                            value={bairroCobranca}
+                                            isDisabled={enderecoCobrancaIgualResidencial}
+                                            onChangeText={(e) => setBairroCobranca(changeInput(e, 'bairroCobranca'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -239,9 +233,9 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                         <Input
                                             keyboardType='numeric'
                                             placeholder='Digite o CEP da residencia:'
-                                            value={contrato.cepCobranca}
-                                            isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={(e) => changeInput(e, 'cepCobranca')}
+                                            value={cepCobranca}
+                                            isDisabled={enderecoCobrancaIgualResidencial}
+                                            onChangeText={(e) => setCepCobranca(changeInput(e, 'cepCobranca'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -253,9 +247,9 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                         <FormControl.Label>Cidade:</FormControl.Label>
                                         <Input
                                             placeholder='Digite o nome da cidade:'
-                                            value={contrato.cidadeCobranca}
-                                            isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={(e) => changeInput(e, 'cidadeCobranca')}
+                                            value={cidadeCobranca}
+                                            isDisabled={enderecoCobrancaIgualResidencial}
+                                            onChangeText={(e) => setCidadeCobranca(changeInput(e, 'cidadeCobranca'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -265,9 +259,9 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                         <FormControl.Label>Estado:</FormControl.Label>
                                         <Input
                                             placeholder='Digite o estado:'
-                                            value={contrato.estadoCobranca}
-                                            isDisabled={contrato.enderecoCobrancaIgualResidencial}
-                                            onChangeText={(e) => changeInput(e, 'estadoCobranca')}
+                                            value={estadoCobranca}
+                                            isDisabled={enderecoCobrancaIgualResidencial}
+                                            onChangeText={(e) => setEstadoCobranca(changeInput(e, 'estadoCobranca'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -279,9 +273,9 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                                 size="lg"
                                 _text={styleButtonText}
                                 _light={styleButton}
-                                onPress={proximoPasso}
+                                onPress={PROSSEGUIR}
                             >
-                                Prosseguir
+                                PROSSEGUIR
                             </Button>
                         </Box>
                     </VStack>

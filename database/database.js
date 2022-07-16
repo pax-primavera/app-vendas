@@ -51,6 +51,7 @@ export default class DatabaseInit {
                 cidadeResidencial text,
                 estadoResidencial text,
                 tipoLogradouroCobranca text,
+                nomeLogradouroCobranca text,
                 numeroCobranca text,
                 quadraCobranca text,
                 loteCobranca text,

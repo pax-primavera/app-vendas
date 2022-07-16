@@ -23,54 +23,29 @@ function ContratoContentTermoAdesao({ navigation }) {
     const [locaisCobrancas, setLocaisCobrancas] = useState([]);
     /// Booleanos
     const [carregamentoTela, setCarregamentoTela] = useState(true);
-    /// Objects
-    const [contrato, setContrato] = useState(
-        {
-            plano: null,
-            diaVencimento: null,
-            dataPrimeiraMensalidade: null,
-            melhorDia: null,
-            melhorHorario: null,
-            localCobranca: null,
-            tipo: 0,
-            empresaAntiga: null,
-            numContratoAntigo: null
-        }
-    );
+    /// Fields
+    const [plano, setPlano] = useState(null),
+        [diaVencimento, setDiaVencimento] = useState(null),
+        [dataPrimeiraMensalidade, setDataPrimeiraMensalidade] = useState(null),
+        [melhorDia, setMelhorDia] = useState(null),
+        [melhorHorario, setMelhorHorario] = useState(null),
+        [localCobranca, setLocalCobranca] = useState(null),
+        [tipo, setTipo] = useState(null),
+        [empresaAntiga, setEmpresaAntiga] = useState(null),
+        [numContratoAntigo, setNumContratoAntigo] = useState(null);
 
-    const treatment = (label, labelValue) => {
+    const changeInput = (labelValue, label) => {
         if (fieldDatas.includes(label)) return dataMask(labelValue);
         if (fieldTimes.includes(label)) return timeMask(labelValue);
         return labelValue;
     }
 
-    const changeInput = async (value, column) => {
-        let valueInput = treatment(column, value);
-
-        setContrato(prev => {
-            return {
-                ...prev,
-                [column]: valueInput
-            }
-        })
-
-        if (fieldDatas.includes(column)) {
-            value = dataMaskEUA(value);
-        }
-
-        if (value != null) {
-            await executarSQL(`
-                UPDATE titulares
-                SET ${column} = '${valueInput}'
-                WHERE id = ${contratoID}`
-            );
-        };
-    }
-
     const setup = async () => {
         setCarregamentoTela(true);
 
-        Promise.all([`lista-planos/unidade-id=${unidadeID}`, `/lista-locais-cobranca`].map((endpoint) => axiosAuth.get(endpoint))).then((
+        const urls = [`lista-planos/unidade-id=${unidadeID}`, `/lista-locais-cobranca`];
+
+        Promise.all(urls.map((endpoint) => axiosAuth.get(endpoint))).then((
             [
                 { data: planos },
                 { data: locaisCobranca }
@@ -85,18 +60,18 @@ function ContratoContentTermoAdesao({ navigation }) {
             setCarregamentoTela(false);
         }).catch((e) => {
             toast.show({
-                placement: "bottom",
+                placement: "top",
                 render: () => {
-                    return <ComponentToast title="Aviso!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+                    return <ComponentToast title="Aviso." message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
                 }
             });
         });
     }
 
-    const proximoPasso = () => {
+    const PROSSEGUIR = async () => {
         Alert.alert(
-            "Aviso!",
-            "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
+            "Aviso.",
+            "Deseja PROSSEGUIR para proxima 'ETAPA'? Verifique os dados só por garantia!",
             [
                 {
                     text: "Não",
@@ -104,41 +79,67 @@ function ContratoContentTermoAdesao({ navigation }) {
                 },
                 {
                     text: "Sim",
-                    onPress: () => {
-                        if (contrato && new Date(contrato.dataPrimeiraMensalidade) == 'Invalid Date') {
-                            Alert.alert("Aviso!", "Data Primeira mensalidade inválida!");
+                    onPress: async () => {
+                        if (dataMaskEUA(dataPrimeiraMensalidade) == 'Invalid date') {
+                            Alert.alert("Aviso.", "Data Primeira mensalidade inválida!");
                             return;
                         }
 
-                        if (!contrato.dataPrimeiraMensalidade) {
-                            Alert.alert("Aviso!", "Data primeira mensalidade é obrigatório!");
+                        if (!dataPrimeiraMensalidade) {
+                            Alert.alert("Aviso.", "Data primeira mensalidade é obrigatório!");
                             return;
                         }
 
-                        if (dataMaskEUA(contrato.dataPrimeiraMensalidade) < dataMaskEUA(new Date())) {
-                            Alert.alert("Aviso!", "Data Primeira mensalidade inválida, não pode ser menor que a data atual!");
+                        if (dataMaskEUA(dataPrimeiraMensalidade) < dataMaskEUA(new Date())) {
+                            Alert.alert("Aviso.", "Data Primeira mensalidade inválida, não pode ser menor que a data atual!");
                             return;
                         }
 
-                        if (![0, 1].includes(contrato.tipo)) {
-                            Alert.alert("Aviso!", "Tipo de contrato não selecionado!");
+                        if (![0, 1].includes(tipo)) {
+                            Alert.alert("Aviso.", "Tipo de contrato não selecionado!");
                             return;
                         }
 
-                        if (!contrato.plano) {
-                            Alert.alert("Aviso!", "Plano não selecionado!");
+                        if (!plano) {
+                            Alert.alert("Aviso.", "Plano não selecionado!");
                             return;
                         }
 
-                        if (!contrato.diaVencimento) {
-                            Alert.alert("Aviso!", "Dia de vencimento é obrigatório!");
+                        if (!diaVencimento) {
+                            Alert.alert("Aviso.", "Dia de vencimento é obrigatório!");
                             return;
                         }
 
-                        if (!contrato.localCobranca) {
-                            Alert.alert("Aviso!", "Local de cobrança não selecionado!");
+                        if (localCobranca === undefined) {
+                            Alert.alert("Aviso.", "Local de cobrança não selecionado!");
                             return;
                         }
+
+                        if (tipo === 1) {
+                            if (!numContratoAntigo) {
+                                Alert.alert("Aviso.", "Informe o número do contrato antigo!");
+                                return;
+                            }
+
+                            if (!empresaAntiga) {
+                                Alert.alert("Aviso.", "Informe o nome da empresa anterior aonde o cliente tinha vinculo!");
+                                return;
+                            }
+                        }
+
+                        await executarSQL(`
+                            UPDATE titulares
+                            SET dataPrimeiraMensalidade = '${dataPrimeiraMensalidade}',
+                            tipo = '${tipo}',
+                            plano = '${plano}',
+                            diaVencimento = '${diaVencimento}',
+                            melhorDia = '${melhorDia}',
+                            melhorHorario = '${melhorHorario}',
+                            localCobranca = '${localCobranca}',
+                            empresaAntiga = '${empresaAntiga}',
+                            numContratoAntigo = '${numContratoAntigo}'
+                            WHERE id = ${contratoID}`
+                        );
                         return navigation.navigate("contratoContentDependentes", { contratoID, unidadeID });
                     }
                 },
@@ -171,8 +172,7 @@ function ContratoContentTermoAdesao({ navigation }) {
                                 <Center w="100%" rounded="md">
                                     <FormControl isRequired>
                                         <FormControl.Label>Planos:</FormControl.Label>
-                                        <Select _focus={styleInputFocus} selectedValue={contrato.plano} onValueChange={async (e) => await
-                                            changeInput(e, 'plano')}
+                                        <Select _focus={styleInputFocus} selectedValue={plano} onValueChange={(e) => setPlano(changeInput(e, 'plano'))}
                                             accessibilityLabel="Plano:"
                                             placeholder="Plano:"
                                         >
@@ -187,8 +187,8 @@ function ContratoContentTermoAdesao({ navigation }) {
                                 <Center w="50%" rounded="md">
                                     <FormControl isRequired>
                                         <FormControl.Label>Dia Vencimento:</FormControl.Label>
-                                        <Input placeholder='Digite o dia de vencimento:' value={contrato.diaVencimento} keyboardType='numeric'
-                                            onChangeText={async (e) => await changeInput(e, 'diaVencimento')}
+                                        <Input placeholder='Digite o dia de vencimento:' value={diaVencimento} keyboardType='numeric'
+                                            onChangeText={(e) => setDiaVencimento(changeInput(e, 'diaVencimento'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -197,7 +197,7 @@ function ContratoContentTermoAdesao({ navigation }) {
                                     <FormControl isRequired>
                                         <FormControl.Label>Data Mensalidade:</FormControl.Label>
                                         <Input keyboardType='numeric' placeholder='Digite Data da Primeira Mensalidade:'
-                                            value={contrato.dataPrimeiraMensalidade} onChangeText={async (e) => await changeInput(e, 'dataPrimeiraMensalidade')}
+                                            value={dataPrimeiraMensalidade} onChangeText={(e) => setDataPrimeiraMensalidade(changeInput(e, 'dataPrimeiraMensalidade'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -207,8 +207,8 @@ function ContratoContentTermoAdesao({ navigation }) {
                                 <Center w="50%" rounded="md">
                                     <FormControl >
                                         <FormControl.Label>Dia para cobrança:</FormControl.Label>
-                                        <Input placeholder='Melhor dia para cobrança:' value={contrato.melhorDia} keyboardType='numeric'
-                                            onChangeText={async (e) => await changeInput(e, 'melhorDia')}
+                                        <Input placeholder='Melhor dia para cobrança:' value={melhorDia} keyboardType='numeric'
+                                            onChangeText={(e) => setMelhorDia(changeInput(e, 'melhorDia'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -216,8 +216,8 @@ function ContratoContentTermoAdesao({ navigation }) {
                                 <Center w="50%" rounded="md">
                                     <FormControl >
                                         <FormControl.Label>Horário para cobrança:</FormControl.Label>
-                                        <Input keyboardType='numeric' placeholder='Melhor horário para cobrança:' value={contrato.melhorHorario}
-                                            onChangeText={async (e) => await changeInput(e, 'melhorHorario')}
+                                        <Input keyboardType='numeric' placeholder='Melhor horário para cobrança:' value={melhorHorario}
+                                            onChangeText={(e) => setMelhorHorario(changeInput(e, 'melhorHorario'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -227,7 +227,7 @@ function ContratoContentTermoAdesao({ navigation }) {
                                 <Center w="100%" rounded="md">
                                     <FormControl isRequired>
                                         <FormControl.Label>Local de Cobrança:</FormControl.Label>
-                                        <Radio.Group defaultValue={contrato.localCobranca} onChange={async (e) => await changeInput(e, 'localCobranca')}
+                                        <Radio.Group defaultValue={localCobranca} onChange={(e) => setLocalCobranca(changeInput(e, 'localCobranca'))}
                                             name="localCobranca"
                                         >
                                             {locaisCobrancas.map((item) => <Radio colorScheme="emerald" key={item.id}
@@ -241,7 +241,7 @@ function ContratoContentTermoAdesao({ navigation }) {
                                 <Center w="100%" rounded="md">
                                     <FormControl isRequired >
                                         <FormControl.Label>Tipo de contrato:</FormControl.Label>
-                                        <Radio.Group defaultValue={contrato.tipo} onChange={async (e) => await changeInput(e, 'tipo')}
+                                        <Radio.Group defaultValue={tipo} onChange={(e) => setTipo(changeInput(e, 'tipo'))}
                                             name="tipo"
                                         >
                                             {tiposContratos.map((item) => <Radio colorScheme="emerald" key={item['descricao']} value={item.id}>
@@ -252,13 +252,14 @@ function ContratoContentTermoAdesao({ navigation }) {
                                 </Center>
                             </HStack>
                             {
-                                contrato && contrato.tipo === 1 ?
+                                tipo === 1 ?
                                     <HStack space={2} justifyContent="center">
                                         <Center w="50%" rounded="md">
                                             <FormControl isRequired>
                                                 <FormControl.Label>Número do contrato:</FormControl.Label>
-                                                <Input placeholder='Número do contrato:' value={contrato.numContratoAntigo} onChangeText={async (e) =>
-                                                    await changeInput(e, 'numContratoAntigo')}
+                                                <Input placeholder='Número do contrato:'
+                                                    value={numContratoAntigo}
+                                                    onChangeText={(e) => setNumContratoAntigo(changeInput(e, 'numContratoAntigo'))}
                                                     _focus={styleInputFocus}
                                                 />
                                             </FormControl>
@@ -266,8 +267,9 @@ function ContratoContentTermoAdesao({ navigation }) {
                                         <Center w="50%" rounded="md">
                                             <FormControl>
                                                 <FormControl.Label>Nome da Empresa:</FormControl.Label>
-                                                <Input placeholder='Nome da Empresa:' value={contrato.empresaAntiga} onChangeText={async (e) => await
-                                                    changeInput(e, 'empresaAntiga')}
+                                                <Input placeholder='Nome da Empresa:'
+                                                    value={empresaAntiga}
+                                                    onChangeText={(e) => setEmpresaAntiga(changeInput(e, 'empresaAntiga'))}
                                                     _focus={styleInputFocus}
                                                 />
                                             </FormControl>
@@ -281,9 +283,9 @@ function ContratoContentTermoAdesao({ navigation }) {
                                 size="lg"
                                 _text={styleButtonText}
                                 _light={styleButton}
-                                onPress={proximoPasso}
+                                onPress={PROSSEGUIR}
                             >
-                                Prosseguir
+                                PROSSEGUIR
                             </Button>
                         </Box>
                     </VStack>

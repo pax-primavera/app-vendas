@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "plugins": [
@@ -16,7 +16,7 @@
         {
           "photosPermission": "custom photos permission",
           "cameraPermission": "Allow $(PRODUCT_NAME) to open the camera",
-          "microphonePermission": false
+          "microphonePermission": true
         }
       ]
     ],
@@ -31,7 +31,15 @@
     },
     "android": {
       "versionCode": 1,
-      "package": "com.lopes9951.vendas"
+      "package": "com.lopes9951.vendas",
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "SYSTEM_ALERT_WINDOW",
+        "SYSTEM_ALERT_WINDOW",
+        "ACCESS_NETWORK_STATE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

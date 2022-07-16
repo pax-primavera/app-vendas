@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Center, Box, VStack, Heading, HStack, ScrollView, useToast, Button, FormControl, Radio, Checkbox } from "native-base";
+import { Center, Box, VStack, Heading, HStack, ScrollView, useToast, Button, FormControl, Radio, Text, Switch } from "native-base";
 import { web, light, styleButtonText, styleButton } from '../utils/styles/index';
 import colors from '../utils/styles/colors';
 import { useRoute } from '@react-navigation/native';
@@ -22,44 +22,22 @@ function ContratoContentFinalizar({ navigation }) {
     const [isAceitoTermo, setisAceitoTermo] = useState(false);
     const [carregamentoTela, setCarregamentoTela] = useState(true);
     const [carregamentoButton, setCarregamentoButton] = useState(false);
-    /// Objects
-    const [contrato, setContrato] = useState(
-        {
-            sendByWhatsApp: null,
-            envioToken: null
-        }
-    );
-
-    const changeInput = async (value, column) => {
-        setContrato(prev => {
-            return {
-                ...prev,
-                [column]: value
-            }
-        })
-
-        if (value != null) {
-            await executarSQL(`
-                UPDATE titulares
-                SET ${column} = '${value}'
-                WHERE id = ${contratoID}`
-            );
-        };
-    }
+    /// Fields
+    const [sendByWhatsApp, setSendByWhatsApp] = useState(false), [envioToken, setEnvioToken] = useState(false);
 
     const finalizarContrato = async () => {
         setCarregamentoButton(true);
 
         try {
             if (!templateID) {
-                Alert.alert("Aviso!", "Selecione um template!");
+                Alert.alert("Aviso.", "Selecione um template!");
                 return;
             }
 
             const contrato = await executarSQL(`select * from titulares where id = '${contratoID}'`);
 
             if (!contrato) {
-                Alert.alert("Aviso!", "Contrato não localizado!");
+                Alert.alert("Aviso.", "Contrato não localizado!");
                 return;
             }
 
@@ -115,7 +93,7 @@ function ContratoContentFinalizar({ navigation }) {
 
             if (request.data && request.data.assinatura) {
                 toast.show({
-                    placement: "bottom",
+                    placement: "top",
                     render: () => {
                         return <ComponentToast title="Realizado!" message={"Contrato enviado com sucesso!"} />
                     }
@@ -125,7 +103,7 @@ function ContratoContentFinalizar({ navigation }) {
             }
 
             toast.show({
-                placement: "bottom",
+                placement: "top",
                 render: () => {
                     return <ComponentToast title="Falha!" message={"Não foi possivel enviar contrato!"} />
                 }
@@ -138,27 +116,27 @@ function ContratoContentFinalizar({ navigation }) {
 
             if (e.response && e.response.data && e.response.data.error) {
                 toast.show({
-                    placement: "bottom",
+                    placement: "top",
                     render: () => {
-                        return <ComponentToast title="Aviso!" message={e.response.data.error} />
+                        return <ComponentToast title="Aviso." message={e.response.data.error} />
                     }
                 });
                 return;
             }
 
             toast.show({
-                placement: "bottom",
+                placement: "top",
                 render: () => {
-                    return <ComponentToast title="Aviso!" message={`Não foi possivel enviar contrato, contate o suporte: ${e.toString()}`} />
+                    return <ComponentToast title="Aviso." message={`Não foi possivel enviar contrato, contate o suporte: ${e.toString()}`} />
                 }
             });
         }
     }
 
-    const finalizar = () => {
+    const finalizar = async () => {
         Alert.alert(
-            "Aviso!",
-            "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
+            "Aviso.",
+            "Deseja PROSSEGUIR para proxima 'ETAPA'? Verifique os dados só por garantia!",
             [
                 {
                     text: "Não",
@@ -166,22 +144,28 @@ function ContratoContentFinalizar({ navigation }) {
                 },
                 {
                     text: "Sim",
-                    onPress: () => {
+                    onPress: async () => {
+                        await executarSQL(`
+                            UPDATE titulares
+                            SET envioToken = '${envioToken}',
+                            sendByWhatsApp = '${sendByWhatsApp}'
+                            WHERE id = ${contratoID}`
+                        );
+
                         finalizarContrato()
                     }
                 },
             ],
             { cancelable: false }
         );
-
     }
 
     const setup = async () => {
         setCarregamentoTela(true);
 
-        Promise.all([
-            `lista-templates/unidade-id=${unidadeID}`
-        ].map((endpoint) => axiosAuth.get(endpoint))).then((
+        const urls = [`lista-templates/unidade-id=${unidadeID}`];
+
+        Promise.all(urls.map((endpoint) => axiosAuth.get(endpoint))).then((
             [
                 { data: templates }
             ]
@@ -192,9 +176,9 @@ function ContratoContentFinalizar({ navigation }) {
             setCarregamentoTela(false);
         }).catch((e) => {
             toast.show({
-                placement: "bottom",
+                placement: "top",
                 render: () => {
-                    return <ComponentToast title="Aviso!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+                    return <ComponentToast title="Aviso." message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
                 }
             });
         });
@@ -212,7 +196,7 @@ function ContratoContentFinalizar({ navigation }) {
                     <ComponentLoading mensagem="Carregando informações" />
                     :
                     <VStack m="2">
-                        <Box key="2" safeArea w="100%" pl="5" pr="5" mb="5" pb="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
+                        <Box key="1" safeArea w="100%" pl="5" pr="5" mb="2" pb="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                             <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>
                                 Finalização Contrato
                             </Heading>
@@ -238,55 +222,52 @@ function ContratoContentFinalizar({ navigation }) {
                                     </FormControl>
                                 </Center>
                             </HStack>
-                            <Center w="100%" rounded="md" mt="2">
+                        </Box>
+                        <Box key="2" safeArea w="100%" pl="5" pr="5" mb="5" pb="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
+                            <Center w="100%" rounded="md">
                                 <FormControl>
                                     <FormControl.Label>Selecione as opções:</FormControl.Label>
-                                    <HStack>
-                                        <Checkbox
-                                            isDisabled={carregamentoButton}
+                                    <HStack alignItems="center">
+                                        <Switch
+                                            size="lg"
+                                            value={sendByWhatsApp}
                                             colorScheme="emerald"
-                                            value={contrato.sendByWhatsApp}
-                                            onChange={(e) => changeInput(e, 'sendByWhatsApp')}
-                                            key="sendByWhatsApp"
-                                        >
-                                            Enviar contrato por WhatsApp?
-                                        </Checkbox>
+                                            onValueChange={(e) => setSendByWhatsApp(e)}
+                                        />
+                                        <Text> Enviar contrato por WhatsApp?</Text>
                                     </HStack>
-                                    <HStack>
-                                        <Checkbox
-                                            isDisabled={carregamentoButton}
+                                    <HStack alignItems="center">
+                                        <Switch
+                                            size="lg"
+                                            value={envioToken}
                                             colorScheme="emerald"
-                                            value={contrato.envioToken}
-                                            onChange={(e) => changeInput(e, 'envioToken')}
-                                            key="envioToken"
-                                        >
-                                            Token por WhatsApp?
-                                        </Checkbox>
+                                            onValueChange={(e) => setEnvioToken(e)}
+                                        />
+                                        <Text> Token por WhatsApp?</Text>
                                     </HStack>
-                                    <HStack>
-                                        <Checkbox
-                                            isDisabled={carregamentoButton}
-                                            colorScheme="emerald"
+                                    <HStack alignItems="center">
+                                        <Switch
+                                            size="lg"
                                             value={isAceitoTermo}
-                                            onChange={setisAceitoTermo}
-                                            key="isAceitoTermo"
-                                        >
-                                            Cliente concorda e aceita os termos?
-                                        </Checkbox>
+                                            colorScheme="emerald"
+                                            onValueChange={(e) => setisAceitoTermo(e)}
+                                        />
+                                        <Text> Cliente concorda e aceita os termos?</Text>
                                     </HStack>
                                 </FormControl>
                             </Center>
                             <Button
                                 mt="6"
-                                mb="4"
+                                mb="2"
                                 size="lg"
                                 _text={styleButtonText}
                                 isDisabled={!isAceitoTermo}
                                 isLoading={carregamentoButton}
+                                isLoadingText="Enviando"
                                 _light={styleButton}
                                 onPress={finalizar}
                             >
-                                Finalizar
+                                FINALIZAR
                             </Button>
                         </Box>
                     </VStack>

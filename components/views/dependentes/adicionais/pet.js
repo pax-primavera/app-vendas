@@ -32,7 +32,7 @@ function AddPet(props) {
                     </Center>
                 </HStack>
                 <HStack space={2} justifyContent="center">
-                    <Center w="50%" rounded="md">
+                    <Center w="100%" rounded="md">
                         <ComponentInput
                             label="Data Nascimento"
                             column="dataNascimento"
@@ -42,6 +42,8 @@ function AddPet(props) {
                             type="numeric"
                         />
                     </Center>
+                </HStack>
+                <HStack space={2} justifyContent="center">
                     <Center w="50%" rounded="md">
                         <ComponentSelect
                             label="Espécie"
@@ -49,6 +51,15 @@ function AddPet(props) {
                             placeholder='Espécie:'
                             array={especies}
                             columnLabel="descricao"
+                            id={item.id}
+                            table={table}
+                        />
+                    </Center>
+                    <Center w="50%" rounded="md">
+                        <ComponentInput
+                            label="Raça"
+                            column="raca"
+                            placeholder='RAÇA'
                             id={item.id}
                             table={table}
                         />

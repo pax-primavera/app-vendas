@@ -23,28 +23,24 @@ function ContratoContentTitular({ navigation }) {
     const [religioes, setReligioes] = useState([]);
     /// Booleanos
     const [carregamentoTela, setCarregamentoTela] = useState(true);
-    /// Objects
-    const [contrato, setContrato] = useState(
-        {
-            isCremado: null,
-            nomeTitular: null,
-            cpfTitular: null,
-            rgTitular: null,
-            dataNascTitular: null,
-            estadoCivilTitular: null,
-            naturalidadeTitular: null,
-            nacionalidadeTitular: null,
-            religiaoTitular: null,
-            sexoTitular: null,
-            email1: null,
-            email2: null,
-            telefone1: null,
-            telefone2: null,
-            profissaoTitular: null
-        }
-    );
+    /// Fields
+    const [isCremado, setIsCremado] = useState(false),
+        [nomeTitular, setNomeTitular] = useState(null),
+        [cpfTitular, setCpfTitular] = useState(null),
+        [rgTitular, setRGTitular] = useState(null),
+        [dataNascTitular, setDataNascTitular] = useState(null),
+        [estadoCivilTitular, setEstadoCivilTitular] = useState(null),
+        [nacionalidadeTitular, setNacionalidadeTitular] = useState(null),
+        [naturalidadeTitular, setNaturalidadeTitular] = useState(null),
+        [religiaoTitular, setReligiaoTitular] = useState(null),
+        [sexoTitular, setSexoTitular] = useState(null),
+        [email1, setEmail1] = useState(null),
+        [email2, setEmail2] = useState(null),
+        [telefone1, setTelefone1] = useState(null),
+        [telefone2, setTelefone2] = useState(null),
+        [profissaoTitular, setProfissaoTitular] = useState(null);
 
-    const treatment = (label, labelValue) => {
+    const changeInput = (labelValue, label) => {
         if (fieldCPF.includes(label)) return cpfMask(labelValue);
         if (fieldDatas.includes(label)) return dataMask(labelValue);
         if (fieldCEPS.includes(label)) return cepMask(labelValue);
@@ -52,33 +48,12 @@ function ContratoContentTitular({ navigation }) {
         return labelValue;
     }
 
-    const changeInput = async (value, column) => {
-        let valueInput = treatment(column, value);
-
-        setContrato(prev => {
-            return {
-                ...prev,
-                [column]: valueInput
-            }
-        })
-
-        if (fieldDatas.includes(column)) {
-            value = dataMaskEUA(value);
-        }
-
-        if (value != null) {
-            await executarSQL(`
-                UPDATE titulares
-                SET ${column} = '${valueInput}'
-                WHERE id = ${contratoID}`
-            );
-        };
-    }
-
     const setup = async () => {
         setCarregamentoTela(true);
 
-        Promise.all(['/lista-estado-civil','/lista-religioes'].map((endpoint) => axiosAuth.get(endpoint))).then((
+        const urls = ['/lista-estado-civil', '/lista-religioes'];
+
+        Promise.all(urls.map((endpoint) => axiosAuth.get(endpoint))).then((
             [
                 { data: estadoCivil },
                 { data: religioes }
@@ -92,20 +67,19 @@ function ContratoContentTitular({ navigation }) {
             }
             setCarregamentoTela(false);
         }).catch((e) => {
-            console.log(e.response.data)
             toast.show({
-                placement: "bottom",
+                placement: "top",
                 render: () => {
-                    return <ComponentToast title="Aviso!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+                    return <ComponentToast title="Aviso." message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
                 }
             });
         });
     }
 
-    const proximoPasso = () => {
+    const PROSSEGUIR = async () => {
         Alert.alert(
-            "Aviso!",
-            "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
+            "Aviso.",
+            "Deseja PROSSEGUIR para proxima 'ETAPA'? Verifique os dados só por garantia!",
             [
                 {
                     text: "Não",
@@ -113,41 +87,61 @@ function ContratoContentTitular({ navigation }) {
                 },
                 {
                     text: "Sim",
-                    onPress: () => {
-                        if (contrato && new Date(contrato.dataNascTitular) == 'Invalid Date') {
-                            Alert.alert("Aviso!", "Data de nascimento inválida!");
+                    onPress: async () => {
+                        if (dataMaskEUA(dataNascTitular) == 'Invalid date') {
+                            Alert.alert("Aviso.", "Data de nascimento inválida!");
                             return;
                         }
 
-                        if (contrato.cpfTitular != null && contrato.cpfTitular.length < 14) {
-                            Alert.alert("Aviso!", "CPF inválido!");
+                        if (cpfTitular != null && cpfTitular.length < 14) {
+                            Alert.alert("Aviso.", "CPF inválido!");
                             return;
                         }
 
-                        if (!contrato.rgTitular) {
-                            Alert.alert("Aviso!", "RG é obrigatório!");
+                        if (!rgTitular) {
+                            Alert.alert("Aviso.", "RG é obrigatório!");
                             return;
                         }
 
-                        if (!contrato.email1) {
-                            Alert.alert("Aviso!", "Email é obrigatório!");
+                        if (!email1) {
+                            Alert.alert("Aviso.", "Email é obrigatório!");
                             return;
                         }
 
-                        if (!contrato.telefone1) {
-                            Alert.alert("Aviso!", "Telefone é obrigatório!");
-                            return;
-                        }
-                        
-                        if (!contrato.sexoTitular) {
-                            Alert.alert("Aviso!", "Genêro não selecionado!");
+                        if (!telefone1) {
+                            Alert.alert("Aviso.", "Telefone é obrigatório!");
                             return;
                         }
 
-                        if (!contrato.profissaoTitular) {
-                            Alert.alert("Aviso!", "Pofissão é obrigatório!");
+                        if (!sexoTitular) {
+                            Alert.alert("Aviso.", "Genêro não selecionado!");
                             return;
                         }
+
+                        if (!profissaoTitular) {
+                            Alert.alert("Aviso.", "Pofissão é obrigatório!");
+                            return;
+                        }
+
+                        await executarSQL(`
+                            UPDATE titulares
+                            SET isCremado = ${isCremado},
+                            nomeTitular = '${nomeTitular}',
+                            cpfTitular = '${cpfTitular}',
+                            rgTitular = '${rgTitular}',
+                            dataNascTitular = '${dataNascTitular}',
+                            estadoCivilTitular = '${estadoCivilTitular}',
+                            nacionalidadeTitular = '${nacionalidadeTitular}',
+                            naturalidadeTitular = '${naturalidadeTitular}',
+                            religiaoTitular = '${religiaoTitular}',
+                            email1 = '${email1}',
+                            email2 = '${email2}',
+                            telefone1 = '${telefone1}',
+                            telefone2 = '${telefone2}',
+                            profissaoTitular = '${profissaoTitular}'
+                            WHERE id = ${contratoID}`
+                        );
+
                         return navigation.navigate("contratoContentEnderecoResidencial", { contratoID, unidadeID });
                     },
                 },
@@ -178,9 +172,9 @@ function ContratoContentTitular({ navigation }) {
                             <HStack space={1} alignItems="center">
                                 <Switch
                                     size="lg"
-                                    value={contrato.isCremado}
+                                    value={isCremado}
                                     colorScheme="emerald"
-                                    onValueChange={(e) => changeInput(e, 'isCremado')}
+                                    onValueChange={(e) => setIsCremado(changeInput(e, 'isCremado'))}
                                 />
                                 <Text>Adicional cremação?</Text>
                             </HStack>
@@ -190,8 +184,8 @@ function ContratoContentTitular({ navigation }) {
                                         <FormControl.Label>Nome Completo:</FormControl.Label>
                                         <Input
                                             placeholder='Digite o nome completo:'
-                                            value={contrato.nomeTitular}
-                                            onChangeText={(e) => changeInput(e, 'nomeTitular')}
+                                            value={nomeTitular}
+                                            onChangeText={(e) => setNomeTitular(changeInput(e, 'nomeTitular'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -204,8 +198,8 @@ function ContratoContentTitular({ navigation }) {
                                         <Input
                                             keyboardType='numeric'
                                             placeholder='Digite o CPF:'
-                                            value={contrato.cpfTitular}
-                                            onChangeText={(e) => changeInput(e, 'cpfTitular')}
+                                            value={cpfTitular}
+                                            onChangeText={(e) => setCpfTitular(changeInput(e, 'cpfTitular'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -216,8 +210,8 @@ function ContratoContentTitular({ navigation }) {
                                         <Input
                                             keyboardType='numeric'
                                             placeholder='Digite o RG:'
-                                            value={contrato.rgTitular}
-                                            onChangeText={(e) => changeInput(e, 'rgTitular')}
+                                            value={rgTitular}
+                                            onChangeText={(e) => setRGTitular(changeInput(e, 'rgTitular'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -230,8 +224,8 @@ function ContratoContentTitular({ navigation }) {
                                         <Input
                                             keyboardType='numeric'
                                             placeholder='Digite a data de nascimento:'
-                                            value={contrato.dataNascTitular}
-                                            onChangeText={(e) => changeInput(e, 'dataNascTitular')}
+                                            value={dataNascTitular}
+                                            onChangeText={(e) => setDataNascTitular(changeInput(e, 'dataNascTitular'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -241,8 +235,8 @@ function ContratoContentTitular({ navigation }) {
                                         <FormControl.Label>Estado Civil:</FormControl.Label>
                                         <Select
                                             _focus={styleInputFocus}
-                                            selectedValue={contrato.estadoCivilTitular}
-                                            onValueChange={(e) => changeInput(e, 'estadoCivilTitular')}
+                                            selectedValue={estadoCivilTitular}
+                                            onValueChange={(e) => setEstadoCivilTitular(changeInput(e, 'estadoCivilTitular'))}
                                             accessibilityLabel="Estado Civil:"
                                             placeholder="Estado Civil:"
                                         >
@@ -261,8 +255,8 @@ function ContratoContentTitular({ navigation }) {
                                         <FormControl.Label>Naturalidade:</FormControl.Label>
                                         <Input
                                             placeholder='Digite a Naturalidade:'
-                                            value={contrato.naturalidadeTitular}
-                                            onChangeText={(e) => changeInput(e, 'naturalidadeTitular')}
+                                            value={naturalidadeTitular}
+                                            onChangeText={(e) => setNaturalidadeTitular(changeInput(e, 'naturalidadeTitular'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -272,8 +266,8 @@ function ContratoContentTitular({ navigation }) {
                                         <FormControl.Label>Nacionalidade:</FormControl.Label>
                                         <Input
                                             placeholder='Digite a Nacionalidade:'
-                                            value={contrato.nacionalidadeTitular}
-                                            onChangeText={(e) => changeInput(e, 'nacionalidadeTitular')}
+                                            value={nacionalidadeTitular}
+                                            onChangeText={(e) => setNacionalidadeTitular(changeInput(e, 'nacionalidadeTitular'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -285,8 +279,8 @@ function ContratoContentTitular({ navigation }) {
                                         <FormControl.Label>Religião:</FormControl.Label>
                                         <Select
                                             _focus={styleInputFocus}
-                                            selectedValue={contrato.religiaoTitular}
-                                            onValueChange={(e) => changeInput(e, 'religiaoTitular')}
+                                            selectedValue={religiaoTitular}
+                                            onValueChange={(e) => setReligiaoTitular(changeInput(e, 'religiaoTitular'))}
                                             accessibilityLabel="Selecione uma religião:"
                                             placeholder="Selecione uma religião:"
                                         >
@@ -303,8 +297,8 @@ function ContratoContentTitular({ navigation }) {
                                         <FormControl.Label>Sexo:</FormControl.Label>
                                         <Select
                                             _focus={styleInputFocus}
-                                            selectedValue={contrato.sexoTitular}
-                                            onValueChange={(e) => changeInput(e, 'sexoTitular')}
+                                            selectedValue={sexoTitular}
+                                            onValueChange={(e) => setSexoTitular(changeInput(e, 'sexoTitular'))}
                                             accessibilityLabel="Selecione um gênero:"
                                             placeholder="Selecione um gênero:"
                                         >
@@ -323,8 +317,8 @@ function ContratoContentTitular({ navigation }) {
                                         <FormControl.Label>Email:</FormControl.Label>
                                         <Input
                                             placeholder='Digite um Email:'
-                                            value={contrato.email1}
-                                            onChangeText={(e) => changeInput(e, 'email1')}
+                                            value={email1}
+                                            onChangeText={(e) => setEmail1(changeInput(e, 'email1'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -335,8 +329,8 @@ function ContratoContentTitular({ navigation }) {
                                         <Input
                                             keyboardType='numeric'
                                             placeholder='Digite um número de telefone:'
-                                            value={contrato.telefone1}
-                                            onChangeText={(e) => changeInput(e, 'telefone1')}
+                                            value={telefone1}
+                                            onChangeText={(e) => setTelefone1(changeInput(e, 'telefone1'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -348,8 +342,8 @@ function ContratoContentTitular({ navigation }) {
                                         <FormControl.Label>Email Secundário:</FormControl.Label>
                                         <Input
                                             placeholder='Digite um Email:'
-                                            value={contrato.email2}
-                                            onChangeText={(e) => changeInput(e, 'email2')}
+                                            value={email2}
+                                            onChangeText={(e) => setEmail2(changeInput(e, 'email2'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -360,8 +354,8 @@ function ContratoContentTitular({ navigation }) {
                                         <Input
                                             keyboardType='numeric'
                                             placeholder='Digite um número de telefone:'
-                                            value={contrato.telefone2}
-                                            onChangeText={(e) => changeInput(e, 'telefone2')}
+                                            value={telefone2}
+                                            onChangeText={(e) => setTelefone2(changeInput(e, 'telefone2'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -373,8 +367,8 @@ function ContratoContentTitular({ navigation }) {
                                         <FormControl.Label>Profissão:</FormControl.Label>
                                         <Input
                                             placeholder='Informe a profissão do titular:'
-                                            value={contrato.profissaoTitular}
-                                            onChangeText={(e) => changeInput(e, 'profissaoTitular')}
+                                            value={profissaoTitular}
+                                            onChangeText={(e) => setProfissaoTitular(changeInput(e, 'profissaoTitular'))}
                                             _focus={styleInputFocus}
                                         />
                                     </FormControl>
@@ -386,9 +380,9 @@ function ContratoContentTitular({ navigation }) {
                                 size="lg"
                                 _text={styleButtonText}
                                 _light={styleButton}
-                                onPress={proximoPasso}
+                                onPress={PROSSEGUIR}
                             >
-                                Prosseguir
+                                PROSSEGUIR
                             </Button>
                         </Box>
                     </VStack>

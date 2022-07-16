@@ -10,7 +10,7 @@ function ContratoContentDependentes({ navigation }) {
     /// Parametros
     const { contratoID, unidadeID } = route.params;
 
-    const proximoPasso = () => {
+    const PROSSEGUIR = () => {
         return navigation.navigate("contratoContentAnexos", { contratoID, unidadeID });
     }
 
@@ -39,9 +39,9 @@ function ContratoContentDependentes({ navigation }) {
                     size="lg"
                     _text={styleButtonText}
                     _light={styleButton}
-                    onPress={proximoPasso}
+                    onPress={PROSSEGUIR}
                 >
-                    Prosseguir
+                    PROSSEGUIR
                 </Button>
 
             </VStack>

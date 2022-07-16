@@ -3,9 +3,12 @@ import { cpfMask } from "../utils/generic/format.js";
 import { executarSQL } from '../services/database/index.js';
 import { styleInputFocus, styleButton, styleButtonText, web, light, container } from '../utils/styles/index.js';
 import api from '../utils/config/axios/public.js';
-import { Box, VStack, FormControl, Button, Input, Heading, useToast, Image, Center } from "native-base";
+import { Box, VStack, FormControl, Button, Input, Heading, useToast, Image, Center, HStack, Text, Link } from "native-base";
 import ComponentToast from '../components/views/toast/index';
 import imagens from "../utils/generic/imagens.js";
+import colors from '../utils/styles/colors.js';
+
+const pkg = require("../package.json");
 
 const Login = ({ navigation }) => {
   const toast = useToast();
@@ -35,9 +38,9 @@ const Login = ({ navigation }) => {
   const logar = async () => {
     if (validateInputs()) {
       return toast.show({
-        placement: "bottom",
+        placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso!" message="Preencha os campos corretamente." />
+          return <ComponentToast title="Aviso." message="Preencha os campos corretamente." />
         }
       });
     }
@@ -60,16 +63,16 @@ const Login = ({ navigation }) => {
     } catch (err) {
       if (err.response.data && err.response.data.mensagem) {
         toast.show({
-          placement: "bottom",
+          placement: "top",
           render: () => {
-            return <ComponentToast title="Aviso!" message={err.response.data.mensagem} />
+            return <ComponentToast title="Aviso." message={err.response.data.mensagem} />
           }
         });
       } else {
         toast.show({
-          placement: "bottom",
+          placement: "top",
           render: () => {
-            return <ComponentToast title="Aviso!" message="Não foi possivel efetuar login! Usuário não encontrado." />
+            return <ComponentToast title="Aviso." message="Não foi possivel efetuar login! Usuário não encontrado." />
           }
         });
       }
@@ -129,12 +132,12 @@ const Login = ({ navigation }) => {
           Informe seu 'CPF' e 'Senha':
         </Heading>
         <VStack space={3} mt="2" mb="10">
-          <FormControl isInvalid={error.errorCPF} >
+          <FormControl isRequired isInvalid={error.errorCPF} >
             <FormControl.Label>CPF:</FormControl.Label>
             <Input isDisabled={carregamento} keyboardType='numeric' value={cpf} onChangeText={e => changeInput('cpf', e)} _focus={styleInputFocus} placeholder='Digite seu CPF:' />
           </FormControl>
-          <FormControl isInvalid={error.errorSenha} >
-            <FormControl.Label>Senha:</FormControl.Label>
+          <FormControl isRequired isInvalid={error.errorSenha} >
+            <FormControl.Label>SENHA:</FormControl.Label>
             <Input isDisabled={carregamento} type="password" value={senha} onChangeText={e => changeInput('senha', e)} _focus={styleInputFocus} placeholder='Digite sua senha:' />
           </FormControl>
           <Button
@@ -142,12 +145,19 @@ const Login = ({ navigation }) => {
             mb="2"
             size="lg"
             isLoading={carregamento}
+            isLoadingText="Autenticando"
             _text={styleButtonText}
             _light={styleButton}
             onPress={() => logar()}
           >
-            Entrar
+            ENTRAR
           </Button>
+
+          <HStack mt="6" justifyContent="center">
+            <Text fontSize="sm" color={colors.COLORS.PAXCOLOR_1}>
+              APPV.{pkg.version} ({pkg.api})
+            </Text>
+          </HStack>
         </VStack>
       </Box>
     </VStack>

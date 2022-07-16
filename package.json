@@ -1,6 +1,7 @@
 {
   "name": "app-pax-vendedor",
-  "version": "1.0.0",
+  "version": "1.1",
+  "api":"BETA",
   "keywords": [
     "react",
     "expo",

@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Box, VStack, Heading, ScrollView, Button, useToast, Text, Icon } from "native-base";
 import { web, light, styleButtonText, styleButton, styleButtonAdd, styleButtonTextAdd, containerFoto } from '../utils/styles/index';
 import colors from '../utils/styles/colors';
-import { useRoute } from '@react-navigation/native';
-import ComponentToast from '../components/views/toast/index';
+import { useRoute } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons } from "@expo/vector-icons"
 import { Alert } from 'react-native';
@@ -11,7 +10,6 @@ import { Alert } from 'react-native';
 function ContratoContentAnexos({ navigation }) {
     /// Config
     const route = useRoute();
-    const toast = useToast();
     /// Parametros
     const { contratoID, unidadeID } = route.params;
     /// Imagens(Anexos)
@@ -33,23 +31,21 @@ function ContratoContentAnexos({ navigation }) {
         }
     }
 
-    const pickImage = async (numeroAnexo) => {
+    const pickImage = async () => {
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: false
+            allowsEditing: true,
+            quality: 0,
         });
 
-        if (!result.cancelled) {
-            if (numeroAnexo === 1) setAnexo1(result)
-            if (numeroAnexo === 2) setAnexo2(result)
-            if (numeroAnexo === 3) setAnexo3(result)
-        }
+        if (!result.cancelled) return result;
+        return null;
     };
 
-    const proximoPasso = () => {
+    const PROSSEGUIR = () => {
         Alert.alert(
-            "Aviso!",
-            "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
+            "Aviso.",
+            "Deseja PROSSEGUIR para proxima 'ETAPA'? Verifique os dados só por garantia!",
             [
                 {
                     text: "Não",
@@ -59,7 +55,7 @@ function ContratoContentAnexos({ navigation }) {
                     text: "Sim",
                     onPress: () => {
                         if (!anexo1 || !anexo2 || !anexo3) {
-                            Alert.alert("Aviso!", "Envie todos os anexos, está faltando arquivo(s)!");
+                            Alert.alert("Aviso.", "Envie todos os anexos, está faltando arquivo(s)!");
                             return;
                         }
 
@@ -101,7 +97,7 @@ function ContratoContentAnexos({ navigation }) {
                                 _light={styleButtonAdd}
                                 _text={styleButtonTextAdd}
                                 variant="outline"
-                                onPress={() => pickImage(1)}
+                                onPress={async () => setAnexo1(await pickImage())}
                             >
                                 FRENTE DO DOCUMENTO
                             </Button>
@@ -117,7 +113,7 @@ function ContratoContentAnexos({ navigation }) {
                                 _light={styleButtonAdd}
                                 _text={styleButtonTextAdd}
                                 variant="outline"
-                                onPress={() => pickImage(2)}
+                                onPress={async () => setAnexo2(await pickImage())}
                             >
                                 VERSO DO DOCUMENTO
                             </Button>
@@ -134,7 +130,7 @@ function ContratoContentAnexos({ navigation }) {
                                 _light={styleButtonAdd}
                                 _text={styleButtonTextAdd}
                                 variant="outline"
-                                onPress={() => pickImage(3)}
+                                onPress={async () => setAnexo3(await pickImage())}
                             >
                                 PERFIL DO DOCUMENTO
                             </Button>
@@ -146,9 +142,9 @@ function ContratoContentAnexos({ navigation }) {
                         size="lg"
                         _text={styleButtonText}
                         _light={styleButton}
-                        onPress={proximoPasso}
+                        onPress={PROSSEGUIR}
                     >
-                        Prosseguir
+                        PROSSEGUIR
                     </Button>
                 </Box>
             </VStack>

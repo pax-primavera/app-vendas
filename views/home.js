@@ -41,7 +41,7 @@ const Home = ({ navigation }) => {
 
     const abrirNovoContrato = () => {
         Alert.alert(
-            "Aviso!",
+            "Aviso.",
             "Deseja cadastrar um 'NOVO CONTRATO ONLINE'?",
             [
                 {
@@ -50,7 +50,7 @@ const Home = ({ navigation }) => {
                 },
                 {
                     text: "Sim",
-                    onPress:  () => {
+                    onPress: () => {
                         navigation.navigate("ContratoInicial")
                     },
                 },
@@ -92,23 +92,23 @@ const Home = ({ navigation }) => {
             <Center mt="5" ml="5" mr="5">
                 <HStack space={2} justifyContent="center">
                     <Pressable onPress={abrirNovoContrato} w="50%" bg="white" rounded="md" shadow={3}>
-                    <Center h="40">
-                        <Icon as={MaterialCommunityIcons} size="20" name="file-check-outline" color={colors.COLORS.PAXCOLOR_1} />
-                        <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
-                            Novo Contrato
-                        </Heading>
-                    </Center>
-                </Pressable>
-                <Pressable onPress={() => navigation.navigate("Planos")} w="50%" bg="white" rounded="md" shadow={3}>
-                    <Center h="40">
-                        <Icon as={MaterialCommunityIcons} size="20" name="book-open-outline" color={colors.COLORS.PAXCOLOR_1} />
-                        <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
-                            Planos
-                        </Heading>
-                    </Center>
-                </Pressable>
-            </HStack>
-        </Center>
+                        <Center h="40">
+                            <Icon as={MaterialCommunityIcons} size="20" name="file-check-outline" color={colors.COLORS.PAXCOLOR_1} />
+                            <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
+                                Novo Contrato
+                            </Heading>
+                        </Center>
+                    </Pressable>
+                    <Pressable onPress={() => navigation.navigate("Planos")} w="50%" bg="white" rounded="md" shadow={3}>
+                        <Center h="40">
+                            <Icon as={MaterialCommunityIcons} size="20" name="book-open-outline" color={colors.COLORS.PAXCOLOR_1} />
+                            <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
+                                Planos
+                            </Heading>
+                        </Center>
+                    </Pressable>
+                </HStack>
+            </Center>
         </VStack >
     );
 }

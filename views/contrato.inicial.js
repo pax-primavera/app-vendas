@@ -19,54 +19,32 @@ function ContratoContentInicial({ navigation }) {
   /// Booleanos
   const [carregamentoTela, setCarregamentoTela] = useState(true);
   const [unidades, setUnidades] = useState([]);
-  /// Objects
-  const [contrato, setContrato] = useState({ dataContrato: null });
+  /// Fields
+  const [dataContrato, setDataContrato] = useState(null);
 
-  const treatment = (label, labelValue) => {
+  const changeInput = (labelValue, label) => {
     if (fieldDatas.includes(label)) return dataMask(labelValue);
     return labelValue;
   }
 
-  const changeInput = async (value, column) => {
-    let valueInput = treatment(column, value);
-
-    setContrato(prev => {
-      return {
-        ...prev,
-        [column]: valueInput
-      }
-    })
-
-    if (fieldDatas.includes(column)) {
-      value = dataMaskEUA(value);
-    }
-
-    if (value != null) {
-      await executarSQL(`
-        UPDATE titulares
-        SET ${column} = '${value}'
-        WHERE id = ${contratoID}`
-      );
-    };
-  }
-
   const setup = async () => {
     try {
+      const urls = ['/lista-unidades-usuario'];
       /// Criar contrato
       const novoContrato = await insertIdSQL(`INSERT INTO titulares (is_enviado) VALUES (0);`);
 
       if (!novoContrato) {
         return toast.show({
-          placement: "bottom",
+          placement: "top",
           render: () => {
-            return <ComponentToast title="Aviso!" message="Não foi possivel criar novo contrato!" />
+            return <ComponentToast title="Aviso." message="Não foi possivel criar novo contrato!" />
           }
         });
       }
 
       setContratoID(novoContrato);
 
-      Promise.all(['/lista-unidades-usuario'].map((endpoint) => axiosAuth.get(endpoint))).then((
+      Promise.all(urls.map((endpoint) => axiosAuth.get(endpoint))).then((
         [
           { data: unidades }
         ]
@@ -77,9 +55,9 @@ function ContratoContentInicial({ navigation }) {
         setCarregamentoTela(false);
       }).catch((e) => {
         toast.show({
-          placement: "bottom",
+          placement: "top",
           render: () => {
-            return <ComponentToast title="Aviso!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+            return <ComponentToast title="Aviso." message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
           }
         });
       });
@@ -87,18 +65,18 @@ function ContratoContentInicial({ navigation }) {
       setCarregamentoTela(false);
     } catch (e) {
       toast.show({
-        placement: "bottom",
+        placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso!" message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+          return <ComponentToast title="Aviso." message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
         }
       });
     }
   }
 
-  const proximoPasso = () => {
+  const PROSSEGUIR = async () => {
     Alert.alert(
-      "Aviso!",
-      "Deseja Prosseguir para proxima 'ETAPA'? Verifique os dados só por garantia!",
+      "Aviso.",
+      "Deseja PROSSEGUIR para proxima 'ETAPA'? Verifique os dados só por garantia!",
       [
         {
           text: "Não",
@@ -106,26 +84,33 @@ function ContratoContentInicial({ navigation }) {
         },
         {
           text: "Sim",
-          onPress: () => {
+          onPress: async () => {
             if (!unidadeID) {
-              Alert.alert("Aviso!", "Filial não selecionada!");
+              Alert.alert("Aviso.", "Filial não selecionada!");
               return;
             }
 
-            if (!contrato.dataContrato) {
-              Alert.alert("Aviso!", "Data de contrato é obrigatório!");
+            if (!dataContrato) {
+              Alert.alert("Aviso.", "Data de contrato é obrigatório!");
               return;
             }
 
-            if (contrato && new Date(contrato.dataContrato) == 'Invalid Date') {
-              Alert.alert("Aviso!", "Data de contrato inválida!");
+            if (dataMaskEUA(dataContrato) == 'Invalid date') {
+              Alert.alert("Aviso.", "Data de contrato inválida!");
               return;
             }
 
-            if (dataMaskEUA(contrato.dataContrato) < dataMaskEUA(new Date())) {
-              Alert.alert("Aviso!", "Data de contrato inválida, não pode ser menor que a data atual!");
+            if (dataMaskEUA(dataContrato) < dataMaskEUA(new Date())) {
+              Alert.alert("Aviso.", "Data de contrato inválida, não pode ser menor que a data atual!");
               return;
             }
+
+            await executarSQL(`
+              UPDATE titulares
+              SET dataContrato = '${dataContrato}'
+              WHERE id = ${contratoID}`
+            );
+
             return navigation.navigate("contratoContentTitular", { contratoID, unidadeID });
           }
         },
@@ -161,8 +146,8 @@ function ContratoContentInicial({ navigation }) {
                     <Input
                       keyboardType='numeric'
                       placeholder='Digite a data de contrato:'
-                      value={contrato.dataContrato}
-                      onChangeText={(e) => changeInput(e, 'dataContrato')}
+                      value={dataContrato}
+                      onChangeText={(e) => setDataContrato(changeInput(e, 'dataContrato'))}
                       _focus={styleInputFocus}
                     />
                   </FormControl>
@@ -194,9 +179,9 @@ function ContratoContentInicial({ navigation }) {
                 size="lg"
                 _text={styleButtonText}
                 _light={styleButton}
-                onPress={proximoPasso}
+                onPress={PROSSEGUIR}
               >
-                Prosseguir
+                PROSSEGUIR
               </Button>
             </Box>
           </VStack>
