@@ -7,7 +7,8 @@ const fieldDatas = [
 
 const fieldCPF = [
     'cpf_dependente',
-    'cpfTitular'
+    'cpfTitular',
+    'cpf'
 ];
 
 const fieldCEPS = [
