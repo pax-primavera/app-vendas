@@ -149,7 +149,7 @@ function ContratoContentFinalizar({ navigation }) {
                         await executarSQL(`
                             UPDATE titulares
                             SET envioToken = ${isBoolean(envioToken)},
-                            sendByWhatsApp = ${isBoolean(sendByWhatsApp)}'
+                            sendByWhatsApp = ${isBoolean(sendByWhatsApp)}
                             WHERE id = ${contratoID}`
                         );
 
