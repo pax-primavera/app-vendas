@@ -62,7 +62,7 @@ function ContratoContentTermoAdesao({ navigation }) {
             toast.show({
                 placement: "top",
                 render: () => {
-                    return <ComponentToast title="Aviso." message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+                    return <ComponentToast message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
                 }
             });
         });

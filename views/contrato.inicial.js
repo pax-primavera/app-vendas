@@ -37,7 +37,7 @@ function ContratoContentInicial({ navigation }) {
         return toast.show({
           placement: "top",
           render: () => {
-            return <ComponentToast title="Aviso." message="Não foi possivel criar novo contrato!" />
+            return <ComponentToast message="Não foi possivel criar novo contrato!" />
           }
         });
       }
@@ -57,7 +57,7 @@ function ContratoContentInicial({ navigation }) {
         toast.show({
           placement: "top",
           render: () => {
-            return <ComponentToast title="Aviso." message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+            return <ComponentToast message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
           }
         });
       });
@@ -67,7 +67,7 @@ function ContratoContentInicial({ navigation }) {
       toast.show({
         placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso." message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
+          return <ComponentToast message={`Não foi possivel carregar informações da filial, contate o suporte: ${e.toString()}`} />
         }
       });
     }

@@ -32,7 +32,7 @@ const Login = ({ navigation }) => {
         return toast.show({
           placement: "top",
           render: () => {
-            return <ComponentToast title="Conexão estabelecida" message={`Você está conectado na rede ${state.type}.`} />
+            return <ComponentToast message={`${state.type.toUpperCase()} - Conexão estabelecida com sucesso.`} />
           }
         });
       }
@@ -65,7 +65,7 @@ const Login = ({ navigation }) => {
       return toast.show({
         placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso." message="Campo obrigatório, digite um 'CPF'" />
+          return <ComponentToast  message="Campo obrigatório, digite um 'CPF'" />
         }
       });
     }
@@ -74,7 +74,7 @@ const Login = ({ navigation }) => {
       return toast.show({
         placement: "top",
         render: () => {
-          return <ComponentToast title="Aviso." message="Campo obrigatório, digite uma 'Senha'" />
+          return <ComponentToast  message="Campo obrigatório, digite uma 'Senha'" />
         }
       });
     }
@@ -99,14 +99,14 @@ const Login = ({ navigation }) => {
         toast.show({
           placement: "top",
           render: () => {
-            return <ComponentToast title="Aviso." message={err.response.data.mensagem} />
+            return <ComponentToast  message={err.response.data.mensagem} />
           }
         });
       } else {
         toast.show({
           placement: "top",
           render: () => {
-            return <ComponentToast title="Aviso." message="Não foi possivel efetuar login! Usuário não encontrado." />
+            return <ComponentToast  message="Não foi possivel efetuar login! Usuário não encontrado." />
           }
         });
       }
@@ -127,7 +127,7 @@ const Login = ({ navigation }) => {
     <VStack m="8" style={container}>
       {
         !isNet ?
-          <ComponentLoading mensagem="Verificando internet, aguarde." /> :
+          <ComponentLoading mensagem="Verificando rede, aguarde." /> :
           <Box
             safeArea
             w="100%"
