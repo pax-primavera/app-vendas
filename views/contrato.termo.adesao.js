@@ -130,8 +130,8 @@ function ContratoContentTermoAdesao({ navigation }) {
                         await executarSQL(`
                             UPDATE titulares
                             SET dataPrimeiraMensalidade = '${dataPrimeiraMensalidade}',
-                            tipo = '${tipo}',
-                            plano = '${plano}',
+                            tipo = ${tipo},
+                            plano = ${plano},
                             diaVencimento = '${diaVencimento}',
                             melhorDia = '${melhorDia}',
                             melhorHorario = '${melhorHorario}',

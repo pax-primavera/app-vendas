@@ -5,7 +5,7 @@ import colors from '../utils/styles/colors';
 import { sexo } from '../utils/generic/data';
 import { useRoute } from '@react-navigation/native';
 import axiosAuth from '../utils/config/axios/private.js';
-import { cpfMask, dataMask, cepMask, foneMask, dataMaskEUA } from "../utils/generic/format";
+import { cpfMask, dataMask, cepMask, foneMask, dataMaskEUA, isBoolean, validarCPF } from "../utils/generic/format";
 import { fieldDatas, fieldCPF, fieldCEPS, fieldTelefones } from '../utils/generic/field.mask'
 import { executarSQL } from '../services/database/index.js';
 import ComponentLoading from '../components/views/loading/index';
@@ -93,7 +93,12 @@ function ContratoContentTitular({ navigation }) {
                             return;
                         }
 
-                        if (cpfTitular != null && cpfTitular.length < 14) {
+                        if (!cpfTitular) {
+                            Alert.alert("Aviso.", "CPF é obrigatório!!");
+                            return;
+                        }
+
+                        if (!validarCPF(cpfTitular)) {
                             Alert.alert("Aviso.", "CPF inválido!");
                             return;
                         }
@@ -125,7 +130,7 @@ function ContratoContentTitular({ navigation }) {
 
                         await executarSQL(`
                             UPDATE titulares
-                            SET isCremado = ${isCremado},
+                            SET isCremado = ${isBoolean(isCremado)},
                             nomeTitular = '${nomeTitular}',
                             cpfTitular = '${cpfTitular}',
                             rgTitular = '${rgTitular}',

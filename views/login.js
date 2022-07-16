@@ -167,7 +167,7 @@ const Login = ({ navigation }) => {
                 size="lg"
                 isLoading={carregamento}
                 isDisabled={!isNet}
-                isLoadingText="Autenticando"
+                isLoadingText="Acessando"
                 _text={styleButtonText}
                 _light={styleButton}
                 onPress={() => logar()}

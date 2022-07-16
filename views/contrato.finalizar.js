@@ -8,6 +8,7 @@ import { executarSQL } from '../services/database/index.js';
 import ComponentToast from '../components/views/toast/index';
 import ComponentLoading from '../components/views/loading/index';
 import { Alert } from 'react-native';
+import { isBoolean } from '../utils/generic/format';
 
 function ContratoContentFinalizar({ navigation }) {
     /// Config
@@ -147,8 +148,8 @@ function ContratoContentFinalizar({ navigation }) {
                     onPress: async () => {
                         await executarSQL(`
                             UPDATE titulares
-                            SET envioToken = '${envioToken}',
-                            sendByWhatsApp = '${sendByWhatsApp}'
+                            SET envioToken = ${isBoolean(envioToken)},
+                            sendByWhatsApp = ${isBoolean(sendByWhatsApp)}'
                             WHERE id = ${contratoID}`
                         );
 

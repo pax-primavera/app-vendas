@@ -4,7 +4,7 @@ import { web, light, styleButtonText, styleButton, styleInputFocus } from '../ut
 import colors from '../utils/styles/colors';
 import { useRoute } from '@react-navigation/native';
 import axiosAuth from '../utils/config/axios/private.js';
-import { cepMask } from "../utils/generic/format";
+import { cepMask, isBoolean } from "../utils/generic/format";
 import { fieldCEPS } from '../utils/generic/field.mask'
 import { executarSQL } from '../services/database/index.js';
 import ComponentToast from '../components/views/toast/index';
@@ -88,7 +88,7 @@ function ContratoContentEnderecoCobranca({ navigation }) {
                             cepCobranca = '${cepCobranca}',
                             cidadeCobranca = '${cidadeCobranca}',
                             estadoCobranca = '${estadoCobranca}',
-                            enderecoCobrancaIgualResidencial = '${enderecoCobrancaIgualResidencial}'
+                            enderecoCobrancaIgualResidencial = ${isBoolean(enderecoCobrancaIgualResidencial)}
                             WHERE id = ${contratoID}`
                         );
 
