@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, VStack, Heading, ScrollView, Button, useToast, Text, Icon } from "native-base";
+import { Box, VStack, Heading, ScrollView, Button, Text, Icon } from "native-base";
 import { web, light, styleButtonText, styleButton, styleButtonAdd, styleButtonTextAdd, containerFoto } from '../utils/styles/index';
 import colors from '../utils/styles/colors';
 import { useRoute } from '@react-navigation/native'
@@ -18,6 +18,8 @@ function ContratoContentAnexos({ navigation }) {
     const [anexo3, setAnexo3] = useState(null);
 
     const tratamentoImagem = (foto) => {
+        if (!foto) return null;
+
         let fileExtension = foto.uri.substr(foto.uri.lastIndexOf(".") + 1);
 
         let nameArquivo = foto.uri.substr(
@@ -32,14 +34,18 @@ function ContratoContentAnexos({ navigation }) {
     }
 
     const pickImage = async () => {
-        let result = await ImagePicker.launchCameraAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            quality: 0,
-        });
+        try {
+            let result = await ImagePicker.launchCameraAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                quality: 0,
+            });
 
-        if (!result.cancelled) return result;
-        return null;
+            if (!result.cancelled) return result;
+            return null;
+        } catch (e) {
+            Alert.alert("Aviso", e.toString())
+        }
     };
 
     const PROSSEGUIR = () => {

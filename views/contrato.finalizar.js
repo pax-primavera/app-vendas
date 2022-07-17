@@ -41,7 +41,7 @@ function ContratoContentFinalizar({ navigation }) {
                 Alert.alert("Aviso.", "Contrato não localizado!");
                 return;
             }
-            
+
             const dependentesHumanos = await executarSQL(`
                 select 
                 nome,
@@ -134,8 +134,8 @@ function ContratoContentFinalizar({ navigation }) {
         }
     }
 
-    const isEnvioToken = (envioToken) => {
-        return envioToken ? 2 : 1
+    const isEnvioToken = (e) => {
+        return e ? 2 : 1
     }
 
     const finalizar = async () => {
@@ -203,7 +203,7 @@ function ContratoContentFinalizar({ navigation }) {
                     <VStack m="2">
                         <Box key="1" safeArea w="100%" pl="5" pr="5" mb="2" pb="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                             <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>
-                                Finalização Contrato
+                                Informações Finais
                             </Heading>
                             <Heading mt="2" mb="4" fontWeight="medium" size="xs">
                                 Informe todas as informações corretamente!
