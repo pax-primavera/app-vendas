@@ -160,15 +160,14 @@ function ContratoContentTermoAdesao({ navigation }) {
                     <ComponentLoading mensagem="Carregando informações" />
                     :
                     <VStack m="2">
-                        <Box key="2" safeArea w="100%" pl="5" pr="5" mb="5" pb="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
+                        <Box key="1" safeArea w="100%" pl="5" pr="5" mb="1" pb="2" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                             <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>
                                 Termo de Adesão
                             </Heading>
-                            <Heading mt="2" mb="4" fontWeight="medium" size="xs">
+                            <Heading mt="2" mb="2" fontWeight="medium" size="xs">
                                 Informe todas as informações corretamente!
                             </Heading>
-
-                            <HStack space={2} justifyContent="center">
+                            <HStack mb="1" space={1} justifyContent="center">
                                 <Center w="100%" rounded="md">
                                     <FormControl isRequired>
                                         <FormControl.Label>Planos:</FormControl.Label>
@@ -183,7 +182,7 @@ function ContratoContentTermoAdesao({ navigation }) {
                                     </FormControl>
                                 </Center>
                             </HStack>
-                            <HStack space={2} justifyContent="center">
+                            <HStack mb="1" space={2} justifyContent="center">
                                 <Center w="50%" rounded="md">
                                     <FormControl isRequired>
                                         <FormControl.Label>Dia Vencimento:</FormControl.Label>
@@ -203,10 +202,10 @@ function ContratoContentTermoAdesao({ navigation }) {
                                     </FormControl>
                                 </Center>
                             </HStack>
-                            <HStack space={2} justifyContent="center">
+                            <HStack mb="1" space={2} justifyContent="center">
                                 <Center w="50%" rounded="md">
                                     <FormControl >
-                                        <FormControl.Label>Dia para cobrança:</FormControl.Label>
+                                        <FormControl.Label>Dia para Cobrança:</FormControl.Label>
                                         <Input placeholder='Melhor dia para cobrança:' value={melhorDia} keyboardType='numeric'
                                             onChangeText={(e) => setMelhorDia(changeInput(e, 'melhorDia'))}
                                             _focus={styleInputFocus}
@@ -215,7 +214,7 @@ function ContratoContentTermoAdesao({ navigation }) {
                                 </Center>
                                 <Center w="50%" rounded="md">
                                     <FormControl >
-                                        <FormControl.Label>Horário para cobrança:</FormControl.Label>
+                                        <FormControl.Label>Horário para Cobrança:</FormControl.Label>
                                         <Input keyboardType='numeric' placeholder='Melhor horário para cobrança:' value={melhorHorario}
                                             onChangeText={(e) => setMelhorHorario(changeInput(e, 'melhorHorario'))}
                                             _focus={styleInputFocus}
@@ -223,7 +222,7 @@ function ContratoContentTermoAdesao({ navigation }) {
                                     </FormControl>
                                 </Center>
                             </HStack>
-                            <HStack space={2} justifyContent="center">
+                            <HStack mt="2" space={2} justifyContent="center">
                                 <Center w="100%" rounded="md">
                                     <FormControl isRequired>
                                         <FormControl.Label>Local de Cobrança:</FormControl.Label>
@@ -237,7 +236,7 @@ function ContratoContentTermoAdesao({ navigation }) {
                                     </FormControl>
                                 </Center>
                             </HStack>
-                            <HStack space={2} justifyContent="center">
+                            <HStack mt="2" space={2} justifyContent="center">
                                 <Center w="100%" rounded="md">
                                     <FormControl isRequired >
                                         <FormControl.Label>Tipo de contrato:</FormControl.Label>
@@ -253,7 +252,7 @@ function ContratoContentTermoAdesao({ navigation }) {
                             </HStack>
                             {
                                 tipo === 1 ?
-                                    <HStack space={2} justifyContent="center">
+                                    <HStack mt="2" space={2} justifyContent="center">
                                         <Center w="50%" rounded="md">
                                             <FormControl isRequired>
                                                 <FormControl.Label>Número do contrato:</FormControl.Label>
