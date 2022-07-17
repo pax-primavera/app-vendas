@@ -38,6 +38,7 @@ const Login = ({ navigation }) => {
           }
         });
       }
+      setCarregamentoIsNet(false);
     });
 
     const logado = await executarSQL(`select * from login`);
