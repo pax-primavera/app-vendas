@@ -43,7 +43,6 @@ function ContratoContentDependentes({ navigation }) {
                 >
                     PROSSEGUIR
                 </Button>
-
             </VStack>
         </ScrollView >
     )
