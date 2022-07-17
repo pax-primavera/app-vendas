@@ -24,9 +24,12 @@ const Login = ({ navigation }) => {
   const [cpf, setCpf] = useState(null);
   const [senha, setSenha] = useState(null);
 
-  const verificarSessao = async () => {
-    NetInfo.refresh().then(state => {
+  const verificarInternet = async () => {
+    NetInfo.refresh().then(async (state) => {
       if (state.isConnected) {
+        /// Verificar sessão
+        verificarSessao();
+        /// Parar carregamento
         setCarregamentoIsNet(false);
         /// Liberar acesso, caso tenha internet
         setIsNet(state.isConnected);
@@ -38,12 +41,17 @@ const Login = ({ navigation }) => {
           }
         });
       }
+      /// Destroir sessão
+      await executarSQL(`delete from login`);
+      /// Parar carregamento
       setCarregamentoIsNet(false);
     });
+  }
 
+  const verificarSessao = async () => {
     const logado = await executarSQL(`select * from login`);
 
-    if (logado._array && logado._array.length > 0 && isNet) {
+    if (logado._array && logado._array.length > 0) {
       return navigation.navigate("Home");
     }
   }
@@ -116,7 +124,7 @@ const Login = ({ navigation }) => {
   }
 
   useEffect(() => {
-    verificarSessao();
+    verificarInternet();
   }, []);
 
   return (
