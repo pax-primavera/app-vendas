@@ -33,20 +33,62 @@ function ContratoContentAnexos({ navigation }) {
         }
     }
 
-    const pickImage = async () => {
+    const pickImage = async (tipo = 'camera', nuumeroAnexo = 1) => {
         try {
-            let result = await ImagePicker.launchCameraAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.All,
-                allowsEditing: true,
-                quality: 0,
-            });
+            let permissionResult = tipo == 'camera'
+                ? await ImagePicker.requestCameraPermissionsAsync()
+                : await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-            if (!result.cancelled) return result;
-            return null;
+            if (permissionResult.granted === false) {
+                Alert.alert("Aviso,", "Permissão de câmera é requerida!");
+                return;
+            }
+
+            let pickerResult = tipo == 'camera'
+                ? await ImagePicker.launchCameraAsync()
+                : await ImagePicker.launchImageLibraryAsync();
+
+            if (!pickerResult.cancelled) {
+                if (nuumeroAnexo === 1) {
+                    setAnexo1(pickerResult);
+                }
+                if (nuumeroAnexo === 2) {
+                    setAnexo2(pickerResult);
+                }
+                if (nuumeroAnexo === 3) {
+                    setAnexo3(pickerResult);
+                }
+            }
         } catch (e) {
             Alert.alert("Aviso", e.toString())
         }
     };
+
+    const uploadImage = (numeroAnexo = 1) => {
+        return Alert.alert(
+            "Aviso.",
+            "Para fazer upload de uma imagem, escolha uma opção:",
+            [
+                {
+                    text: "CANCELAR",
+                    style: "cancel",
+                },
+                {
+                    text: "ABRIR CÂMERA",
+                    onPress: async () => {
+                        return await pickImage('camera', numeroAnexo);
+                    }
+                },
+                {
+                    text: "ABRIR GALERIA",
+                    onPress: async () => {
+                        return await pickImage('galeria', numeroAnexo);
+                    }
+                },
+            ],
+            { cancelable: false }
+        );
+    }
 
     const PROSSEGUIR = () => {
         Alert.alert(
@@ -103,7 +145,7 @@ function ContratoContentAnexos({ navigation }) {
                                 _light={styleButtonAdd}
                                 _text={styleButtonTextAdd}
                                 variant="outline"
-                                onPress={async () => setAnexo1(await pickImage())}
+                                onPress={() => uploadImage(1)}
                             >
                                 FRENTE DO DOCUMENTO
                             </Button>
@@ -119,7 +161,7 @@ function ContratoContentAnexos({ navigation }) {
                                 _light={styleButtonAdd}
                                 _text={styleButtonTextAdd}
                                 variant="outline"
-                                onPress={async () => setAnexo2(await pickImage())}
+                                onPress={() => uploadImage(2)}
                             >
                                 VERSO DO DOCUMENTO
                             </Button>
@@ -136,7 +178,7 @@ function ContratoContentAnexos({ navigation }) {
                                 _light={styleButtonAdd}
                                 _text={styleButtonTextAdd}
                                 variant="outline"
-                                onPress={async () => setAnexo3(await pickImage())}
+                                onPress={() => uploadImage(3)}
                             >
                                 PERFIL DO DOCUMENTO
                             </Button>

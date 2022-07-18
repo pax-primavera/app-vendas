@@ -26,6 +26,15 @@ function ContratoContentFinalizar({ navigation }) {
     /// Fields
     const [sendByWhatsApp, setSendByWhatsApp] = useState(false), [envioToken, setEnvioToken] = useState(false);
 
+    const trimObject = (data) => {
+        for (var property in data) {
+            if (typeof data[property] === 'string') {
+                data[property] = data[property].trim();
+            }
+        }
+        return data;
+    }
+
     const finalizarContrato = async () => {
         setCarregamentoButton(true);
 
@@ -70,13 +79,15 @@ function ContratoContentFinalizar({ navigation }) {
                 and is_pet = 1
           `);
 
+            const contratoTratado = trimObject(contrato._array[0]);
+
             const contratoCliente = {
-                ...contrato._array[0],
+                ...contratoTratado,
                 dependentesPets: dependentesPets._array,
                 dependentes: dependentesHumanos._array
             }
 
-            let contratoBody = new FormData();
+            const contratoBody = new FormData();
 
             contratoBody.append("anexos[]", anexos[0]);
             contratoBody.append("anexos[]", anexos[1]);

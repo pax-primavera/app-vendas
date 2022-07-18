@@ -4,7 +4,7 @@ import { web, light, styleButtonText, styleButton, styleInputFocus } from '../ut
 import colors from '../utils/styles/colors';
 import { useRoute } from '@react-navigation/native';
 import axiosAuth from '../utils/config/axios/private.js';
-import { cepMask } from "../utils/generic/format";
+import { cepMask, isBoolean } from "../utils/generic/format";
 import { fieldCEPS } from '../utils/generic/field.mask'
 import { executarSQL } from '../services/database/index.js';
 import ComponentToast from '../components/views/toast/index';
@@ -22,7 +22,8 @@ function ContratoContentEnderecoResidencial({ navigation }) {
     /// Booleanos
     const [carregamentoTela, setCarregamentoTela] = useState(true);
     /// Fields
-    const [tipoLogradouroResidencial, setTipoLogradouroResidencial] = useState(null),
+    const
+        [tipoLogradouroResidencial, setTipoLogradouroResidencial] = useState(null),
         [nomeLogradouroResidencial, setNomeLogradouroResidencial] = useState(null),
         [numeroResidencial, setNumeroResidencial] = useState(null),
         [quadraResidencial, setQuadraResidencial] = useState(null),
@@ -31,7 +32,18 @@ function ContratoContentEnderecoResidencial({ navigation }) {
         [bairroResidencial, setBairroResidencial] = useState(null),
         [cepResidencial, setCepResidencial] = useState(null),
         [cidadeResidencial, setCidadeResidencial] = useState(null),
-        [estadoResidencial, setEstadoResidencial] = useState(null);
+        [estadoResidencial, setEstadoResidencial] = useState(null),
+        [tipoLogradouroCobranca, setTipoLogradouroCobranca] = useState(null),
+        [nomeLogradouroCobranca, setNomeLogradouroCobranca] = useState(null),
+        [numeroCobranca, setNumeroCobranca] = useState(null),
+        [quadraCobranca, setQuadraCobranca] = useState(null),
+        [loteCobranca, setLoteCobranca] = useState(null),
+        [complementoCobranca, setComplementoCobranca] = useState(null),
+        [bairroCobranca, setBairroCobranca] = useState(null),
+        [cepCobranca, setCepCobranca] = useState(null),
+        [cidadeCobranca, setCidadeCobranca] = useState(null),
+        [estadoCobranca, setEstadoCobranca] = useState(null),
+        [enderecoCobrancaIgualResidencial, setEnderecoCobrancaIgualResidencial] = useState(null);
 
     const changeInput = (labelValue, label) => {
         if (fieldCEPS.includes(label)) return cepMask(labelValue);
@@ -86,11 +98,22 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                             bairroResidencial = '${bairroResidencial}',
                             cepResidencial = '${cepResidencial}',
                             cidadeResidencial = '${cidadeResidencial}',
-                            estadoResidencial = '${estadoResidencial}'
+                            estadoResidencial = '${estadoResidencial}',
+                            tipoLogradouroCobranca = '${tipoLogradouroCobranca}',
+                            nomeLogradouroCobranca = '${nomeLogradouroCobranca}',
+                            numeroCobranca = '${numeroCobranca}',
+                            quadraCobranca = '${quadraCobranca}',
+                            loteCobranca = '${loteCobranca}',
+                            complementoCobranca = '${complementoCobranca}',
+                            bairroCobranca = '${bairroCobranca}',
+                            cepCobranca = '${cepCobranca}',
+                            cidadeCobranca = '${cidadeCobranca}',
+                            estadoCobranca = '${estadoCobranca}',
+                            enderecoCobrancaIgualResidencial = ${isBoolean(enderecoCobrancaIgualResidencial)}
                             WHERE id = ${contratoID}`
                         );
 
-                        return navigation.navigate("contratoContentEnderecoCobranca", { contratoID, unidadeID });
+                        return navigation.navigate("contratoContentTermoAdesao", { contratoID, unidadeID });
                     }
                 },
             ],
@@ -110,12 +133,12 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                     <ComponentLoading mensagem="Carregando informações" />
                     :
                     <VStack m="2">
-                        <Box key="2" safeArea w="100%" pl="5" pr="5" mb="5" pb="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
+                        <Box key="1" safeArea w="100%" pl="5" pr="5" mb="5" pb="5" maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light} _web={web} >
                             <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>
-                                Endereço - Residencial
+                                Endereço
                             </Heading>
                             <Heading mt="2" mb="4" fontWeight="medium" size="xs">
-                                Informe todas as informações corretamente!
+                                <Text fontWeight="bold">Endereço Residencial:</Text> informe todas as informações corretamente!
                             </Heading>
                             <HStack space={2} justifyContent="center">
                                 <Center w="50%" rounded="md">
@@ -247,6 +270,153 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                     </FormControl>
                                 </Center>
                             </HStack>
+                            <HStack space={1} alignItems="center" mt="4" mb="2">
+                                <Switch
+                                    size="lg"
+                                    value={enderecoCobrancaIgualResidencial}
+                                    colorScheme="emerald"
+                                    onValueChange={(e) => setEnderecoCobrancaIgualResidencial(e)}
+                                />
+                                <Text>Endereço de cobrança será o mesmo do residencial?</Text>
+                            </HStack>
+                            {
+                                !enderecoCobrancaIgualResidencial ?
+                                    <>
+                                        <Heading mt="2" mb="4" fontWeight="medium" size="xs">
+                                            <Text fontWeight="bold">Endereço para Cobrança:</Text> informe todas as informações corretamente!
+                                        </Heading>
+                                        <HStack space={2} justifyContent="center">
+                                            <Center w="50%" rounded="md">
+                                                <FormControl>
+                                                    <FormControl.Label>Logradouro:</FormControl.Label>
+                                                    <Select
+                                                        _focus={styleInputFocus}
+                                                        selectedValue={tipoLogradouroCobranca}
+                                                        onValueChange={(e) => setTipoLogradouroCobranca(changeInput(e, 'tipoLogradouroCobranca'))}
+                                                        accessibilityLabel="Selecione um logradouro:"
+                                                        placeholder="Selecione um logradouro:"
+                                                    >
+                                                        {logradouros.map((item) => <Select.Item
+                                                            key={item['nome_logradouro']}
+                                                            label={item['nome_logradouro']}
+                                                            value={item.id} />
+                                                        )}
+                                                    </Select>
+                                                </FormControl>
+                                            </Center>
+                                            <Center w="50%" rounded="md">
+                                                <FormControl >
+                                                    <FormControl.Label>Rua:</FormControl.Label>
+                                                    <Input
+                                                        placeholder='Informe o nome da rua:'
+                                                        value={nomeLogradouroCobranca}
+                                                        onChangeText={(e) => setNomeLogradouroCobranca(changeInput(e, 'nomeLogradouroCobranca'))}
+                                                        _focus={styleInputFocus}
+                                                    />
+                                                </FormControl>
+                                            </Center>
+                                        </HStack>
+                                        <HStack space={2} justifyContent="center">
+                                            <Center w="50%" rounded="md">
+                                                <FormControl>
+                                                    <FormControl.Label>Número:</FormControl.Label>
+                                                    <Input
+                                                        keyboardType='numeric'
+                                                        placeholder='Digite o número da residencia:'
+                                                        value={numeroCobranca}
+                                                        onChangeText={(e) => setNumeroCobranca(changeInput(e, 'numeroCobranca'))}
+                                                        _focus={styleInputFocus}
+                                                    />
+                                                </FormControl>
+                                            </Center>
+                                            <Center w="50%" rounded="md">
+                                                <FormControl>
+                                                    <FormControl.Label>Quadra:</FormControl.Label>
+                                                    <Input
+                                                        placeholder='Digite um número de telefone:'
+                                                        value={quadraCobranca}
+                                                        onChangeText={(e) => setQuadraCobranca(changeInput(e, 'quadraCobranca'))}
+                                                        _focus={styleInputFocus}
+                                                    />
+                                                </FormControl>
+                                            </Center>
+                                        </HStack>
+                                        <HStack space={2} justifyContent="center">
+                                            <Center w="50%" rounded="md">
+                                                <FormControl>
+                                                    <FormControl.Label>Lote:</FormControl.Label>
+                                                    <Input
+                                                        placeholder='Digite o lote da residencia:'
+                                                        value={loteCobranca}
+                                                        onChangeText={(e) => setLoteCobranca(changeInput(e, 'loteCobranca'))}
+                                                        _focus={styleInputFocus}
+                                                    />
+                                                </FormControl>
+                                            </Center>
+                                            <Center w="50%" rounded="md">
+                                                <FormControl>
+                                                    <FormControl.Label>Complemento:</FormControl.Label>
+                                                    <Input
+                                                        placeholder='Digite o Complemento da residencia:'
+                                                        value={complementoCobranca}
+                                                        onChangeText={(e) => setComplementoCobranca(changeInput(e, 'complementoCobranca'))}
+                                                        _focus={styleInputFocus}
+                                                    />
+                                                </FormControl>
+                                            </Center>
+                                        </HStack>
+                                        <HStack space={2} justifyContent="center">
+                                            <Center w="50%" rounded="md">
+                                                <FormControl>
+                                                    <FormControl.Label>Bairro:</FormControl.Label>
+                                                    <Input
+                                                        placeholder='Digite o bairro da residencia:'
+                                                        value={bairroCobranca}
+                                                        onChangeText={(e) => setBairroCobranca(changeInput(e, 'bairroCobranca'))}
+                                                        _focus={styleInputFocus}
+                                                    />
+                                                </FormControl>
+                                            </Center>
+                                            <Center w="50%" rounded="md">
+                                                <FormControl>
+                                                    <FormControl.Label>CEP:</FormControl.Label>
+                                                    <Input
+                                                        keyboardType='numeric'
+                                                        placeholder='Digite o CEP da residencia:'
+                                                        value={cepCobranca}
+                                                        onChangeText={(e) => setCepCobranca(changeInput(e, 'cepCobranca'))}
+                                                        _focus={styleInputFocus}
+                                                    />
+                                                </FormControl>
+                                            </Center>
+                                        </HStack>
+                                        <HStack space={2} justifyContent="center">
+                                            <Center w="50%" rounded="md">
+                                                <FormControl>
+                                                    <FormControl.Label>Cidade:</FormControl.Label>
+                                                    <Input
+                                                        placeholder='Digite o nome da cidade:'
+                                                        value={cidadeCobranca}
+                                                        onChangeText={(e) => setCidadeCobranca(changeInput(e, 'cidadeCobranca'))}
+                                                        _focus={styleInputFocus}
+                                                    />
+                                                </FormControl>
+                                            </Center>
+                                            <Center w="50%" rounded="md">
+                                                <FormControl>
+                                                    <FormControl.Label>Estado:</FormControl.Label>
+                                                    <Input
+                                                        placeholder='Digite o estado:'
+                                                        value={estadoCobranca}
+                                                        onChangeText={(e) => setEstadoCobranca(changeInput(e, 'estadoCobranca'))}
+                                                        _focus={styleInputFocus}
+                                                    />
+                                                </FormControl>
+                                            </Center>
+                                        </HStack>
+                                    </>
+                                    : <></>
+                            }
                             <Button
                                 mt="6"
                                 mb="4"

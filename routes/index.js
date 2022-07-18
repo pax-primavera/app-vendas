@@ -3,14 +3,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import colors from "../utils/styles/colors.js";
 import imagens from "../utils/generic/imagens";
-import {imagemLogo} from "../utils/styles/index";
+import { imagemLogo } from "../utils/styles/index";
 import { Login } from '../views/login';
 import { Home } from '../views/home';
 import { Planos } from '../views/planos';
 import { ContratoContentInicial } from '../views/contrato.inicial';
 import { ContratoContentTitular } from '../views/contrato.titular';
-import { ContratoContentEnderecoResidencial } from '../views/contrato.endereco.residencial';
-import { ContratoContentEnderecoCobranca } from '../views/contrato.endereco.cobranca';
+import { ContratoContentEnderecoResidencial } from '../views/contrato.enderecos';
 import { ContratoContentTermoAdesao } from '../views/contrato.termo.adesao';
 import { ContratoContentDependentes } from '../views/contrato.dependentes';
 import { ContratoContentAnexos } from '../views/contrato.anexos';
@@ -100,21 +99,6 @@ const Routes = () => {
                 <Stack.Screen
                     name="contratoContentEnderecoResidencial"
                     component={ContratoContentEnderecoResidencial}
-                    options={() => ({
-                        headerTitle: () => (
-                            <Image
-                                style={imagemLogo}
-                                source={imagens.Logo}
-                                resizeMode='contain'
-                            />
-                        ),
-                        headerTitleAlign: "center",
-                        headerStyle: heightHeader
-                    })}
-                />
-                <Stack.Screen
-                    name="contratoContentEnderecoCobranca"
-                    component={ContratoContentEnderecoCobranca}
                     options={() => ({
                         headerTitle: () => (
                             <Image
