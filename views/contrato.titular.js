@@ -124,7 +124,7 @@ function ContratoContentTitular({ navigation }) {
                         }
 
                         if (!profissaoTitular) {
-                            Alert.alert("Aviso.", "Pofissão é obrigatório!");
+                            Alert.alert("Aviso.", "Profissão é obrigatório!");
                             return;
                         }
 
@@ -135,6 +135,7 @@ function ContratoContentTitular({ navigation }) {
                             cpfTitular = '${cpfTitular}',
                             rgTitular = '${rgTitular}',
                             dataNascTitular = '${dataNascTitular}',
+                            sexoTitular = '${sexoTitular}',
                             estadoCivilTitular = '${estadoCivilTitular}',
                             nacionalidadeTitular = '${nacionalidadeTitular}',
                             naturalidadeTitular = '${naturalidadeTitular}',
