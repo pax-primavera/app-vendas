@@ -135,6 +135,7 @@ function ContratoContentTitular({ navigation }) {
                             cpfTitular = '${cpfTitular}',
                             rgTitular = '${rgTitular}',
                             dataNascTitular = '${dataNascTitular}',
+                            sexoTitular = '${sexoTitular}',
                             estadoCivilTitular = '${estadoCivilTitular}',
                             nacionalidadeTitular = '${nacionalidadeTitular}',
                             naturalidadeTitular = '${naturalidadeTitular}',

@@ -39,6 +39,10 @@ const cores = [
     },
     {
         id: 4,
+        descricao: 'Cinza'
+    },
+    {
+        id: 5,
         descricao: 'Preto e Branco '
     }
 ];
