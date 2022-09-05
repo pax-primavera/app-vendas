@@ -124,7 +124,7 @@ function ContratoContentTitular({ navigation }) {
                         }
 
                         if (!profissaoTitular) {
-                            Alert.alert("Aviso.", "Pofissão é obrigatório!");
+                            Alert.alert("Aviso.", "Profissão é obrigatório!");
                             return;
                         }
 
