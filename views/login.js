@@ -42,7 +42,7 @@ const Login = ({ navigation }) => {
         });
       }
       /// Destroir sessão
-      await executarSQL(`delete from login`);
+      //await executarSQL(`delete from login`);
       /// Parar carregamento
       setCarregamentoIsNet(false);
     });
@@ -86,18 +86,30 @@ const Login = ({ navigation }) => {
     setCarregamento(true);
 
     try {
-      const response = await api.post('/login', { cpf, senha });
-      /// Registrar sessão
-      registrarSessao(response.data);
-      /// Iniciar sessão
-      setTimeout(() => {
-        /// Limpar campos
-        setCpf(null);
-        setSenha(null);
-        setCarregamento(false);
-        /// Redirecionar pata tela principal
-        return navigation.navigate("Home");
+      await verificarInternet();
+      if(!isNet){
+        await executarSQL(`delete from login`);
+        const response = await api.post('/login', { cpf, senha });
+        
+        /// Registrar sessão
+        registrarSessao(response.data);
+        /// Iniciar sessão
+        setTimeout(() => {
+          /// Limpar campos
+          setCpf(null);
+          setSenha(null);
+          setCarregamento(false);
+          /// Redirecionar pata tela principal
+          return navigation.navigate("Home");
       }, 1000);
+      }else{
+        const logado = await executarSQL(`select * from login`);
+
+        if (logado._array && logado._array.length > 0) {
+          return navigation.navigate("Home");
+        }
+      }
+      
     } catch (err) {
       if (err.response.data && err.response.data.mensagem) {
         toast.show({
@@ -124,13 +136,13 @@ const Login = ({ navigation }) => {
   }
 
   useEffect(() => {
-    verificarInternet();
+    //verificarInternet();
   }, []);
 
   return (
     <VStack m="8" style={container}>
       {
-        carregamentoIsNet ?
+        /*carregamentoIsNet ?
           <ComponentLoading mensagem="Verificando rede, aguarde." /> :
           <>
             {
@@ -152,7 +164,7 @@ const Login = ({ navigation }) => {
                   </Alert>
                 </Collapse>
               </Box> : <></>
-            }
+            }*/
             <Box
               safeArea
               w="100%"
@@ -180,18 +192,18 @@ const Login = ({ navigation }) => {
               <VStack space={3} mt="2" mb="10">
                 <FormControl isRequired>
                   <FormControl.Label>CPF:</FormControl.Label>
-                  <Input isDisabled={carregamento || !isNet} keyboardType='numeric' value={cpf} onChangeText={e => setCpf(changeInput(e, 'cpf'))} _focus={styleInputFocus} placeholder='Digite seu CPF:' />
+                  <Input /*isDisabled={carregamento || !isNet} */keyboardType='numeric' value={cpf} onChangeText={e => setCpf(changeInput(e, 'cpf'))} _focus={styleInputFocus} placeholder='Digite seu CPF:' />
                 </FormControl>
                 <FormControl isRequired>
                   <FormControl.Label>SENHA:</FormControl.Label>
-                  <Input isDisabled={carregamento || !isNet} type="password" value={senha} onChangeText={e => setSenha(changeInput(e, 'senha'))} _focus={styleInputFocus} placeholder='Digite sua senha:' />
+                  <Input /*isDisabled={carregamento || !isNet} */type="password" value={senha} onChangeText={e => setSenha(changeInput(e, 'senha'))} _focus={styleInputFocus} placeholder='Digite sua senha:' />
                 </FormControl>
                 <Button
                   mt="2"
                   mb="2"
                   size="lg"
                   isLoading={carregamento}
-                  isDisabled={!isNet}
+                  //isDisabled={!isNet}
                   isLoadingText="Acessando"
                   _text={styleButtonText}
                   _light={styleButton}
@@ -207,7 +219,7 @@ const Login = ({ navigation }) => {
                 </HStack>
               </VStack>
             </Box>
-          </>
+          //</>
       }
     </VStack>
   );

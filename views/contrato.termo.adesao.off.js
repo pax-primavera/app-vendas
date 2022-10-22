@@ -7,21 +7,22 @@ import { useRoute } from '@react-navigation/native';
 import axiosAuth from '../utils/config/axios/private.js';
 import { timeMask, dataMask, dataMaskEUA } from "../utils/generic/format";
 import { fieldDatas, fieldTimes } from '../utils/generic/field.mask'
-import { executarSQL } from '../services/database/index.js';
+import { executarSQL, executarListIDSQL } from '../services/database/index.js';
 import ComponentToast from '../components/views/toast/index';
 import ComponentLoading from '../components/views/loading/index';
 import { Alert } from 'react-native';
 import moment from 'moment';
 import * as ImagePicker from 'expo-image-picker';
-import { Ionicons } from "@expo/vector-icons"
+import { Ionicons } from "@expo/vector-icons";
 
-function ContratoContentTermoAdesao({ navigation }) {
+function ContratoContentTermoAdesaoOff({ navigation }) {
     /// Config
     const route = useRoute();
     const toast = useToast();
+    const [data, setData] = useState([]);
+    const id = route.params.id;
     /// Parametros
     const { contratoID, unidadeID } = route.params;
-
     /// Arrays
     const [planos, setPlanos] = useState([]);
     const [locaisCobrancas, setLocaisCobrancas] = useState([]);
@@ -31,18 +32,18 @@ function ContratoContentTermoAdesao({ navigation }) {
     const [plano, setPlano] = useState(null),
         [diaVencimento, setDiaVencimento] = useState(null),
         [dataPrimeiraMensalidade, setDataPrimeiraMensalidade] = useState(null),
-        [dataContratoAntigo, setDataContratoAntigo] = useState(null),
         [melhorDia, setMelhorDia] = useState(null),
         [melhorHorario, setMelhorHorario] = useState(null),
         [localCobranca, setLocalCobranca] = useState(null),
         [tipo, setTipo] = useState(null),
         [empresaAntiga, setEmpresaAntiga] = useState(null),
+        [dataContratoAntigo, setDataContratoAntigo] = useState(null),
         [numContratoAntigo, setNumContratoAntigo] = useState(null);
     const [anexo4, setAnexo4] = useState(null);
     const [anexo5, setAnexo5] = useState(null);
     const [anexo6, setAnexo6] = useState(null);
 
-    const tratamentoImagem = (foto) => {
+    const tratamentoImagem = async (foto, column) => {
         if (!foto) return null;
 
         let fileExtension = foto.uri.substr(foto.uri.lastIndexOf(".") + 1);
@@ -51,11 +52,19 @@ function ContratoContentTermoAdesao({ navigation }) {
             foto.uri.lastIndexOf("ImagePicker/") + 12
         );
 
-        return {
+        var anexo = {
             type: `image/${fileExtension}`,
             uri: foto.uri,
             name: `anexo_${nameArquivo}`,
         }
+
+        var stringObj = JSON.stringify(anexo);
+
+        await executarSQL(`
+            UPDATE titulares SET 
+            ${column} = '${(stringObj)}'
+            WHERE id = ${id}`
+        );
     }
 
     const pickImage = async (tipo = 'camera', nuumeroAnexo = 1) => {
@@ -121,6 +130,7 @@ function ContratoContentTermoAdesao({ navigation }) {
         return labelValue;
     }
 
+
     const setup = async () => {
         setCarregamentoTela(true);
 
@@ -147,6 +157,26 @@ function ContratoContentTermoAdesao({ navigation }) {
                 }
             });
         });
+
+         await executarListIDSQL(id).then((response) => {         
+            setPlano(Number(response._array[0].plano));
+            setDiaVencimento(String(response._array[0].diaVencimento) == 'null' ? null : String(response._array[0].diaVencimento));
+            setDataPrimeiraMensalidade(response._array[0].dataPrimeiraMensalidade == 'null' ? null : response._array[0].dataPrimeiraMensalidade)
+            setMelhorDia(Number(response._array[0].melhorDia) == 'null' ? null : String(response._array[0].melhorDia));
+            setMelhorHorario(response._array[0].melhorHorario == 'null' ? null : response._array[0].melhorHorario);
+            setLocalCobranca(Number(response._array[0].localCobranca));
+            setTipo(Number(response._array[0].tipo) == '0' ? 0 : 1);
+            setEmpresaAntiga(response._array[0].empresaAntiga == 'null' ? null : response._array[0].empresaAntiga)
+            setNumContratoAntigo(response._array[0].numContratoAntigo == 'null' ? null : response._array[0].numContratoAntigo);
+            //setDataContratoAntigo(response._array[0].dataContratoAntigo == 'null' ? null : response._array[0].dataContratoAntigo)
+            setAnexo4(response._array[0].anexo4)
+            setAnexo5(response._array[0].anexo5)
+            setAnexo6(response._array[0].anexo6)
+            setCarregamentoTela(false);
+        }), () => {
+            Alert.alert('Erro ao executar SQL', sqlError.toString());
+        }  
+
     }
 
     const PROSSEGUIR = async () => {
@@ -177,7 +207,6 @@ function ContratoContentTermoAdesao({ navigation }) {
                             Alert.alert("Aviso.", "Data Primeira mensalidade inválida!");
                             return;
                         }
-            
 
                         if (![0, 1].includes(tipo)) {
                             Alert.alert("Aviso.", "Tipo de contrato não selecionado!");
@@ -190,10 +219,9 @@ function ContratoContentTermoAdesao({ navigation }) {
                         }
 
                         if (!diaVencimento) {
-                            Alert.alert("Aviso.", "Dia de cobrança é obrigatório!");
+                            Alert.alert("Aviso.", "Dia de pagamento é obrigatório!");
                             return;
                         }
-                        
                         if (diaVencimento > 31) {
                             Alert.alert("Aviso.", "Dia de pagamento 'NÃO' pode ser superior a 31 dias!");
                             return;
@@ -220,7 +248,7 @@ function ContratoContentTermoAdesao({ navigation }) {
                                 return;
                             }
                         }
-
+                        
                         await executarSQL(`
                             UPDATE titulares
                             SET dataPrimeiraMensalidade = '${dataPrimeiraMensalidade}',
@@ -233,16 +261,17 @@ function ContratoContentTermoAdesao({ navigation }) {
                             empresaAntiga = '${empresaAntiga}',
                             numContratoAntigo = '${numContratoAntigo}',
                             dataContratoAntigo = '${dataContratoAntigo}'
-                            WHERE id = ${contratoID}`
+                            WHERE id = ${id}`
                         );
-                        return navigation.navigate("contratoContentDependentes", {
+                        return navigation.navigate("contratoContentDependentesOff", {
+                            id: id,
                             anexos: [
-                                tratamentoImagem(anexo4),
-                                tratamentoImagem(anexo5),
-                                tratamentoImagem(anexo6)
+                                tratamentoImagem(anexo4, 'anexo4'),
+                                tratamentoImagem(anexo5, 'anexo5'),
+                                tratamentoImagem(anexo6, 'anexo6')
                             ],
-                            unidadeID: unidadeID,
-                            contratoID: contratoID
+                            unidadeID,
+                            contratoID
                         });
                     }
                 },
@@ -289,15 +318,16 @@ function ContratoContentTermoAdesao({ navigation }) {
                                 <Center w="50%" rounded="md">
                                     <FormControl isRequired>
                                         <FormControl.Label>Dia de Pagamento:</FormControl.Label>
-                                        <Input placeholder='Digite o dia de pagamento:' value={diaVencimento} keyboardType='numeric'
-                                            onChangeText={(e) => setDiaVencimento(changeInput(e, 'diaVencimento'))}
-                                            _focus={styleInputFocus}
+                                        <Input placeholder='Digite o dia de pagamento:' value={diaVencimento}
+                                         keyboardType='numeric'
+                                        onChangeText={(e) => setDiaVencimento(changeInput(e, 'diaVencimento'))}
+                                        _focus={styleInputFocus}
                                         />
                                     </FormControl>
                                 </Center>
                                 <Center w="50%" rounded="md">
                                     <FormControl isRequired>
-                                        <FormControl.Label>Data da Primeira Parcela:</FormControl.Label>
+                                        <FormControl.Label>Data da Primeira Mensalidade</FormControl.Label>
                                         <Input keyboardType='numeric' placeholder='Digite Data da Primeira Mensalidade:'
                                             value={dataPrimeiraMensalidade} onChangeText={(e) => setDataPrimeiraMensalidade(changeInput(e, 'dataPrimeiraMensalidade'))}
                                             _focus={styleInputFocus}
@@ -309,11 +339,11 @@ function ContratoContentTermoAdesao({ navigation }) {
                                 <Center w="50%" rounded="md">
                                     <FormControl >
                                         <FormControl.Label>Dia de Vencimento:</FormControl.Label>
-                                        <Input placeholder='Melhor dia para cobrança:' 
-                                        isDisabled
-                                        value={diaVencimento} keyboardType='numeric'
-                                        onChangeText={(e) => setMelhorDia(changeInput(e, 'melhorDia'))}
-                                         _focus={styleInputFocus}
+                                        <Input placeholder='Melhor dia para cobrança:' value={diaVencimento} 
+                                            isDisabled
+                                            keyboardType='numeric'
+                                            onChangeText={(e) => setMelhorDia(changeInput(e, 'melhorDia'))}
+                                            _focus={styleInputFocus}
                                         />
                                     </FormControl>
                                 </Center>
@@ -363,15 +393,18 @@ function ContratoContentTermoAdesao({ navigation }) {
                                                 <FormControl.Label>Número do contrato:</FormControl.Label>
                                                 <Input placeholder='Número do contrato:'
                                                     value={numContratoAntigo}
+                                                    type="numeric"
                                                     onChangeText={(e) => setNumContratoAntigo(changeInput(e, 'numContratoAntigo'))}
                                                     _focus={styleInputFocus} />
                                             </FormControl>
                                         </Center>
                                         <Center w="30%" rounded="md">
                                             <FormControl isRequired>
-                                                <FormControl.Label>Data de Assinatura do Contrato Anterior:</FormControl.Label>
-                                                    <Input keyboardType='numeric' placeholder='Data de Assinatura do Contrato Anterior'
-                                                        value={dataContratoAntigo} onChangeText={(e) => setDataContratoAntigo(changeInput(e, 'dataContratoAntigo'))}
+                                            <FormControl.Label>Data de Assinatura do Contrato Anterior:</FormControl.Label>
+                                                    <Input keyboardType='numeric' 
+                                                        placeholder='Data de Assinatura do Contrato Anterior'
+                                                        value={dataContratoAntigo} 
+                                                        onChangeText={(e) => setDataContratoAntigo(changeInput(e, 'dataContratoAntigo'))}
                                                         _focus={styleInputFocus}
                                                     />
                                             </FormControl>
@@ -444,7 +477,7 @@ function ContratoContentTermoAdesao({ navigation }) {
                                 size="lg"
                                 _text={styleButtonText}
                                 _light={styleButton}
-                                onPress={PROSSEGUIR}
+                                onPress={()=>{PROSSEGUIR(data.id)}}
                             >
                                 PROSSEGUIR
                             </Button>
@@ -455,4 +488,4 @@ function ContratoContentTermoAdesao({ navigation }) {
     )
 }
 
-export { ContratoContentTermoAdesao }
+export { ContratoContentTermoAdesaoOff }

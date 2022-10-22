@@ -4,9 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { cores, especies, portes } from '../../../../utils/generic/data';
 import ComponentInput from '../../../form/input';
 import ComponentSelect from '../../../form/select';
-import ComponentSlider from '../../../form/slider';
-import ComponentSwitch from '../../../form/switch';
-import moment from 'moment';
+import ComponentSliderOn from '../../../form/sliderOn';
+import ComponentSwitch from '../../../form/switchOn';
 
 function AddPet(props) {
     const { item, table, deletarDependente } = props;
@@ -18,7 +17,6 @@ function AddPet(props) {
                     label="Resgate de cinza?"
                     column="resgate"
                     id={item.id}
-                    inputValue={item.resgate}
                     table={table}
                 />
                 <HStack space={2} justifyContent="center">
@@ -28,7 +26,6 @@ function AddPet(props) {
                             column="nome"
                             placeholder='Digite o nome do dependente:'
                             id={item.id}
-                            inputValue={item.nome}
                             table={table}
                             required
                         />
@@ -41,7 +38,6 @@ function AddPet(props) {
                             column="dataNascimento"
                             placeholder='Digite a data de nascimento:'
                             id={item.id}
-                            inputValue={moment(item.dataNascimento).format('DD/MM/YYYY')}
                             table={table}
                             type="numeric"
                         />
@@ -56,7 +52,6 @@ function AddPet(props) {
                             array={especies}
                             columnLabel="descricao"
                             id={item.id}
-                            inputValue={item.especie}
                             table={table}
                         />
                     </Center>
@@ -66,28 +61,25 @@ function AddPet(props) {
                             column="raca"
                             placeholder='RAÇA'
                             id={item.id}
-                            inputValue={item.raca}
                             table={table}
                         />
                     </Center>
                 </HStack>
                 <HStack space={2} justifyContent="center">
                     <Center w="50%" rounded="md">
-                        <ComponentSlider
+                        <ComponentSliderOn
                             label="Peso (Kg)"
                             column="peso"
                             id={item.id}
-                            inputValue={item.peso}
                             table={table}
                             limit="100"
                         />
                     </Center>
                     <Center w="50%" rounded="md">
-                        <ComponentSlider
+                        <ComponentSliderOn
                             label="Altura (M)"
                             column="altura"
                             id={item.id}
-                            inputValue={item.altura}
                             table={table}
                             limit="10"
                         />
@@ -102,7 +94,6 @@ function AddPet(props) {
                             array={cores}
                             columnLabel="descricao"
                             id={item.id}
-                            inputValue={item.cor}
                             table={table}
                         />
                     </Center>
@@ -114,7 +105,6 @@ function AddPet(props) {
                             array={portes}
                             columnLabel="descricao"
                             id={item.id}
-                            inputValue={item.porte}
                             table={table}
                         />
                     </Center>

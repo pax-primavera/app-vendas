@@ -10,12 +10,14 @@ import { executarSQL } from '../services/database/index.js';
 import ComponentToast from '../components/views/toast/index';
 import ComponentLoading from '../components/views/loading/index';
 import { Alert } from 'react-native';
-import { estados } from '../utils/generic/data';
+import { executarListIDSQL } from '../services/database/index';
 
-function ContratoContentEnderecoResidencial({ navigation }) {
+function ContratoContentEnderecoResidencialOff({ navigation }) {
     /// Config
     const route = useRoute();
     const toast = useToast();
+    const [data, setData] = useState([]);
+    const id = route.params.id;
     /// Parametros
     const { contratoID, unidadeID } = route.params;
     /// Arrays
@@ -36,7 +38,6 @@ function ContratoContentEnderecoResidencial({ navigation }) {
         [cidadeResidencial, setCidadeResidencial] = useState(null),
         [estadoResidencial, setEstadoResidencial] = useState(null),
         [tipoLogradouroCobranca, setTipoLogradouroCobranca] = useState(null),
-        
         [nomeLogradouroCobranca, setNomeLogradouroCobranca] = useState(null),
         [numeroCobranca, setNumeroCobranca] = useState(null),
         [quadraCobranca, setQuadraCobranca] = useState(null),
@@ -79,6 +80,36 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                 }
             });
         });
+
+        await executarListIDSQL(id).then((response) => {
+            //ENDEREÇO RESIDENCIAL
+            setTipoLogradouroResidencial(Number(response._array[0].tipoLogradouroResidencial));
+            setNomeLogradouroResidencial(response._array[0].nomeLogradouroResidencial == 'null' ? null : response._array[0].nomeLogradouroResidencial);
+            setNumeroResidencial(response._array[0].numeroResidencial == 'null' ? null : response._array[0].numeroResidencial);
+            setQuadraResidencial(response._array[0].quadraResidencial == 'null' ? null : response._array[0].quadraResidencial);
+            setLoteResidencial(response._array[0].loteResidencial == 'null' ? null : response._array[0].loteResidencial);
+            setComplementoResidencial(response._array[0].complementoResidencial == 'null' ? null : response._array[0].complementoResidencial);
+            setBairroResidencial(response._array[0].bairroResidencial == 'null' ? null : response._array[0].bairroResidencial );
+            setCepResidencial(response._array[0].cepResidencial == 'null'? null : response._array[0].cepResidencial);
+            setCidadeResidencial(response._array[0].cidadeResidencial == 'null' ? null : response._array[0].cidadeResidencial);
+            setEstadoResidencial(Number(response._array[0].estadoResidencial));
+            //ENDEREÇO COBRANÇA
+            setTipoLogradouroCobranca(Number(response._array[0].tipoLogradouroCobranca));
+            setNomeLogradouroCobranca(response._array[0].nomeLogradouroCobranca == 'null' ? null : response._array[0].nomeLogradouroCobranca) ;
+            setNumeroCobranca(response._array[0].numeroCobranca == 'null' ? null : response._array[0].numeroCobranca);
+            setQuadraCobranca(response._array[0].quadraCobranca == 'null' ? null : response._array[0].quadraCobranca);
+            setLoteCobranca(response._array[0].loteCobranca == 'null' ? null : response._array[0].loteCobranca);
+            setComplementoCobranca(response._array[0].complementoCobranca == 'null' ? null : response._array[0].complementoCobranca);
+            setBairroCobranca(response._array[0].bairroCobranca == 'null' ? null : response._array[0].bairroCobranca);
+            setCepCobranca(response._array[0].cepCobranca == 'null' ? null : response._array[0].cepCobranca);
+            setCidadeCobranca(response._array[0].cidadeCobranca == 'null' ? null : response._array[0].cidadeCobranca);
+            setEstadoCobranca(Number(response._array[0].estadoCobranca));
+            setEnderecoCobrancaIgualResidencial(response._array[0].enderecoCobrancaIgualResidencial == 1 ? true : false);
+
+            setCarregamentoTela(false);
+        }), () => {
+            Alert.alert('Erro ao executar SQL', sqlError.toString());
+        }
     }
 
     const PROSSEGUIR = async () => {
@@ -147,10 +178,10 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                             cidadeCobranca = '${cidadeCobranca}',
                             estadoCobranca = '${estadoCobranca}',
                             enderecoCobrancaIgualResidencial = ${isBoolean(enderecoCobrancaIgualResidencial)}
-                            WHERE id = ${contratoID}`
+                            WHERE id = ${id}`
                         );
-
-                        return navigation.navigate("contratoContentTermoAdesao", { contratoID, unidadeID });
+                        //return navigation.navigate("VendasPendentes", { id: id, contratoID ,unidadeID});
+                        return navigation.navigate("contratoContentTermoAdesaoOff", { id: id, contratoID, unidadeID });
                     }
                 },
             ],
@@ -225,7 +256,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                     <FormControl>
                                         <FormControl.Label>Quadra:</FormControl.Label>
                                         <Input
-                                            placeholder='Digite a quadra:'
+                                            placeholder='Digite um número de telefone:'
                                             value={quadraResidencial}
 
                                             onChangeText={(e) => setQuadraResidencial(changeInput(e, 'quadraResidencial').toUpperCase())}
@@ -321,7 +352,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                     colorScheme="emerald"
                                     onValueChange={(e) => setEnderecoCobrancaIgualResidencial(e)}
                                 />
-                               <Text>Endereço de cobrança será o mesmo do residencial?</Text>
+                                <Text>Endereço de cobrança será o mesmo do residencial?</Text>
                             </HStack>
                             {
                                 !enderecoCobrancaIgualResidencial ?
@@ -377,7 +408,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                                 <FormControl>
                                                     <FormControl.Label>Quadra:</FormControl.Label>
                                                     <Input
-                                                        placeholder='Digite a quadra:'
+                                                        placeholder='Digite um número de telefone:'
                                                         value={quadraCobranca}
                                                         onChangeText={(e) => setQuadraCobranca(changeInput(e, 'quadraCobranca').toUpperCase())}
                                                         _focus={styleInputFocus}
@@ -449,20 +480,20 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                             <Center w="50%" rounded="md">
                                                 <FormControl>
                                                     <FormControl.Label>Estado:</FormControl.Label>
-                                                     <Select
+                                                    <Select
                                                         _focus={styleInputFocus}
-                                                         selectedValue={estadoCobranca}
-                                                        onValueChange={(e) => setEstadoCobranca(changeInput(e, 'estadoCobranca'))}
+                                                        selectedValue={estadoCobranca}
+                                                         onValueChange={(e) => setEstadoCobranca(changeInput(e, 'estadoCobranca'))}
                                                         accessibilityLabel="Selecione um estado:"
                                                         placeholder="Selecione um estado:"
-                                                    >
+                                                        >
                                                         {estados.map((item) => <Select.Item
-                                                        key={item['estado']}
-                                                        label={item['estado']}
-                                                        value={item.id} />
+                                                            key={item['estado']}
+                                                            label={item['estado']}
+                                                            value={item.id} />
                                                     )}
-                                                </Select>
-                                            </FormControl>
+                                                    </Select>
+                                                </FormControl>
                                             </Center>
                                         </HStack>
                                     </>
@@ -474,7 +505,7 @@ function ContratoContentEnderecoResidencial({ navigation }) {
                                 size="lg"
                                 _text={styleButtonText}
                                 _light={styleButton}
-                                onPress={PROSSEGUIR}
+                                onPress={()=>{PROSSEGUIR(data.id)}}
                             >
                                 PROSSEGUIR
                             </Button>
@@ -485,4 +516,4 @@ function ContratoContentEnderecoResidencial({ navigation }) {
     )
 }
 
-export { ContratoContentEnderecoResidencial }
+export { ContratoContentEnderecoResidencialOff }

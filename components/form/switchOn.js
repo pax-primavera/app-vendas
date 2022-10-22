@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import { executarSQL } from '../../services/database/index.js';
 
 const ComponentSwitch = (props) => {
-    const [switchValue, setSwitchValue] = useState(props.inputValue == 0 ? false : true);
-    /*
+    const [switchValue, setSwitchValue] = useState(false);
+
     if (props && props.value) {
         setSwitchValue(props.value);
-    }*/
+    }
 
     const change = async (value) => {
         setSwitchValue(value);

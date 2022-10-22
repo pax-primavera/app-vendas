@@ -2,7 +2,8 @@ const fieldDatas = [
     'dataContrato',
     'dataNascTitular',
     'dataNascimento',
-    'dataPrimeiraMensalidade'
+    'dataPrimeiraMensalidade',
+    'dataContratoAntigo'
 ];
 
 const fieldCPF = [

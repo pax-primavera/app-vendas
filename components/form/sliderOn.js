@@ -5,12 +5,11 @@ import Slider from "react-native-slider";
 import colors from '../../utils/styles/colors';
 import { moedaMask } from '../../utils/generic/format';
 
-const ComponentSlider = (props) => {
-    const [sliderValue, setSliderValue] = useState(props.inputValue ? props.inputValue : 0);
-    const [valor, setValor] = useState(sliderValue);
+const ComponentSliderOn = (props) => {
+    const [sliderValue, setSliderValue] = useState(0);
 
     const change = async (value) => {
-        setSliderValue(value);
+        setSliderValue(moedaMask(value));
 
         if (props && props.column) await executarSQL(`UPDATE ${props.table} SET ${props.column} = '${value}' WHERE id = ${props.id}`);
     }
@@ -19,15 +18,13 @@ const ComponentSlider = (props) => {
         <FormControl>
             <FormControl.Label>{props.label}: {sliderValue}</FormControl.Label>
             <Slider
-                minimumValue={0}
-                maximumValue={props.limit}
+                maximumValue={props.limit | 0}
                 minimumTrackTintColor={colors.COLORS.PAXCOLOR_1}
                 thumbTintColor={colors.COLORS.PAXCOLOR_1}
                 onValueChange={e => change(e)}
-                value={valor}
             />
         </FormControl>
     );
 }
 
-export default ComponentSlider;
+export default ComponentSliderOn;

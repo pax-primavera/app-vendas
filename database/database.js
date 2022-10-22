@@ -8,7 +8,7 @@ export default class DatabaseInit {
 
         db.exec([{ sql: 'PRAGMA foreign_keys = ON;', args: [] }], false, () =>
             console.log('Foreign keys turned on')
-        );
+        )
 
         this.Init()
     }
@@ -73,7 +73,13 @@ export default class DatabaseInit {
                 melhorDia int,
                 isOnline int default 1,
                 sendByWhatsApp int default 0,
-                is_enviado int default 0
+                is_enviado int default 0,
+                anexo1 text,
+                anexo2 text,
+                anexo3 text,
+                anexo4 text,
+                anexo5 text,
+                anexo6 text
             );`,
 
             `create table if not exists dependentes(
@@ -103,7 +109,7 @@ export default class DatabaseInit {
                     tx.executeSql(sql[i]);
                 }
             }, (error) => {
-                console.log(error);
+                 console.log(error);
             }, () => {
                 console.log("Tabelas criadas com sucesso!");
             }

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Pax Vendedor",
-    "slug": "PaxVendedorBeta",
+    "name": "Pax Vendedor GO",
+    "slug": "PaxVendedorBetaGO",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -30,8 +30,8 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 1,
-      "package": "com.lopes9951.vendas",
+      "versionCode": 6,
+      "package": "com.lopes9951.vendasGO",
       "permissions": [
         "CAMERA",
         "READ_EXTERNAL_STORAGE",

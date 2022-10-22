@@ -6,10 +6,10 @@ import { executarSQL } from '../../services/database/index';
 import { fieldDatas, fieldCPF } from '../../utils/generic/field.mask'
 
 const ComponentInput = (props) => {
-    const [inputValue, setInputValue] = useState();
-    if (props && props.value) {
-        setInputValue(props.value);
-    }
+    const [inputValue, setInputValue] = useState(props.inputValue == 'Invalid date' ? null : props.inputValue);
+    // if (props && props.value) {
+    //     setInputValue(props.value);
+    // }
 
     const treatment = (label, labelValue) => {
         if (fieldCPF.includes(label)) return cpfMask(labelValue);
@@ -21,7 +21,7 @@ const ComponentInput = (props) => {
 
         value = treatment(props.column, value);
 
-        setInputValue(value);
+        setInputValue(value.toUpperCase());
 
         if (fieldDatas.includes(props.column)) {
             value = dataMaskEUA(value);

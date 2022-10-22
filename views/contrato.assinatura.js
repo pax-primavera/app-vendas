@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from "react";
 import { WebView } from "react-native-webview";
 import { TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Icon } from "native-base";
+import { Button, Text, Icon } from "native-base";
 import colors from '../utils/styles/colors.js';
 import { useRoute } from '@react-navigation/native';
 
@@ -15,6 +15,7 @@ const ContratoContentAssinatura = ({ navigation }) => {
         navigation.setOptions({
             headerLeft: () => (
                 <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                    <Text fontWeight="bold">Voltar</Text>
                     <Icon as={MaterialCommunityIcons} size="8" name="exit-to-app" color={colors.COLORS.PAXCOLOR_1} />
                 </TouchableOpacity>
             )
@@ -68,14 +69,15 @@ const ContratoContentAssinatura = ({ navigation }) => {
                 cont.appendChild(iframe);
                 window.addEventListener("message", (event) => {
                     if (event.data === "signed") {
-                        alert("Contrato assinato e registrado com sucesso! Click no botão voltar '<-'");
+                        alert("Contrato assinado e registrado com sucesso! Clique no botão voltar no canto superior esquerdo da tela para voltar a Tela Inicial '->'");
                     }
                     if (event.data === "wrong-data") {
                         alert("Não foi possivel assinar contrato, informações incorretas!")
                     }
                 }, false);
-            </script>` }}
-    />
+            </script>` }
+            }        
+    />       
 }
 
 export { ContratoContentAssinatura };

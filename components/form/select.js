@@ -4,11 +4,11 @@ import { styleInputFocus, } from '../../utils/styles/index';
 import { executarSQL } from '../../services/database/index.js';
 
 const ComponentSelect = (props) => {
-    const [selectValue, setSelectValue] = useState();
+    const [selectValue, setSelectValue] = useState(props.inputValue);
 
-    if (props && props.value) {
-        setSelectValue(props.value);
-    }
+    // if (props && props.value) {
+    //     setSelectValue(props.value);
+    // }
 
     const change = async (value) => {
         setSelectValue(value);

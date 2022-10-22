@@ -10,10 +10,15 @@ import { styleInputFocus } from '../utils/styles/index';
 import { fieldDatas } from '../utils/generic/field.mask'
 import { dataMask, dataMaskEUA } from "../utils/generic/format";
 import { Alert } from 'react-native';
+import { useRoute } from '@react-navigation/native';
+import { executarListIDSQL } from '../services/database/index';
 import moment from 'moment';
 
-function ContratoContentInicial({ navigation }) {
+function ContratoContentInicialOff({ navigation }) {
   const toast = useToast();
+  const route = useRoute();
+  const id = route.params.id;
+  const [data, setData] = useState([]);
   /// IDS, integers
   const [unidadeID, setUnidadeID] = useState(null);
   const [contratoID, setContratoID] = useState(null);
@@ -32,18 +37,18 @@ function ContratoContentInicial({ navigation }) {
     try {
       const urls = ['/lista-unidades-usuario'];
       /// Criar contrato
-      // const novoContrato = await insertIdSQL(`INSERT INTO titulares (is_enviado) VALUES (0);`);
+      /*const novoContrato = await insertIdSQL(`INSERT INTO titulares (is_enviado) VALUES (0);`);
 
-      // if (!novoContrato) {
-      //   return toast.show({
-      //     placement: "top",
-      //     render: () => {
-      //       return <ComponentToast message="Não foi possivel criar novo contrato!" />
-      //     }
-      //   });
-      // }
+      if (!novoContrato) {
+        return toast.show({
+          placement: "top",
+          render: () => {
+            return <ComponentToast message="Não foi possivel criar novo contrato!" />
+          }
+        });
+      }
 
-      // setContratoID(novoContrato);
+      setContratoID(novoContrato);*/
 
       Promise.all(urls.map((endpoint) => axiosAuth.get(endpoint))).then((
         [
@@ -72,6 +77,13 @@ function ContratoContentInicial({ navigation }) {
         }
       });
     }
+
+    await executarListIDSQL(id).then((response) => {
+      setData(response._array[0])
+      setCarregamentoTela(false);
+    }), () => {
+      Alert.alert('Erro ao executar SQL', sqlError.toString());
+    }
   }
 
   const PROSSEGUIR = async () => {
@@ -86,10 +98,10 @@ function ContratoContentInicial({ navigation }) {
         {
           text: "Sim",
           onPress: async () => {
-            if (!unidadeID) {
+            /*if (!unidadeID) {
               Alert.alert("Aviso.", "Filial não selecionada!");
               return;
-            }
+            }*/
 
             if (!dataContrato) {
               Alert.alert("Aviso.", "Data de contrato é obrigatório!");
@@ -101,37 +113,25 @@ function ContratoContentInicial({ navigation }) {
               return;
             }
 
-            if (dataMaskEUA(dataContrato) < dataMaskEUA(new Date())) {
-              Alert.alert("Aviso.", "Data de contrato inválida, não pode ser MENOR que a data atual!");
-              return;
-            }
-            
-            if (dataMaskEUA(dataContrato) > dataMaskEUA(new Date())) {
-              Alert.alert("Aviso.", "Data de contrato inválida, não pode ser MAIOR que a data atual!");
-              return;
-            }
+            // const novoContrato = await insertIdSQL(`INSERT INTO titulares (is_enviado, dataContrato) VALUES (0, ${dataContrato});`);
+
+            // if (!novoContrato) {
+            //   return toast.show({
+            //     placement: "top",
+            //     render: () => {
+            //       return <ComponentToast message="Não foi possivel criar novo contrato!" />
+            //     }
+            //   });
+            // }
+            // setContratoID(novoContrato);
            
-            const novoContrato = await insertIdSQL(`INSERT INTO titulares (is_enviado, dataContrato) VALUES (0, '${dataContrato}');`);
+            await executarSQL(`
+              UPDATE titulares
+              SET dataContrato = '${dataContrato}'
+              WHERE id = ${id}`  
+            );
 
-            if (!novoContrato) {
-              return toast.show({
-                placement: "top",
-                render: () => {
-                  return <ComponentToast message="Não foi possivel criar novo contrato!" />
-                }
-              });
-            }
-
-            setContratoID(novoContrato);
-
-            // await executarSQL(`
-            //   UPDATE titulares
-            //   SET dataContrato = '${dataContrato}'
-            //   WHERE id = ${contratoID}`
-            // );
-
-            
-            return navigation.navigate("contratoContentTitular", { contratoID:novoContrato, unidadeID:unidadeID });
+            return navigation.navigate("contratoContentTitularOff", { id, contratoID, unidadeID });
           }
         },
       ],
@@ -175,7 +175,7 @@ function ContratoContentInicial({ navigation }) {
               </HStack>
               <HStack space={2} justifyContent="center">
                 <Center w="100%" rounded="md">
-                  <FormControl isRequired>
+                  <FormControl>
                     <FormControl.Label>Filial:</FormControl.Label>
                     <Select
                       _focus={styleInputFocus}
@@ -211,4 +211,4 @@ function ContratoContentInicial({ navigation }) {
   );
 }
 
-export { ContratoContentInicial };
+export { ContratoContentInicialOff };

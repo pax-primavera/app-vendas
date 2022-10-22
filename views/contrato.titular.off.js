@@ -11,11 +11,13 @@ import { executarSQL } from '../services/database/index.js';
 import ComponentLoading from '../components/views/loading/index';
 import ComponentToast from '../components/views/toast/index';
 import { Alert } from 'react-native';
+import { executarListIDSQL } from '../services/database/index';
 
-function ContratoContentTitular({ navigation }) {
+function ContratoContentTitularOff({ navigation }) {
     /// Config
     const route = useRoute();
     const toast = useToast();
+    const [data, setData] = useState([]);
     /// Parametros
     const { contratoID, unidadeID } = route.params;
     /// Arrays
@@ -47,6 +49,7 @@ function ContratoContentTitular({ navigation }) {
         if (fieldTelefones.includes(label)) return foneMask(labelValue);
         return labelValue;
     }
+    const id = route.params.id;
 
     const setup = async () => {
         setCarregamentoTela(true);
@@ -74,10 +77,31 @@ function ContratoContentTitular({ navigation }) {
                 }
             });
         });
-        
+        await executarListIDSQL(id).then((response) => {
+            setData(response._array[0])
+            setIsCremado(response._array[0].isCremado == 1 ? true : false);
+            setNomeTitular(response._array[0].nomeTitular);
+            setCpfTitular(response._array[0].cpfTitular);
+            setRGTitular(response._array[0].rgTitular);
+            setDataNascTitular(response._array[0].dataNascTitular);
+            setEstadoCivilTitular(Number(response._array[0].estadoCivilTitular));
+            setNacionalidadeTitular(response._array[0].nacionalidadeTitular == '2' ? 2 : 1);
+            setNaturalidadeTitular(response._array[0].naturalidadeTitular === 'null' ? null : response._array[0].naturalidadeTitular);
+            setReligiaoTitular(Number(response._array[0].religiaoTitular));
+            setSexoTitular(Number(response._array[0].sexoTitular));
+            setEmail1(response._array[0].email1);
+            setEmail2(response._array[0].email2 === 'null' ? null : response._array[0].email2);
+            setTelefone1(response._array[0].telefone1);
+            setTelefone2(response._array[0].telefone2 === 'null' ? null : response._array[0].telefone2);
+            setProfissaoTitular(response._array[0].profissaoTitular === 'null' ? null : response._array[0].profissaoTitular);
+
+            setCarregamentoTela(false);
+        }), () => {
+            Alert.alert('Erro ao executar SQL', sqlError.toString());
+        }
     }
 
-    const PROSSEGUIR = async () => {
+    const PROSSEGUIR = async (id) => {
         Alert.alert(
             "Aviso.",
             "Deseja PROSSEGUIR para proxima 'ETAPA'? Verifique os dados só por garantia!",
@@ -114,6 +138,11 @@ function ContratoContentTitular({ navigation }) {
                             return;
                         }
 
+                        if (!religiaoTitular) {
+                            Alert.alert("Aviso.", "Religião é obrigatório!");
+                            return;
+                        }
+
                         if (!validarEmail(email1)) {
                             Alert.alert("Aviso.", "E-mail inválido!\n\nE-mails válidos:\nexemplo@exemplo.com\nexemplo@exemplo.com.br");
                             return;
@@ -134,16 +163,6 @@ function ContratoContentTitular({ navigation }) {
                             return;
                         }
 
-                        if (!nacionalidadeTitular) {
-                            Alert.alert("Aviso.", "Nacionalidade é obrigatório!");
-                            return;
-                        }
-
-                        if (!religiaoTitular) {
-                            Alert.alert("Aviso.", "Religião é obrigatório!");
-                            return;
-                        }
-
                         await executarSQL(`
                             UPDATE titulares
                             SET isCremado = ${isBoolean(isCremado)},
@@ -161,10 +180,10 @@ function ContratoContentTitular({ navigation }) {
                             telefone1 = '${telefone1}',
                             telefone2 = '${telefone2}',
                             profissaoTitular = '${profissaoTitular}'
-                            WHERE id = ${contratoID}`
+                            WHERE id = ${id}`
                         );
 
-                        return navigation.navigate("contratoContentEnderecoResidencial", { contratoID, unidadeID });
+                        return navigation.navigate("contratoContentEnderecoResidencialOff", { id: id,contratoID, unidadeID });
                     },
                 },
             ],
@@ -275,7 +294,8 @@ function ContratoContentTitular({ navigation }) {
                                     </FormControl>
                                 </Center>
                                 <Center w="50%" rounded="md">
-                                    <FormControl isRequired>
+
+                                    <FormControl>
                                         <FormControl.Label>Nacionalidade:</FormControl.Label>
                                         <Select
                                             _focus={styleInputFocus}
@@ -334,9 +354,10 @@ function ContratoContentTitular({ navigation }) {
                             <HStack space={2} justifyContent="center">
                                 <Center w="50%" rounded="md">
                                     <FormControl isRequired>
-                                        <FormControl.Label>Email:</FormControl.Label>
+                                        <FormControl.Label>E-mail:</FormControl.Label>
                                         <Input
-                                            placeholder='Digite um Email:'
+                                            autoCapitalize='none'
+                                            placeholder='Digite um E-mail:'
                                             value={email1}
                                             onChangeText={(e) => setEmail1(changeInput(e, 'email1'))}
                                             _focus={styleInputFocus}
@@ -400,7 +421,7 @@ function ContratoContentTitular({ navigation }) {
                                 size="lg"
                                 _text={styleButtonText}
                                 _light={styleButton}
-                                onPress={PROSSEGUIR}
+                                onPress={()=>{PROSSEGUIR(data.id)}}
                             >
                                 PROSSEGUIR
                             </Button>
@@ -411,4 +432,4 @@ function ContratoContentTitular({ navigation }) {
     )
 }
 
-export { ContratoContentTitular }
+export { ContratoContentTitularOff }

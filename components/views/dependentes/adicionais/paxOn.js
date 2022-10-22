@@ -3,33 +3,23 @@ import { Center, HStack, VStack, Icon, Box, Button } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import ComponentInput from '../../../form/input';
 import ComponentSelect from '../../../form/select';
-import ComponentSwitch from '../../../form/switch';
-import moment from 'moment';
 
 function ComponentAddPax(props) {
-    
     const { item, table, parentescos, deletarDependente } = props;
 
     return (
         <Box key={item.id} safeArea w="100%" pl="5" pr="5" mb="5" >
             <VStack space={3} >
-                <ComponentSwitch
-                    label="Adicional cremação?"
-                    column="cremacao"
-                    id={item.id}
-                    inputValue={item.cremacao}
-                    table={table}
-                />
                 <HStack space={2} justifyContent="center">
                     <Center w="100%" rounded="md">
-                        <ComponentInput isRequired
+                        <ComponentInput
                             label="Nome Completo"
                             column="nome"
                             placeholder='Digite o nome do dependente:'
                             id={item.id}
-                            inputValue={item.nome}
                             table={table}
                             required
+                            toUpperCase
                         />
                     </Center>
                 </HStack>
@@ -39,9 +29,8 @@ function ComponentAddPax(props) {
                             label="Data Nascimento"
                             column="dataNascimento"
                             placeholder='Digite a data de nascimento:'
-                            inputValue={moment(item.dataNascimento).format('DD/MM/YYYY')}
                             id={item.id}
-                            table={table}  
+                            table={table}
                             required
                             type="numeric"
                         />
@@ -50,14 +39,12 @@ function ComponentAddPax(props) {
                         <ComponentSelect
                             label="Parentesco"
                             column="parentesco"
-                            required
                             placeholder='Parentesco:'
-                            inputValue={item.parentesco}
                             array={parentescos}
                             columnLabel="nome"
                             id={item.id}
                             table={table}
-                            
+                            required
                         />
                     </Center>
                 </HStack>
@@ -67,7 +54,6 @@ function ComponentAddPax(props) {
                             label="CPF"
                             column="cpf_dependente"
                             placeholder="Digite o CPF do dependente:"
-                            inputValue={item.cpf_dependente}
                             type="numeric"
                             id={item.id}
                             table={table}

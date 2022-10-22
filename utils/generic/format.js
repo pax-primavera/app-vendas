@@ -44,8 +44,10 @@ const dataMask = value => {
 const cepMask = value => {
   return value
     .replace(/\D/g, "")
-    .replace(/^(\d{5})(\d)/, "$1-$2");
-}
+    .replace(/(\d{2})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1-$2")
+    .replace(/(\d{3})\d+?$/, '$1');
+  }
 
 const isRepeatingNumber = str => /^(\d)(\1){10}$/.test(str);
 
@@ -91,4 +93,13 @@ const moedaMask = value => {
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
 }
 
-export { cpfMask, timeMask, foneMask, dataMask, cepMask, moedaMask, dataMaskEUA, isBoolean, validarCPF }
+const validarEmail = email => {
+  const valida = /\S+@\S+\.\S+/; 
+
+  if (valida.test(email)) {
+    return true;
+  }
+  return false;
+}
+
+export { cpfMask, timeMask, foneMask, dataMask, cepMask, moedaMask, dataMaskEUA, isBoolean, validarCPF, validarEmail }

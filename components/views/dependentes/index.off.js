@@ -5,23 +5,23 @@ import { Center, VStack, Icon, Heading, Box, useToast, Button } from "native-bas
 import colors from '../../../utils/styles/colors.js';
 import { Ionicons } from "@expo/vector-icons";
 import axiosAuth from '../../../utils/config/axios/private.js';
-import ComponentAddPax from './adicionais/paxOn.js';
-import ComponentAddPet from './adicionais/petOn.js';
+import ComponentAddPax from './adicionais/pax.js';
+import ComponentAddPet from './adicionais/pet.js';
 import ComponentLoading from '../loading/index';
+import { useRoute } from '@react-navigation/native';
 
 function modalDependentesPax(props) {
   const toast = useToast();
+  const route = useRoute();
   const [table] = useState('dependentes');
   const [dependentes, setDependentes] = useState([]);
   const [parentescos, setParentescos] = useState([]);
   const [carregamento, setCarregamento] = useState(false);
   const [carregamentoButton, setCarregamentoButton] = useState(false);
-
+  const id = route.params.id;
   const { contratoID, unidadeID, title, isPet } = props;
-
   const setupSelecionarFilial = async () => {
     setCarregamento(true);
-
     try {
       const parentescosGet = await axiosAuth.get(`lista-parentescos/unidade-id=${unidadeID}`);
 
@@ -46,9 +46,8 @@ function modalDependentesPax(props) {
   }
 
   const novoDependente = async () => {
-   
-    const novoDependente = await insertIdSQL(`INSERT INTO dependentes (is_pet, titular_id) values (${isPet}, ${contratoID});`);
-
+    const novoDependente = await insertIdSQL(`INSERT INTO dependentes (is_pet, titular_id) values (${isPet}, ${id});`);
+    
     if (!novoDependente) {
       return toast.show({
         title: "Pax Vendedor",
@@ -58,7 +57,6 @@ function modalDependentesPax(props) {
     }
     // Carregar dependentes
     loadDependentes();
-   
   }
 
   const deletarDependente = async (id) => {
@@ -78,13 +76,12 @@ function modalDependentesPax(props) {
   const loadDependentes = async () => {
     setCarregamentoButton(true);
     // Inicial carregamento dos dados locais 
-    const dependentesGet = await executarSQL(`select * from dependentes where is_pet = ${isPet} and titular_id = ${contratoID} order by id asc`);
-
+    const dependentesGet = await executarSQL(`select * from dependentes where is_pet = ${isPet} and titular_id = ${id} order by id asc`);
     if (dependentesGet && dependentesGet._array) {
       setDependentes(dependentesGet._array);
+      
       setCarregamentoButton(false);
     }
-    
   }
 
   useEffect(() => {
