@@ -1,0 +1,1 @@
+export default global = 'http://sistemadourados.ddns.net:8081'; 
