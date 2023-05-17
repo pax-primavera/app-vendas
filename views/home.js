@@ -9,6 +9,7 @@ import ComponentToast from '../components/views/toast/index';
 import ComponentLoading from "../components/views/loading/index";
 import api from "../utils/config/axios/public.js";
 import moment from 'moment/moment.js';
+import NetInfo from "@react-native-community/netinfo";
 
 function Home({ navigation }) {
     const toast = useToast();
@@ -18,20 +19,54 @@ function Home({ navigation }) {
     const [avisosVendas, setVendas] = useState(false);
 
     const setup = async () => {
-        let date = moment().utcOffset('-04:00').format('HH:mm');
-        if (date >= '07:30' && date <= '08:00') {
-            setCarregamentoTela(true)
-            await sincronismo()
-            setCarregamentoTela(false)
-        } else if (date >= '11:30' && date <= '12:00') {
-            setCarregamentoTela(true)
-            await sincronismo()
-            setCarregamentoTela(false)
-        } else if (date >= '17:30' && date <= '18:00') {
-            setCarregamentoTela(true)
-            await sincronismo()
-            setCarregamentoTela(false)
-        }
+        NetInfo.refresh().then(async (state) => {
+            if (state.isConnected) {
+                let datetime = moment().utcOffset('-04:00').format('HH:mm');
+                if (datetime >= '07:30' && datetime <= '08:00') {
+                    setCarregamentoTela(true)
+                    await sincronismo()
+                    setCarregamentoTela(false)
+                    return toast.show({
+                        placement: "top",
+                        render: () => {
+                            return (
+                                <ComponentToast
+                                    message={`Conexão estabelecida com sucesso. Contratos Sincronizados`}
+                                />
+                            );
+                        },
+                    });
+                } else if (datetime >= '11:30' && datetime <= '12:00') {
+                    setCarregamentoTela(true)
+                    await sincronismo()
+                    setCarregamentoTela(false)
+                    return toast.show({
+                        placement: "top",
+                        render: () => {
+                            return (
+                                <ComponentToast
+                                    message={`Conexão estabelecida com sucesso. Contratos Sincronizados`}
+                                />
+                            );
+                        },
+                    });
+                } else if (datetime >= '17:30' && datetime <= '18:00') {
+                    setCarregamentoTela(true)
+                    await sincronismo()
+                    setCarregamentoTela(false)
+                    return toast.show({
+                        placement: "top",
+                        render: () => {
+                            return (
+                                <ComponentToast
+                                    message={`Conexão estabelecida com sucesso. Contratos Sincronizados`}
+                                />
+                            );
+                        },
+                    });
+                }
+            }
+        });
 
         // try {
         //     const response = await axiosAuth.get(`/avisos`);
@@ -263,7 +298,7 @@ function Home({ navigation }) {
     const abrirVendasPendentes = () => {
         Alert.alert(
             "Aviso.",
-            "Deseja abrir 'VENDAS CONCLUIDAS'?",
+            "Deseja abrir 'VENDAS CONCLUIDAS E PENDENTES'?",
             [
                 {
                     text: "Não",

@@ -28,21 +28,6 @@ const nacionalidade = [
     }
 ];
 
-const especies = [
-    {
-        id: 1,
-        descricao: 'Canina'
-    },
-    {
-        id: 2,
-        descricao: 'Felina'
-    },
-    {
-        id: 3,
-        descricao: 'Outros'
-    }
-];
-
 const cores = [
     {
         id: 'Branco',
@@ -88,7 +73,7 @@ const portes = [
 const tiposContratos = [
     {
         id: 1,
-        descricao: 'Novo'
+        descricao: 'Contrato Novo'
     },
     {
         id: 2,
@@ -127,7 +112,7 @@ const tiposContratos = [
 const tiposContratosPR = [
     {
         id: 1,
-        descricao: 'Novo'
+        descricao: 'Contrato Novo'
     },
     {
         id: 2,
@@ -170,7 +155,7 @@ const tiposContratosPR = [
 const tiposContratosGO = [
     {
         id: 1,
-        descricao: 'Novo'
+        descricao: 'Contrato Novo'
     },
     {
         id: 2,
@@ -401,124 +386,6 @@ const locaisCobrancas = [
     },
 ];
 
-const parentescos = [
-    {
-        id: 0,
-        nome_parentesco: 'ESPOSA'
-    },
-    {
-        id: 1,
-        nome_parentesco: 'ESPOSO'
-    },
-    {
-        id: 2,
-        nome_parentesco: 'FILHA'
-    },
-    {
-        id: 3,
-        nome_parentesco: 'FILHO'
-    },
-    {
-        id: 4,
-        nome_parentesco: 'MÃE'
-    },
-    {
-        id: 5,
-        nome_parentesco: 'PADRASTO'
-    },
-    {
-        id: 6,
-        nome_parentesco: 'ADICIONAL'
-    },
-    {
-        id: 7,
-        nome_parentesco: 'PAI'
-    },
-    {
-        id: 8,
-        nome_parentesco: 'SOGRA'
-    },
-    {
-        id: 9,
-        nome_parentesco: 'SOGRO'
-    },
-    {
-        id: 10,
-        nome_parentesco: 'MADRASTRA'
-    },
-    {
-        id: 11,
-        nome_parentesco: 'Outros'
-    },
-];
-
-const unidades = [
-    {
-        id: 0,
-        nome_unidade: 'Amambai',
-    },
-    {
-        id: 1,
-        nome_unidade: 'Antonio João',
-    },
-    {
-        id: 2,
-        nome_unidade: 'Aral Moreira',
-    },
-    {
-        id: 3,
-        nome_unidade: 'Bela Vista',
-    },
-    {
-        id: 4,
-        nome_unidade: 'Caarapo',
-    },
-    {
-        id: 5,
-        nome_unidade: 'Coronel Sacupaia',
-    },
-    {
-        id: 6,
-        nome_unidade: 'Douradina',
-    },
-    {
-        id: 7,
-        nome_unidade: 'Dourados',
-    },
-    {
-        id: 8,
-        nome_unidade: 'Itaporã',
-    },
-    {
-        id: 9,
-        nome_unidade: 'Juti',
-    },
-    {
-        id: 10,
-        nome_unidade: 'Laguna Carapã',
-    },
-    {
-        id: 11,
-        nome_unidade: 'Navirai',
-    },
-    {
-        id: 12,
-        nome_unidade: 'Nova Alvorada do Sul',
-    },
-    {
-        id: 13,
-        nome_unidade: 'Ponta Porã',
-    },
-    {
-        id: 14,
-        nome_unidade: 'Rio Brilhante',
-    },
-    {
-        id: 15,
-        nome_unidade: 'São Gabriel do Oeste',
-    }
-];
-
 const templates = [
     {
         id: 1,
@@ -586,7 +453,6 @@ const templateVencimento = [
 ];
 export {
     sexo,
-    especies,
     cores,
     portes,
     tiposContratos,
@@ -598,8 +464,6 @@ export {
     estadosCivil,
     logradouros,
     locaisCobrancas,
-    parentescos,
-    unidades,
     templates,
     templatesSemPET,
     templatesSemPETSemCREM,

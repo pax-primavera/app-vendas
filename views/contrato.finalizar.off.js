@@ -92,7 +92,8 @@ function ContratoContentFinalizarOff({ navigation }) {
       }
       //COLOCA OS CONTRATOS EM UM ARRAY
       const contratoTratado = trimObject(contrato._array[0]);
-      // console.log(templateID)
+
+      console.log(contratoTratado.anexo1)
 
       const result = tiposContratos.find(tipo => tipo.descricao === contratoTratado.tipo);
 

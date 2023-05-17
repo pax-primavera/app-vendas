@@ -289,7 +289,7 @@ function ContratoContentTermoAdesao({ navigation }) {
               return;
             }
 
-            if (tipo !== "Novo") {
+            if (tipo !== "Contrato Novo") {
               if (!numContratoAntigo) {
                 Alert.alert("Aviso.", "Informe o número do contrato antigo!");
                 return;
@@ -512,7 +512,7 @@ function ContratoContentTermoAdesao({ navigation }) {
                 </FormControl>
               </Center>
             </HStack>
-            {tipo !== "Novo" ? (
+            {tipo !== "Contrato Novo" ? (
               <>
                 <HStack space={2} justifyContent="center">
                   <Center w="30%" rounded="md">

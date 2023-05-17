@@ -65,13 +65,14 @@ function ContratoContentAnexosOff({ navigation }) {
                 : await ImagePicker.launchImageLibraryAsync();
 
             if (!pickerResult.canceled) {
-                if (numeroAnexo === 5) {
+                if (numeroAnexo === 1) {
+                    console.log("cheguei aqui")
                     setAnexo1(pickerResult.base64);
                 }
-                if (numeroAnexo === 6) {
+                if (numeroAnexo === 2) {
                     setAnexo2(pickerResult.base64);
                 }
-                if (numeroAnexo === 7) {
+                if (numeroAnexo === 3) {
                     setAnexo3(pickerResult.base64);
                 }
             }
@@ -131,11 +132,19 @@ function ContratoContentAnexosOff({ navigation }) {
                 },
                 {
                     text: "Sim",
-                    onPress: () => {
-                        // if (!anexo1 || !anexo2 || !anexo3) {
-                        //     Alert.alert("Aviso.", "Envie todos os anexos, está faltando arquivo(s)!");
-                        //     return;
-                        // }
+                    onPress: async () => {
+                        if (!anexo1 || !anexo2 || !anexo3) {
+                            Alert.alert("Aviso.", "Envie todos os anexos, está faltando arquivo(s)!");
+                            return;
+                        }
+                        await executarSQL(`
+                            UPDATE titular 
+                            SET 
+                                anexo4 = '${anexo1}', 
+                                anexo5 = '${anexo2}',
+                                anexo6 = '${anexo3}'
+                            WHERE id = ${id}
+                        `);
                         return navigation.navigate("contratoContentFinalizarOff", {
                             id: id, contratoID, unidadeID,
                             anexos: [

@@ -965,7 +965,7 @@ function ContratoContentFinalizar({ navigation }) {
               <p></p>
           </div>
           <div>
-              <p style="text-align: center; font-size: 14px;">${unidadeTratado.municipio} - ${unidadeTratado.uf},${contratoCliente.dataContrato}</p>
+              <p style="text-align: center; font-size: 14px;">${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}</p>
           </div>
           <div style="page-break-after: always;" class="pagebreak">&nbsp;</div>
           <div>
@@ -1952,8 +1952,7 @@ function ContratoContentFinalizar({ navigation }) {
                       </div>
                       <div>
                         <p style="text-align: center; font-size: 14px">
-                          ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-                          ${contratoCliente.dataContrato}
+                          ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
                         </p>
                       </div>
                       <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -2171,8 +2170,7 @@ function ContratoContentFinalizar({ navigation }) {
                       </div>
                       <div>
                         <p style="text-align: center; font-size: 14px">
-                          ${unidadeTratado.municipio} -
-                          ${unidadeTratado.uf},${contratoCliente.dataContrato}
+                          ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
                         </p>
                       </div>
                       <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -2547,8 +2545,8 @@ function ContratoContentFinalizar({ navigation }) {
                                   >${contratoCliente.tipoLogradouroResidencial}
                                   ${contratoCliente.nomeLogradouroResidencial},
                                   ${contratoCliente.numeroResidencial}, QUADRA:
-                                  ${contratoCliente.quadraResidencial}, LOTE:
-                                  ${contratoCliente.loteResidencial}, Complemento:
+                                  ${contratoCliente.quadraResidencial == null ? "" : contratoCliente.quadraResidencial}, LOTE:
+                                  ${contratoCliente.loteResidencial == null ? "" : contratoCliente.loteResidencial}, Complemento:
                                   ${contratoCliente.complementoResidencial}, Bairro:
                                   ${contratoCliente.bairroResidencial},
                                   ${contratoCliente.cepResidencial}</span
@@ -2621,8 +2619,7 @@ function ContratoContentFinalizar({ navigation }) {
                       </div>
                       <div>
                         <p style="text-align: center; font-size: 14px">
-                          ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-                          ${contratoCliente.dataContrato}
+                          ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
                         </p>
                       </div>
                       <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -2988,8 +2985,7 @@ function ContratoContentFinalizar({ navigation }) {
                       </div>
                       <div>
                       <p style="text-align: center; font-size: 14px">
-                      ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-                      ${contratoCliente.dataContrato}
+                      ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
                     </p>
                       </div>
                       <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -3042,12 +3038,11 @@ function ContratoContentFinalizar({ navigation }) {
                       </div>
                       <div>
                         <p style="text-align: center; font-size: 14px">
-                          ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-                          ${contratoCliente.dataContrato}
+                          ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
                         </p>
                       </div>
                     </body>
-                  </html>
+                  </html> 
                   
                   `
         } else {
@@ -3657,7 +3652,7 @@ function ContratoContentFinalizar({ navigation }) {
               <p></p>
           </div>
           <div>
-              <p style="text-align: center; font-size: 14px;">${unidadeTratado.municipio} - ${unidadeTratado.uf},${contratoCliente.dataContrato}</p>
+              <p style="text-align: center; font-size: 14px;">${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}</p>
           </div>
           <div style="page-break-after: always;" class="pagebreak">&nbsp;</div>
           <div>
@@ -3871,8 +3866,8 @@ function ContratoContentFinalizar({ navigation }) {
                           <li>Endereço de Cobrança: <span
                                   class="ENDERECO_COBRANCA token_d4s">${contratoCliente.tipoLogradouroResidencial}
                                   ${contratoCliente.nomeLogradouroResidencial}, ${contratoCliente.numeroResidencial},
-                                  QUADRA:
-                                  ${contratoCliente.quadraResidencial}, LOTE: ${contratoCliente.loteResidencial},
+                                  QUADRA:${contratoCliente.quadraResidencial == null ? "" : contratoCliente.quadraResidencial}, 
+                                  LOTE: ${contratoCliente.loteResidencial == null ? "" : contratoCliente.loteResidencial},
                                   Complemento:
                                   ${contratoCliente.complementoResidencial}, Bairro: ${contratoCliente.bairroResidencial},
                                   ${contratoCliente.cepResidencial}</span>&nbsp;</li>
@@ -4642,8 +4637,7 @@ function ContratoContentFinalizar({ navigation }) {
                       </div>
                       <div>
                         <p style="text-align: center; font-size: 14px">
-                          ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-                          ${contratoCliente.dataContrato}
+                          ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
                         </p>
                       </div>
                       <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -4863,10 +4857,9 @@ function ContratoContentFinalizar({ navigation }) {
                       </div>
                       <div>
                         <p style="text-align: center; font-size: 14px">
-                          ${unidadeTratado.municipio} -
-                          ${unidadeTratado.uf},${contratoCliente.dataContrato}
+                          ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
                         </p>
-                      </div>
+                      </div> 
                       <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
                       <div>
                         <h1 style="font-size: 16px; text-align: center">
@@ -6471,8 +6464,7 @@ function ContratoContentFinalizar({ navigation }) {
       </div>
       <div>
         <p style="text-align: center; font-size: 14px">
-          ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-          ${contratoCliente.dataContrato}
+          ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
         </p>
       </div>
       <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -6691,8 +6683,7 @@ function ContratoContentFinalizar({ navigation }) {
       </div>
       <div>
         <p style="text-align: center; font-size: 14px">
-          ${unidadeTratado.municipio} -
-          ${unidadeTratado.uf},${contratoCliente.dataContrato}
+          ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
         </p>
       </div>
       <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -7066,8 +7057,8 @@ function ContratoContentFinalizar({ navigation }) {
                   >${contratoCliente.tipoLogradouroResidencial}
                   ${contratoCliente.nomeLogradouroResidencial},
                   ${contratoCliente.numeroResidencial}, QUADRA:
-                  ${contratoCliente.quadraResidencial}, LOTE:
-                  ${contratoCliente.loteResidencial}, Complemento:
+                  ${contratoCliente.quadraResidencial == 'null' ? "" : contratoCliente.quadraResidencial}, LOTE:
+                  ${contratoCliente.loteResidencial == 'null' ? "" : contratoCliente.loteResidencial}, Complemento:
                   ${contratoCliente.complementoResidencial}, Bairro:
                   ${contratoCliente.bairroResidencial},
                   ${contratoCliente.cepResidencial}</span
@@ -7140,8 +7131,7 @@ function ContratoContentFinalizar({ navigation }) {
       </div>
       <div>
         <p style="text-align: center; font-size: 14px">
-          ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-          ${contratoCliente.dataContrato}
+          ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
         </p>
       </div>
       <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -7453,8 +7443,7 @@ function ContratoContentFinalizar({ navigation }) {
       </div>
       <div>
         <p style="text-align: center; font-size: 14px">
-          ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-          ${contratoCliente.dataContrato}
+          ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
         </p>
       </div>
       <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -7512,8 +7501,7 @@ function ContratoContentFinalizar({ navigation }) {
       </div>
       <div>
         <p style="text-align: center; font-size: 14px">
-          ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-          ${contratoCliente.dataContrato}
+          ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
         </p>
       </div>
     </body>
@@ -8251,8 +8239,7 @@ function ContratoContentFinalizar({ navigation }) {
               </div>
               <div>
                 <p style="text-align: center; font-size: 14px">
-                  ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-                  ${contratoCliente.dataContrato}
+                  ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
                 </p>
               </div>
               <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -8471,8 +8458,7 @@ function ContratoContentFinalizar({ navigation }) {
               </div>
               <div>
                 <p style="text-align: center; font-size: 14px">
-                  ${unidadeTratado.municipio} -
-                  ${unidadeTratado.uf},${contratoCliente.dataContrato}
+                  ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
                 </p>
               </div>
               <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -8842,8 +8828,8 @@ function ContratoContentFinalizar({ navigation }) {
                           >${contratoCliente.tipoLogradouroResidencial}
                           ${contratoCliente.nomeLogradouroResidencial},
                           ${contratoCliente.numeroResidencial}, QUADRA:
-                          ${contratoCliente.quadraResidencial}, LOTE:
-                          ${contratoCliente.loteResidencial}, Complemento:
+                          ${contratoCliente.quadraResidencial == 'null' ? "" : contratoCliente.quadraResidencial}, LOTE:
+                          ${contratoCliente.loteResidencial == 'null' ? "" : contratoCliente.loteResidencial}, Complemento:
                           ${contratoCliente.complementoResidencial}, Bairro:
                           ${contratoCliente.bairroResidencial},
                           ${contratoCliente.cepResidencial}</span
@@ -8916,8 +8902,7 @@ function ContratoContentFinalizar({ navigation }) {
               </div>
               <div>
                 <p style="text-align: center; font-size: 14px">
-                  ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-                  ${contratoCliente.dataContrato}
+                  ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
                 </p>
               </div>
               <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -9283,8 +9268,7 @@ function ContratoContentFinalizar({ navigation }) {
               </div>
               <div>
                 <p style="text-align: center; font-size: 14px">
-                  ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-                  ${contratoCliente.dataContrato}
+                  ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
                 </p>
               </div>
               <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -9339,8 +9323,7 @@ function ContratoContentFinalizar({ navigation }) {
               </div>
               <div>
                 <p style="text-align: center; font-size: 14px">
-                  ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-                  ${contratoCliente.dataContrato}
+                  ${unidadeTratado.municipio} - ${unidadeTratado.uf},  ${contratoCliente.dataContrato}
                 </p>
               </div>
               <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -9654,8 +9637,7 @@ function ContratoContentFinalizar({ navigation }) {
               </div>
               <div>
                 <p style="text-align: center; font-size: 14px">
-                  ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-                  ${contratoCliente.dataContrato}
+                  ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
                 </p>
               </div>
               <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -9712,8 +9694,7 @@ function ContratoContentFinalizar({ navigation }) {
               </div>
               <div>
                 <p style="text-align: center; font-size: 14px">
-                  ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-                  ${contratoCliente.dataContrato}
+                  ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
                 </p>
               </div>
             </body >
@@ -10462,8 +10443,7 @@ function ContratoContentFinalizar({ navigation }) {
     </div>
     <div>
       <p style="text-align: center; font-size: 14px">
-        ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-        ${contratoCliente.dataContrato}
+        ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
       </p>
     </div>
     <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -10737,8 +10717,7 @@ function ContratoContentFinalizar({ navigation }) {
     </div>
     <div>
       <p style="text-align: center; font-size: 14px">
-        ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-        ${contratoCliente.dataContrato}
+        ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
       </p>
     </div>
     <div style="page-break-after: always" class="pagebreak">&nbsp;</div>
@@ -10995,8 +10974,8 @@ function ContratoContentFinalizar({ navigation }) {
                 >${contratoCliente.tipoLogradouroResidencial}
                 ${contratoCliente.nomeLogradouroResidencial},
                 ${contratoCliente.numeroResidencial}, QUADRA:
-                ${contratoCliente.quadraResidencial}, LOTE:
-                ${contratoCliente.loteResidencial}, Complemento:
+                ${contratoCliente.quadraResidencial == 'null' ? "" : contratoCliente.quadraResidencial}, LOTE:
+                ${contratoCliente.loteResidencial == 'null' ? "" : contratoCliente.loteResidencial}, Complemento:
                 ${contratoCliente.complementoResidencial}, Bairro:
                 ${contratoCliente.bairroResidencial},
                 ${contratoCliente.cepResidencial}</span
@@ -11045,8 +11024,7 @@ function ContratoContentFinalizar({ navigation }) {
     </div>
     <div>
       <p style="text-align: center; font-size: 14px">
-        ${unidadeTratado.municipio} - ${unidadeTratado.uf},
-        ${contratoCliente.dataContrato}
+        ${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}
       </p>
     </div>
   </body>

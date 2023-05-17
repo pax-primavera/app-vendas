@@ -118,7 +118,7 @@ function VendasPendentes({ navigation }) {
 
   }
 
-  const finalizar = async (id, tipo) => {
+  const finalizar = async (id, tipo, status) => {
     Alert.alert(
       "Aviso.",
       "Deseja EDITAR este contrato finalizado'?",
@@ -131,13 +131,13 @@ function VendasPendentes({ navigation }) {
           text: "Sim",
           onPress: async () => {
             if (tipo == 'ADICIONAL PET' || tipo == 'EXCLUSÃO PET') {
-              return navigation.navigate("ContratoInicialAdicionalPET", { id });
+              return navigation.navigate("ContratoInicialAdicionalPET", { id, status });
             } else if (tipo == 'ADICIONAL PAX' || tipo == 'EXCLUSÃO PAX') {
-              return navigation.navigate("ContratoInicialAdicionalHum", { id, hum: true });
+              return navigation.navigate("ContratoInicialAdicionalHum", { id, hum: true, status });
             } else if (tipo == 'ALTERAÇÃO DE DATA DE VENCIMENTO') {
-              return navigation.navigate("ContratoInicialVencimento", { id });
+              return navigation.navigate("ContratoInicialVencimento", { id, status });
             } else {
-              return navigation.navigate("ContratoInicialOff", { id });
+              return navigation.navigate("ContratoInicialOff", { id, status });
             }
 
           },
@@ -175,7 +175,62 @@ function VendasPendentes({ navigation }) {
         return;
       }
 
-      const contrato = await executarSQL(`select *, '${logado._array[0].nome}' as "createBy" from titular where status = 1 and id = ${id}`);
+      const contrato = await executarSQL(`select 
+                id,
+                envioToken ,
+                dataContrato,
+                nomeTitular,
+                rgTitular,
+                cpfTitular,
+                dataNascTitular,
+                estadoCivilTitular,
+                nacionalidadeTitular,
+                naturalidadeTitular,
+                religiaoTitular ,
+                email1,
+                email2,
+                telefone1,
+                telefone2,
+                sexoTitular,
+                isCremado,
+                profissaoTitular,
+                tipoLogradouroResidencial,
+                nomeLogradouroResidencial,
+                numeroResidencial,
+                quadraResidencial,
+                loteResidencial,
+                complementoResidencial,
+                bairroResidencial,
+                cepResidencial,
+                cidadeResidencial,
+                estadoResidencial,
+                tipoLogradouroCobranca,
+                nomeLogradouroCobranca,
+                numeroCobranca,
+                quadraCobranca,
+                loteCobranca,
+                complementoCobranca,
+                bairroCobranca,
+                cepCobranca,
+                cidadeCobranca,
+                estadoCobranca,
+                plano,
+                enderecoCobrancaIgualResidencial,
+                localCobranca,
+                tipo,
+                empresaAntiga,
+                numContratoAntigo,
+                dataContratoAntigo,
+                diaVencimento,
+                dataPrimeiraMensalidade,
+                melhorHorario,
+                melhorDia,
+                is_enviado,
+                dataVencimentoAtual,
+                dataVencimento,
+                status,
+                unidadeId
+      , '${logado._array[0].nome}' as "createBy" from titular where status = 1 and id = ${id}`);
 
       if (contrato._array.length <= 0) {
         toast.show({
@@ -187,10 +242,12 @@ function VendasPendentes({ navigation }) {
         setCarregamentoVendas(false);
         return;
       }
-
+      const anexos = await executarSQL(`select id,anexo1,anexo2,anexo3,anexo4,anexo5,anexo6,anexo7,anexo8 from titular where id = ${id}`);
       const dependentes = await executarSQL(`select * from dependente where titular_id = ${id}`);
       const contratoBody = new FormData();
+
       contratoBody.append("contrato", JSON.stringify(contrato._array[0]));
+      contratoBody.append("anexo", JSON.stringify(anexos._array));
       contratoBody.append("dependente", dependentes._array.length > 0 ? JSON.stringify(dependentes._array) : JSON.stringify([]));
 
       const headers = {
@@ -198,7 +255,8 @@ function VendasPendentes({ navigation }) {
         'Authorization': `Bearer ${logado._array[0].token}`
       };
 
-      const result = await api.post(`/api/venda/sincronismo`, contratoBody, { headers });
+      //const result = await api.post(`/api/venda/sincronismo`, contratoBody, { headers });
+      const result = await api.post(`/api/venda/sincronismoanexos`, contratoBody, { headers });
 
       if (result.status === 201 && result.data.status === true) {
         await executarSQL(`DELETE from dependente where titular_id = ${result.data.id}`);
@@ -276,7 +334,7 @@ function VendasPendentes({ navigation }) {
               _web={web} >
               <Box safeArea w="100%" pl="5" pr="5" mb="10" >
                 <Heading size="lg" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
-                  Vendas Concluídas
+                  Vendas Concluídas e Pendentes
                 </Heading>
                 <Heading mt="3" mb="3" fontWeight="medium" size="xs">
                   Selecione uma venda para '<Text color={colors.COLORS.PAXCOLOR_1}>'ALTERAR'</Text> os dados.
@@ -298,7 +356,7 @@ function VendasPendentes({ navigation }) {
             </Box>
             {
               carregamentoVendas ?
-                <ComponentLoading mensagem=" Carregando vendas finalizadas" />
+                <ComponentLoading mensagem=" Carregando vendas" />
                 :
                 <>
                   {
@@ -324,12 +382,25 @@ function VendasPendentes({ navigation }) {
                               <Text mt="3" fontWeight="medium">
                                 Tipo: {data.tipo}
                               </Text>
+                              {data.status == 1 ? (
+                                <>
+                                  <Text mt="3" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1}>
+                                    Status: Finalizado
+                                  </Text>
+                                </>
+                              ) : (
+                                <>
+                                  <Text mt="3" fontWeight="medium" color="red.600">
+                                    Status: Incompleto
+                                  </Text>
+                                </>
+                              )}
                               <VStack p="2"></VStack>
                             </Container>
                             <HStack space={1} justifyContent="center">
                               <Center mt="5" ml="5" mr="5">
                                 <HStack space={2} justifyContent="center">
-                                  <Pressable onPress={() => { finalizar(data.id, data.tipo) }} w="33%" bg="white" rounded="md" shadow={1}>
+                                  <Pressable onPress={() => { finalizar(data.id, data.tipo, data.status) }} w="33%" bg="white" rounded="md" shadow={1}>
                                     <Center h="60">
                                       <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
                                         Editar
@@ -345,14 +416,20 @@ function VendasPendentes({ navigation }) {
                                       <Icon as={MaterialCommunityIcons} size="10" name="delete" color="red.800" />
                                     </Center>
                                   </Pressable>
-                                  <Pressable onPress={() => { sincronizar(data.id) }} w="33%" bg="white" rounded="md" shadow={3}>
-                                    <Center h="60">
-                                      <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
-                                        Sincronizar
-                                      </Heading>
-                                      <Icon as={MaterialCommunityIcons} size="10" name="database-refresh" color={colors.COLORS.PAXCOLOR_1} />
-                                    </Center>
-                                  </Pressable>
+                                  {data.status == 1 ? (
+                                    <>
+                                      <Pressable onPress={() => { sincronizar(data.id) }} w="33%" bg="white" rounded="md" shadow={3}>
+                                        <Center h="60">
+                                          <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
+                                            Sincronizar
+                                          </Heading>
+                                          <Icon as={MaterialCommunityIcons} size="10" name="database-refresh" color={colors.COLORS.PAXCOLOR_1} />
+                                        </Center>
+                                      </Pressable>
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
                                 </HStack>
                               </Center>
                             </HStack>

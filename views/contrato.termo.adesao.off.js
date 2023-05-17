@@ -306,7 +306,7 @@ function ContratoContentTermoAdesaoOff({ navigation }) {
                             return;
                         }
 
-                        if (tipo !== "Novo") {
+                        if (tipo !== "Contrato Novo") {
                             if (!numContratoAntigo) {
                                 Alert.alert("Aviso.", "Informe o número do contrato antigo!");
                                 return;
@@ -476,94 +476,93 @@ function ContratoContentTermoAdesaoOff({ navigation }) {
                                     </FormControl>
                                 </Center>
                             </HStack>
-                            {
-                                tipo !== "Novo" ?
-                                    <><HStack space={2} justifyContent="center">
-                                        <Center w="30%" rounded="md">
-                                            <FormControl isRequired>
-                                                <FormControl.Label>Número do contrato:</FormControl.Label>
-                                                <Input placeholder='Número do contrato:'
-                                                    value={numContratoAntigo}
-                                                    type="numeric"
-                                                    onChangeText={(e) => setNumContratoAntigo(changeInput(e, 'numContratoAntigo'))}
-                                                    _focus={styleInputFocus} />
-                                            </FormControl>
-                                        </Center>
-                                        <Center w="30%" rounded="md">
-                                            <FormControl isRequired>
-                                                <FormControl.Label>Data de Assinatura do Contrato Anterior:</FormControl.Label>
-                                                <Input keyboardType='numeric'
-                                                    placeholder='Data de Assinatura do Contrato Anterior'
-                                                    value={dataContratoAntigo}
-                                                    onChangeText={(e) => setDataContratoAntigo(changeInput(e, 'dataContratoAntigo'))}
-                                                    _focus={styleInputFocus}
-                                                />
-                                            </FormControl>
-                                        </Center>
-                                        <Center w="40%" rounded="md">
-                                            <FormControl isRequired>
-                                                <FormControl.Label>Nome da Filial (Empresa):</FormControl.Label>
-                                                <Input placeholder='Nome da Empresa:'
-                                                    value={empresaAntiga}
-                                                    onChangeText={(e) => setEmpresaAntiga(changeInput(e, 'empresaAntiga').toUpperCase())}
-                                                    _focus={styleInputFocus} />
-                                            </FormControl>
-                                        </Center>
-                                    </HStack>
-                                        <VStack mt="2">
-                                            <VStack style={containerFoto}>
-                                                <VStack pl="5" pr="5">
-                                                    <Text fontWeight="bold">Fotografe o comprovante de pagamento da 'ÚLTIMA' parcela do plano do cliente.</Text>
-                                                </VStack>
-                                                <Button size="lg"
-                                                    m="5"
-                                                    isDisabled={anexo1 != 'null' && anexo1 != null}
-                                                    leftIcon={<Icon as={Ionicons}
-                                                        name="camera-sharp"
-                                                        size="lg"
-                                                        color={colors.COLORS.PAXCOLOR_1} />}
-                                                    _light={styleButtonAdd}
-                                                    _text={styleButtonTextAdd}
-                                                    variant="outline"
-                                                    onPress={() => uploadImage(1)}
-                                                >
-                                                    COMPROVANTE DA ÚLTIMA PARCELA PAGA
-                                                </Button>
+                            {tipo !== "Contrato Novo" ?
+                                <><HStack space={2} justifyContent="center">
+                                    <Center w="30%" rounded="md">
+                                        <FormControl isRequired>
+                                            <FormControl.Label>Número do contrato:</FormControl.Label>
+                                            <Input placeholder='Número do contrato:'
+                                                value={numContratoAntigo}
+                                                type="numeric"
+                                                onChangeText={(e) => setNumContratoAntigo(changeInput(e, 'numContratoAntigo'))}
+                                                _focus={styleInputFocus} />
+                                        </FormControl>
+                                    </Center>
+                                    <Center w="30%" rounded="md">
+                                        <FormControl isRequired>
+                                            <FormControl.Label>Data de Assinatura do Contrato Anterior:</FormControl.Label>
+                                            <Input keyboardType='numeric'
+                                                placeholder='Data de Assinatura do Contrato Anterior'
+                                                value={dataContratoAntigo}
+                                                onChangeText={(e) => setDataContratoAntigo(changeInput(e, 'dataContratoAntigo'))}
+                                                _focus={styleInputFocus}
+                                            />
+                                        </FormControl>
+                                    </Center>
+                                    <Center w="40%" rounded="md">
+                                        <FormControl isRequired>
+                                            <FormControl.Label>Nome da Filial (Empresa):</FormControl.Label>
+                                            <Input placeholder='Nome da Empresa:'
+                                                value={empresaAntiga}
+                                                onChangeText={(e) => setEmpresaAntiga(changeInput(e, 'empresaAntiga').toUpperCase())}
+                                                _focus={styleInputFocus} />
+                                        </FormControl>
+                                    </Center>
+                                </HStack>
+                                    <VStack mt="2">
+                                        <VStack style={containerFoto}>
+                                            <VStack pl="5" pr="5">
+                                                <Text fontWeight="bold">Fotografe o comprovante de pagamento da 'ÚLTIMA' parcela do plano do cliente.</Text>
                                             </VStack>
-                                            <VStack style={containerFoto}>
-                                                <VStack pl="5" pr="5">
-                                                    <Text fontWeight="bold">Fotografe o comprovante de pagamento da 'PENÚLTIMA' parcela do plano do cliente.</Text>
-                                                </VStack>
-                                                <Button size="lg"
-                                                    m="5"
-                                                    isDisabled={anexo2 != 'null' && anexo2 != null}
-                                                    leftIcon={<Icon as={Ionicons} name="camera-sharp" size="lg" color={colors.COLORS.PAXCOLOR_1} />}
-                                                    _light={styleButtonAdd}
-                                                    _text={styleButtonTextAdd}
-                                                    variant="outline"
-                                                    onPress={() => uploadImage(2)}
-                                                >
-                                                    COMPROVANTE DA PENÚLTIMA PARCELA PAGA
-                                                </Button>
+                                            <Button size="lg"
+                                                m="5"
+                                                isDisabled={anexo1 != 'null' && anexo1 != null}
+                                                leftIcon={<Icon as={Ionicons}
+                                                    name="camera-sharp"
+                                                    size="lg"
+                                                    color={colors.COLORS.PAXCOLOR_1} />}
+                                                _light={styleButtonAdd}
+                                                _text={styleButtonTextAdd}
+                                                variant="outline"
+                                                onPress={() => uploadImage(1)}
+                                            >
+                                                COMPROVANTE DA ÚLTIMA PARCELA PAGA
+                                            </Button>
+                                        </VStack>
+                                        <VStack style={containerFoto}>
+                                            <VStack pl="5" pr="5">
+                                                <Text fontWeight="bold">Fotografe o comprovante de pagamento da 'PENÚLTIMA' parcela do plano do cliente.</Text>
                                             </VStack>
-                                            <VStack style={containerFoto}>
-                                                <VStack pl="5" pr="5">
-                                                    <Text fontWeight="bold">Fotografe o comprovante de pagamento da 'ANTEPENÚLTIMA' parcela do plano do cliente.</Text>
-                                                </VStack>
-                                                <Button size="lg"
-                                                    m="5"
-                                                    isDisabled={anexo3 != 'null' && anexo3 != null}
-                                                    leftIcon={<Icon as={Ionicons} name="camera-sharp" size="lg" color={colors.COLORS.PAXCOLOR_1} />}
-                                                    _light={styleButtonAdd}
-                                                    _text={styleButtonTextAdd}
-                                                    variant="outline"
-                                                    onPress={() => uploadImage(3)}
-                                                >
-                                                    COMPROVANTE DA ANTEPENÚLTIMA PARCELA PAGA
-                                                </Button>
+                                            <Button size="lg"
+                                                m="5"
+                                                isDisabled={anexo2 != 'null' && anexo2 != null}
+                                                leftIcon={<Icon as={Ionicons} name="camera-sharp" size="lg" color={colors.COLORS.PAXCOLOR_1} />}
+                                                _light={styleButtonAdd}
+                                                _text={styleButtonTextAdd}
+                                                variant="outline"
+                                                onPress={() => uploadImage(2)}
+                                            >
+                                                COMPROVANTE DA PENÚLTIMA PARCELA PAGA
+                                            </Button>
+                                        </VStack>
+                                        <VStack style={containerFoto}>
+                                            <VStack pl="5" pr="5">
+                                                <Text fontWeight="bold">Fotografe o comprovante de pagamento da 'ANTEPENÚLTIMA' parcela do plano do cliente.</Text>
                                             </VStack>
-                                        </VStack></>
-                                    : <></>
+                                            <Button size="lg"
+                                                m="5"
+                                                isDisabled={anexo3 != 'null' && anexo3 != null}
+                                                leftIcon={<Icon as={Ionicons} name="camera-sharp" size="lg" color={colors.COLORS.PAXCOLOR_1} />}
+                                                _light={styleButtonAdd}
+                                                _text={styleButtonTextAdd}
+                                                variant="outline"
+                                                onPress={() => uploadImage(3)}
+                                            >
+                                                COMPROVANTE DA ANTEPENÚLTIMA PARCELA PAGA
+                                            </Button>
+                                        </VStack>
+                                    </VStack></>
+                                : <></>
                             }
                             {
                                 tipo === "Transferência de Titularidade (Com Obito)" ?
