@@ -61,12 +61,21 @@ function ContratoContentAnexosOff({ navigation }) {
             }
 
             let pickerResult = tipo == 'camera'
-                ? await ImagePicker.launchCameraAsync()
-                : await ImagePicker.launchImageLibraryAsync();
+                ? await ImagePicker.launchCameraAsync({
+                    base64: true,
+                    allowsEditing: false,
+                    aspect: [4, 3],
+                    quality: 0.1,
+                })
+                : await ImagePicker.launchImageLibraryAsync({
+                    base64: true,
+                    allowsEditing: false,
+                    aspect: [4, 3],
+                    quality: 0.1,
+                });
 
             if (!pickerResult.canceled) {
                 if (numeroAnexo === 1) {
-                    console.log("cheguei aqui")
                     setAnexo1(pickerResult.base64);
                 }
                 if (numeroAnexo === 2) {
@@ -114,7 +123,6 @@ function ContratoContentAnexosOff({ navigation }) {
             setAnexo1(response._array[0].anexo1)
             setAnexo2(response._array[0].anexo2)
             setAnexo3(response._array[0].anexo3)
-
             setCarregamentoTela(false);
         }), () => {
             Alert.alert('Erro ao executar SQL', sqlError.toString());
@@ -140,9 +148,9 @@ function ContratoContentAnexosOff({ navigation }) {
                         await executarSQL(`
                             UPDATE titular 
                             SET 
-                                anexo4 = '${anexo1}', 
-                                anexo5 = '${anexo2}',
-                                anexo6 = '${anexo3}'
+                                anexo1 = '${anexo1}', 
+                                anexo2 = '${anexo2}',
+                                anexo3 = '${anexo3}'
                             WHERE id = ${id}
                         `);
                         return navigation.navigate("contratoContentFinalizarOff", {
@@ -186,7 +194,7 @@ function ContratoContentAnexosOff({ navigation }) {
                                     </VStack>
                                     <Button size="lg"
                                         m="5"
-                                        isDisabled={anexo1 != null}
+                                        isDisabled={anexo1 !== null}
                                         leftIcon={<Icon as={Ionicons} name="camera-sharp" size="lg" color={colors.COLORS.PAXCOLOR_1} />}
                                         _light={styleButtonAdd}
                                         _text={styleButtonTextAdd}
@@ -202,7 +210,7 @@ function ContratoContentAnexosOff({ navigation }) {
                                     </VStack>
                                     <Button size="lg"
                                         m="5"
-                                        isDisabled={anexo2 != null}
+                                        isDisabled={anexo2 !== null}
                                         leftIcon={<Icon as={Ionicons} name="camera-sharp" size="lg" color={colors.COLORS.PAXCOLOR_1} />}
                                         _light={styleButtonAdd}
                                         _text={styleButtonTextAdd}
@@ -219,7 +227,7 @@ function ContratoContentAnexosOff({ navigation }) {
                                     </VStack>
                                     <Button size="lg"
                                         m="5"
-                                        isDisabled={anexo3 != null}
+                                        isDisabled={anexo3 !== null}
                                         leftIcon={<Icon as={Ionicons} name="camera-sharp" size="lg" color={colors.COLORS.PAXCOLOR_1} />}
                                         _light={styleButtonAdd}
                                         _text={styleButtonTextAdd}

@@ -53,13 +53,13 @@ function ContratoContentAnexos({ navigation }) {
                     base64: true,
                     allowsEditing: false,
                     aspect: [4, 3],
-                    quality: 1,
+                    quality: 0.1,
                 })
                 : await ImagePicker.launchImageLibraryAsync({
                     base64: true,
                     allowsEditing: false,
                     aspect: [4, 3],
-                    quality: 1,
+                    quality: 0.1,
                 });
 
             if (!pickerResult.canceled) {

@@ -116,8 +116,60 @@ function Home({ navigation }) {
         try {
             const logado = await executarSQL(`select * from login`);
             const token = await executarSQL(`select token from login`);
-            const contrato = await executarSQL(
-                `select *, '${logado._array[0].nome}' as "createBy" from titular where status = 1`
+            const contrato = await executarSQL(`select id,
+        envioToken ,
+        dataContrato,
+        nomeTitular,
+        rgTitular,
+        cpfTitular,
+        dataNascTitular,
+        estadoCivilTitular,
+        nacionalidadeTitular,
+        naturalidadeTitular,
+        religiaoTitular ,
+        email1,
+        email2,
+        telefone1,
+        telefone2,
+        sexoTitular,
+        isCremado,
+        profissaoTitular,
+        tipoLogradouroResidencial,
+        nomeLogradouroResidencial,
+        numeroResidencial,
+        quadraResidencial,
+        loteResidencial,
+        complementoResidencial,
+        bairroResidencial,
+        cepResidencial,
+        cidadeResidencial,
+        estadoResidencial,
+        tipoLogradouroCobranca,
+        nomeLogradouroCobranca,
+        numeroCobranca,
+        quadraCobranca,
+        loteCobranca,
+        complementoCobranca,
+        bairroCobranca,
+        cepCobranca,
+        cidadeCobranca,
+        estadoCobranca,
+        plano,
+        enderecoCobrancaIgualResidencial,
+        localCobranca,
+        tipo,
+        empresaAntiga,
+        numContratoAntigo,
+        dataContratoAntigo,
+        diaVencimento,
+        dataPrimeiraMensalidade,
+        melhorHorario,
+        melhorDia,
+        is_enviado,
+        dataVencimentoAtual,
+        dataVencimento,
+        status,
+        unidadeId, '${logado._array[0].nome}' as "createBy" from titular where status = 1`
             );
 
             if (contrato._array[0] == null) {
@@ -137,14 +189,12 @@ function Home({ navigation }) {
                 contratoBody.append("contrato", JSON.stringify(item));
                 contratoBody.append("dependente", JSON.stringify(dependentes._array));
 
-                const request = await api.post(`/api/venda/sincronismo`,
-                    contratoBody,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                            'Authorization': `Bearer ${token._array[0].token}`
-                        }
-                    }
+                const headers = {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${logado._array[0].token}`
+                };
+
+                const request = await api.post(`/api/venda/sincronismo`, contratoBody, { headers }
                 ).catch((error) => {
                     if (error.response.status == 401) {
                         toast.show({
@@ -160,6 +210,59 @@ function Home({ navigation }) {
                 });
 
                 if (request.status == 201 && request.data.status == true) {
+                    const anexoBody8 = new FormData();
+                    const anexoBody1 = new FormData();
+                    const anexoBody2 = new FormData();
+                    const anexoBody3 = new FormData();
+                    const anexoBody4 = new FormData();
+                    const anexoBody5 = new FormData();
+                    const anexoBody6 = new FormData();
+                    const anexoBody7 = new FormData();
+
+                    let contratoAnexo = await executarSQL(`select ${request.data.novoId} as id, anexo1,  anexo2 ,  anexo3, anexo4, anexo5, anexo6, anexo7, anexo8 from titular where id = ${request.data.id}`);
+
+                    anexoBody8.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo8: contratoAnexo._array[0].anexo8 }))
+                    anexoBody1.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo1: contratoAnexo._array[0].anexo1 }))
+
+                    anexoBody2.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo2: contratoAnexo._array[0].anexo2 }))
+                    anexoBody3.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo3: contratoAnexo._array[0].anexo3 }))
+                    anexoBody4.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo4: contratoAnexo._array[0].anexo4 }))
+                    anexoBody5.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo5: contratoAnexo._array[0].anexo5 }))
+                    anexoBody6.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo6: contratoAnexo._array[0].anexo6 }))
+                    anexoBody7.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo7: contratoAnexo._array[0].anexo7 }))
+                    await api.post(`/api/venda/sincronismoanexo`, anexoBody8, { headers }).then(async () => {
+                        await api.post(`/api/venda/sincronismoanexo`, anexoBody1, { headers }).then(async () => {
+                            await api.post(`/api/venda/sincronismoanexo`, anexoBody2, { headers }).then(async () => {
+                                await api.post(`/api/venda/sincronismoanexo`, anexoBody3, { headers }).then(async () => {
+                                    await api.post(`/api/venda/sincronismoanexo`, anexoBody4, { headers }).then(async () => {
+                                        await api.post(`/api/venda/sincronismoanexo`, anexoBody5, { headers }).then(async () => {
+                                            await api.post(`/api/venda/sincronismoanexo`, anexoBody6, { headers }).then(async () => {
+                                                await api.post(`/api/venda/sincronismoanexo`, anexoBody7, { headers }).then(async () => {
+
+                                                }).catch((err) => {
+                                                    alert(err)
+                                                });
+                                            }).catch((err) => {
+                                                alert(err)
+                                            });
+                                        }).catch((err) => {
+                                            alert(err)
+                                        });
+                                    }).catch((err) => {
+                                        alert(err)
+                                    });
+                                }).catch((err) => {
+                                    alert(err)
+                                });
+                            }).catch((err) => {
+                                alert(err)
+                            });
+                        }).catch((err) => {
+                            alert(err)
+                        });
+                    }).catch((err) => {
+                        alert(err)
+                    });
                     await executarSQL(`
                         DELETE from dependente where titular_id = ${request.data.id}`
                     );
@@ -357,7 +460,7 @@ function Home({ navigation }) {
     }, [navigation, MaterialCommunityIcons]);
 
     useEffect(() => {
-        setup();
+        //setup();
         getUsuario();
         setCarregamentoTela(true)
 

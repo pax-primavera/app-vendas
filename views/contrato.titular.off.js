@@ -55,7 +55,6 @@ function ContratoContentTitularOff({ navigation }) {
     const setup = async () => {
         setCarregamentoTela(true);
         await executarSQL(`select regiao from unidade where id = ${unidadeID}`).then((response) => {
-            console.log(response._array[0].regiao)
             if (response._array[0].regiao == 3 || response._array[0].regiao == 2) {
                 setDesabilita(true)
             } else {
@@ -67,18 +66,18 @@ function ContratoContentTitularOff({ navigation }) {
         await executarListIDSQL(id).then((response) => {
             setData(response._array[0])
             setIsCremado(response._array[0].isCremado == 1 ? true : false);
-            setNomeTitular(response._array[0].nomeTitular);
-            setCpfTitular(response._array[0].cpfTitular);
-            setRGTitular(response._array[0].rgTitular);
-            setDataNascTitular(response._array[0].dataNascTitular);
+            setNomeTitular(response._array[0].nomeTitular == 'null' ? "" : response._array[0].nomeTitular);
+            setCpfTitular(response._array[0].cpfTitular == 'null' ? "" : response._array[0].cpfTitular);
+            setRGTitular(response._array[0].rgTitular == 'null' ? "" : response._array[0].rgTitular);
+            setDataNascTitular(response._array[0].dataNascTitular == 'null' ? "" : response._array[0].dataNascTitular);
             setEstadoCivilTitular(response._array[0].estadoCivilTitular);
             setNacionalidadeTitular(response._array[0].nacionalidadeTitular);
             setNaturalidadeTitular(response._array[0].naturalidadeTitular === 'null' ? null : response._array[0].naturalidadeTitular);
             setReligiaoTitular(response._array[0].religiaoTitular);
             setSexoTitular(response._array[0].sexoTitular);
-            setEmail1(response._array[0].email1);
+            setEmail1(response._array[0].email1 == 'null' ? "" : response._array[0].email1);
             setEmail2(response._array[0].email2 === 'null' ? null : response._array[0].email2);
-            setTelefone1(response._array[0].telefone1);
+            setTelefone1(response._array[0].telefone1 == 'null' ? "" : response._array[0].telefone1);
             setTelefone2(response._array[0].telefone2 === 'null' ? null : response._array[0].telefone2);
             setProfissaoTitular(response._array[0].profissaoTitular === 'null' ? null : response._array[0].profissaoTitular);
 

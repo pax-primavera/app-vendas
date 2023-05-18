@@ -81,7 +81,11 @@ function ContratoContentAssinarVendedor({ navigation }) {
   const finalizarContrato = async (file) => {
     setCarregamentoButton(true);
     if (id != null) {
-      await executarSQL(`UPDATE titular SET status = 1, anexo8 = '${file}' where id = ${id}`);
+      await executarSQL(`UPDATE titular SET status = 1, anexo8 = '${file}' where id = ${id}`).then(() => {
+        console.log("sucesso")
+      }).catch((err) => {
+        console.log("falha")
+      });
     } else {
       await executarSQL(`UPDATE titular SET status = 1, anexo8 = '${file}' where id = ${contratoID}`);
     }
@@ -161,7 +165,7 @@ function ContratoContentAssinarVendedor({ navigation }) {
               Alert.alert("Aviso.", "O Vendedor precisa assinar o contrato para Finalizar!");
               return;
             } else {
-              finalizarContrato(file.base64);
+              await finalizarContrato(file.base64);
               setCarregamentoButton(false)
               return navigation.navigate("Home");
             }

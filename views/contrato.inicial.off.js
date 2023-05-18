@@ -103,7 +103,8 @@ function ContratoContentInicialOff({ navigation }) {
 
             await executarSQL(`
               UPDATE titular
-              SET dataContrato = '${dataContrato}'
+              SET dataContrato = '${dataContrato}', 
+              unidadeId = ${unidadeID}
               WHERE id = ${id}`
             );
 

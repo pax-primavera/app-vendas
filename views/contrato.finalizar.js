@@ -137,7 +137,6 @@ function ContratoContentFinalizar({ navigation }) {
       const contratoTratado = trimObject(contrato._array[0]);
 
       const result = tiposContratos.find(tipo => tipo.descricao === contratoTratado.tipo);
-      console.log(result)
 
       //SELCIONA O PLANO DO CONTRATO E COLOCA EM UM ARRAY
       const plano = await executarSQL(`select id, descricao, valorMensalidade, valorAdicional, limiteDependente, carenciaNovo, ativo, unidadeId,

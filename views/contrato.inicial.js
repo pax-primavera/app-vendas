@@ -86,7 +86,7 @@ function ContratoContentInicial({ navigation }) {
               return;
             }
 
-            const novoContrato = await insertIdSQL(`INSERT INTO titular (is_enviado, dataContrato) VALUES (0, '${dataContrato}');`);
+            const novoContrato = await insertIdSQL(`INSERT INTO titular (is_enviado, dataContrato, unidadeId) VALUES (0, '${dataContrato}',${unidadeID});`);
 
             if (!novoContrato) {
               return toast.show({

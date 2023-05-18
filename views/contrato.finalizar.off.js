@@ -93,8 +93,6 @@ function ContratoContentFinalizarOff({ navigation }) {
       //COLOCA OS CONTRATOS EM UM ARRAY
       const contratoTratado = trimObject(contrato._array[0]);
 
-      console.log(contratoTratado.anexo1)
-
       const result = tiposContratos.find(tipo => tipo.descricao === contratoTratado.tipo);
 
       //SELCIONA O PLANO DO CONTRATO E COLOCA EM UM ARRAY
@@ -3939,6 +3937,7 @@ function ContratoContentFinalizarOff({ navigation }) {
             <div>
                 <p style="text-align: center; font-size: 14px;">${unidadeTratado.municipio} - ${unidadeTratado.uf}, ${contratoCliente.dataContrato}</p>
             </div>
+           
         </body>
     </html>
                     `

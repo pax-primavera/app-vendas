@@ -175,62 +175,60 @@ function VendasPendentes({ navigation }) {
         return;
       }
 
-      const contrato = await executarSQL(`select 
-                id,
-                envioToken ,
-                dataContrato,
-                nomeTitular,
-                rgTitular,
-                cpfTitular,
-                dataNascTitular,
-                estadoCivilTitular,
-                nacionalidadeTitular,
-                naturalidadeTitular,
-                religiaoTitular ,
-                email1,
-                email2,
-                telefone1,
-                telefone2,
-                sexoTitular,
-                isCremado,
-                profissaoTitular,
-                tipoLogradouroResidencial,
-                nomeLogradouroResidencial,
-                numeroResidencial,
-                quadraResidencial,
-                loteResidencial,
-                complementoResidencial,
-                bairroResidencial,
-                cepResidencial,
-                cidadeResidencial,
-                estadoResidencial,
-                tipoLogradouroCobranca,
-                nomeLogradouroCobranca,
-                numeroCobranca,
-                quadraCobranca,
-                loteCobranca,
-                complementoCobranca,
-                bairroCobranca,
-                cepCobranca,
-                cidadeCobranca,
-                estadoCobranca,
-                plano,
-                enderecoCobrancaIgualResidencial,
-                localCobranca,
-                tipo,
-                empresaAntiga,
-                numContratoAntigo,
-                dataContratoAntigo,
-                diaVencimento,
-                dataPrimeiraMensalidade,
-                melhorHorario,
-                melhorDia,
-                is_enviado,
-                dataVencimentoAtual,
-                dataVencimento,
-                status,
-                unidadeId
-      , '${logado._array[0].nome}' as "createBy" from titular where status = 1 and id = ${id}`);
+      const contrato = await executarSQL(`select id,
+        envioToken ,
+        dataContrato,
+        nomeTitular,
+        rgTitular,
+        cpfTitular,
+        dataNascTitular,
+        estadoCivilTitular,
+        nacionalidadeTitular,
+        naturalidadeTitular,
+        religiaoTitular ,
+        email1,
+        email2,
+        telefone1,
+        telefone2,
+        sexoTitular,
+        isCremado,
+        profissaoTitular,
+        tipoLogradouroResidencial,
+        nomeLogradouroResidencial,
+        numeroResidencial,
+        quadraResidencial,
+        loteResidencial,
+        complementoResidencial,
+        bairroResidencial,
+        cepResidencial,
+        cidadeResidencial,
+        estadoResidencial,
+        tipoLogradouroCobranca,
+        nomeLogradouroCobranca,
+        numeroCobranca,
+        quadraCobranca,
+        loteCobranca,
+        complementoCobranca,
+        bairroCobranca,
+        cepCobranca,
+        cidadeCobranca,
+        estadoCobranca,
+        plano,
+        enderecoCobrancaIgualResidencial,
+        localCobranca,
+        tipo,
+        empresaAntiga,
+        numContratoAntigo,
+        dataContratoAntigo,
+        diaVencimento,
+        dataPrimeiraMensalidade,
+        melhorHorario,
+        melhorDia,
+        is_enviado,
+        dataVencimentoAtual,
+        dataVencimento,
+        status,
+        unidadeId, '${logado._array[0].nome}' as "createBy" from titular where status = 1 and id = ${id}`);
 
       if (contrato._array.length <= 0) {
         toast.show({
@@ -242,12 +240,12 @@ function VendasPendentes({ navigation }) {
         setCarregamentoVendas(false);
         return;
       }
-      const anexos = await executarSQL(`select id,anexo1,anexo2,anexo3,anexo4,anexo5,anexo6,anexo7,anexo8 from titular where id = ${id}`);
+
+
+
       const dependentes = await executarSQL(`select * from dependente where titular_id = ${id}`);
       const contratoBody = new FormData();
-
       contratoBody.append("contrato", JSON.stringify(contrato._array[0]));
-      contratoBody.append("anexo", JSON.stringify(anexos._array));
       contratoBody.append("dependente", dependentes._array.length > 0 ? JSON.stringify(dependentes._array) : JSON.stringify([]));
 
       const headers = {
@@ -255,16 +253,88 @@ function VendasPendentes({ navigation }) {
         'Authorization': `Bearer ${logado._array[0].token}`
       };
 
-      //const result = await api.post(`/api/venda/sincronismo`, contratoBody, { headers });
-      const result = await api.post(`/api/venda/sincronismoanexos`, contratoBody, { headers });
+      const result = await api.post(`/api/venda/sincronismo`, contratoBody, { headers });
 
       if (result.status === 201 && result.data.status === true) {
+        const anexoBody8 = new FormData();
+        const anexoBody1 = new FormData();
+        const anexoBody2 = new FormData();
+        const anexoBody3 = new FormData();
+        const anexoBody4 = new FormData();
+        const anexoBody5 = new FormData();
+        const anexoBody6 = new FormData();
+        const anexoBody7 = new FormData();
+
+        let contratoAnexo = await executarSQL(`select ${result.data.novoId} as id, anexo1,  anexo2 ,  anexo3, anexo4, anexo5, anexo6, anexo7, anexo8 from titular where id = ${id}`);
+
+        anexoBody8.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo8: contratoAnexo._array[0].anexo8 }))
+        anexoBody1.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo1: contratoAnexo._array[0].anexo1 }))
+
+        anexoBody2.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo2: contratoAnexo._array[0].anexo2 }))
+        anexoBody3.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo3: contratoAnexo._array[0].anexo3 }))
+        anexoBody4.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo4: contratoAnexo._array[0].anexo4 }))
+        anexoBody5.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo5: contratoAnexo._array[0].anexo5 }))
+        anexoBody6.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo6: contratoAnexo._array[0].anexo6 }))
+        anexoBody7.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo7: contratoAnexo._array[0].anexo7 }))
+        await api.post(`/api/venda/sincronismoanexo`, anexoBody8, { headers }).then(async () => {
+          await api.post(`/api/venda/sincronismoanexo`, anexoBody1, { headers }).then(async () => {
+            await api.post(`/api/venda/sincronismoanexo`, anexoBody2, { headers }).then(async () => {
+              await api.post(`/api/venda/sincronismoanexo`, anexoBody3, { headers }).then(async () => {
+                await api.post(`/api/venda/sincronismoanexo`, anexoBody4, { headers }).then(async () => {
+                  await api.post(`/api/venda/sincronismoanexo`, anexoBody5, { headers }).then(async () => {
+                    await api.post(`/api/venda/sincronismoanexo`, anexoBody6, { headers }).then(async () => {
+                      await api.post(`/api/venda/sincronismoanexo`, anexoBody7, { headers }).then(async () => {
+
+                      }).catch((err) => {
+                        alert(err)
+                      });
+                    }).catch((err) => {
+                      alert(err)
+                    });
+                  }).catch((err) => {
+                    alert(err)
+                  });
+                }).catch((err) => {
+                  alert(err)
+                });
+              }).catch((err) => {
+                alert(err)
+              });
+            }).catch((err) => {
+              alert(err)
+            });
+          }).catch((err) => {
+            alert(err)
+          });
+        }).catch((err) => {
+          alert(err)
+        });
+
         await executarSQL(`DELETE from dependente where titular_id = ${result.data.id}`);
         await executarSQL(`DELETE from titular WHERE id = ${result.data.id}`);
+
         toast.show({
           placement: "top",
           render: () => {
             return <ComponentToast title="Sucesso!" message={"Contrato enviado com sucesso!"} />;
+          },
+        });
+        setCarregamentoVendas(false);
+        setup();
+      } else if (result.data.status === false) {
+        toast.show({
+          placement: "top",
+          render: () => {
+            return <ComponentToast title="Falha!" message={"Não foi possível enviar este contrato!"} />;
+          },
+        });
+        setCarregamentoVendas(false);
+        setup();
+      } else if (result.data.status === false) {
+        toast.show({
+          placement: "top",
+          render: () => {
+            return <ComponentToast title="Falha!" message={"Não foi possível enviar este contrato!"} />;
           },
         });
         setCarregamentoVendas(false);
@@ -328,7 +398,7 @@ function VendasPendentes({ navigation }) {
     <ScrollView h="100%">
       {
         carregamento ?
-          <ComponentLoading mensagem="Carregando Vendas Concluidas" />
+          <ComponentLoading mensagem="Carregando Vendas Concluidas ou Pendentes" />
           : <VStack m="2">
             <Box maxW="100%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _light={light}
               _web={web} >
