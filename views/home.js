@@ -460,7 +460,7 @@ function Home({ navigation }) {
     }, [navigation, MaterialCommunityIcons]);
 
     useEffect(() => {
-        //setup();
+        setup();
         getUsuario();
         setCarregamentoTela(true)
 

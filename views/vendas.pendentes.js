@@ -26,7 +26,7 @@ function VendasPendentes({ navigation }) {
     filiais();
     executarListSQL().then(async (response) => {
       setData(response._array)
-      limpaContrato()
+      //limpaContrato()
     }), () => {
       Alert.alert('Erro ao executar SQL', sqlError.toString());
     }
@@ -277,6 +277,7 @@ function VendasPendentes({ navigation }) {
         anexoBody6.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo6: contratoAnexo._array[0].anexo6 }))
         anexoBody7.append("contrato", JSON.stringify({ id: contratoAnexo._array[0].id, anexo7: contratoAnexo._array[0].anexo7 }))
         await api.post(`/api/venda/sincronismoanexo`, anexoBody8, { headers }).then(async () => {
+
           await api.post(`/api/venda/sincronismoanexo`, anexoBody1, { headers }).then(async () => {
             await api.post(`/api/venda/sincronismoanexo`, anexoBody2, { headers }).then(async () => {
               await api.post(`/api/venda/sincronismoanexo`, anexoBody3, { headers }).then(async () => {
@@ -284,7 +285,8 @@ function VendasPendentes({ navigation }) {
                   await api.post(`/api/venda/sincronismoanexo`, anexoBody5, { headers }).then(async () => {
                     await api.post(`/api/venda/sincronismoanexo`, anexoBody6, { headers }).then(async () => {
                       await api.post(`/api/venda/sincronismoanexo`, anexoBody7, { headers }).then(async () => {
-
+                        await executarSQL(`DELETE from dependente where titular_id = ${result.data.id}`);
+                        await executarSQL(`DELETE from titular WHERE id = ${result.data.id}`);
                       }).catch((err) => {
                         alert(err)
                       });
@@ -309,9 +311,6 @@ function VendasPendentes({ navigation }) {
         }).catch((err) => {
           alert(err)
         });
-
-        await executarSQL(`DELETE from dependente where titular_id = ${result.data.id}`);
-        await executarSQL(`DELETE from titular WHERE id = ${result.data.id}`);
 
         toast.show({
           placement: "top",

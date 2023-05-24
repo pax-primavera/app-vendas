@@ -30,7 +30,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 8,
+      "versionCode":3, 
       "package": "com.vendas.ms",
       "permissions": [
         "android.permission.CAMERA",
