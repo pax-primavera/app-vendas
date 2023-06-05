@@ -32,7 +32,7 @@ import { ContratoContentInicialAdicionalHum } from '../views/contrato.inicial.ad
 import { ContratoAdicionalHum } from "../views/contrato.adicional.hum.js";
 import { ContratoContentEnderecoAdicional } from "../views/contrato.enderecos.adicional.hum.js";
 import { ContratoContentTitularAdicional } from "../views/contrato.titular.adicional.hum.js";
-
+import { ContratoContentAnexosAdicional } from '../views/contrato.anexos.adicional.js';
 
 import { ContratoContentInicialAdicionalPET } from '../views/contrato.inicial.adicional.pet.js';
 import { ContratoAdicionalPET } from "../views/contrato.adicional.pet.js";
@@ -424,6 +424,21 @@ const Routes = () => {
                 <Stack.Screen
                     name="contratoContentEnderecoAdicional"
                     component={ContratoContentEnderecoAdicional}
+                    options={() => ({
+                        headerTitle: () => (
+                            <Image
+                                style={imagemLogo}
+                                source={imagens.Logo}
+                                resizeMode='contain'
+                            />
+                        ),
+                        headerTitleAlign: "center",
+                        headerStyle: heightHeader
+                    })}
+                />
+                <Stack.Screen
+                    name="ContratoContentAnexosAdicional"
+                    component={ContratoContentAnexosAdicional}
                     options={() => ({
                         headerTitle: () => (
                             <Image

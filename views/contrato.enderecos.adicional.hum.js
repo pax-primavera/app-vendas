@@ -140,8 +140,7 @@ function ContratoContentEnderecoAdicional({ navigation }) {
                             WHERE id = ${contratoID}`
                             );
                         }
-
-                        return navigation.navigate("contratoContentFinalizarAdicional", { id: id, contratoID, unidadeID, hum });
+                        return navigation.navigate("ContratoContentAnexosAdicional", { id: id, contratoID, unidadeID, hum });
                     }
                 },
             ],
