@@ -919,6 +919,12 @@ function ContratoContentFinalizarOff({ navigation }) {
                   <p><span style="color: inherit;">U.F: <span
                               class="ESTADO_RESIDENCIAL token_d4s">${contratoCliente.estadoResidencial}</span>&nbsp;</span>
                   </p>
+                  <p><span style="color: inherit;">QUADRA: <span
+                                class="QUADRA_RESIDENCIAL token_d4s">${contratoCliente.quadraResidencial}</span>&nbsp;</span>
+                    </p>
+                    <p><span style="color: inherit;">LOTE: <span
+                                class="LOTE_RESIDENCIAL token_d4s">${contratoCliente.loteResidencial}</span>&nbsp;</span>
+                    </p>
               </div>
               <p></p>
               <div class="edit">
@@ -943,6 +949,12 @@ function ContratoContentFinalizarOff({ navigation }) {
                   <p><span style="color: inherit;">U.F: <span
                               class="ESTADO_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.estadoResidencial : contratoCliente.estadoCobranca}</span>&nbsp;</span>
                   </p>
+                  <p><span style="color: inherit;">QUADRA: <span
+                                class="QUADRA_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.quadraResidencial : contratoCliente.quadraCobranca}</span>&nbsp;</span>
+                    </p>
+                    <p><span style="color: inherit;">LOTE: <span
+                                class="LOTE_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.loteResidencial : contratoCliente.loteCobranca}</span>&nbsp;</span>
+                    </p>
               </div>
               <p></p>
           </div>
@@ -2131,6 +2143,12 @@ function ContratoContentFinalizarOff({ navigation }) {
                               >&nbsp;</span
                             >
                           </p>
+                          <p><span style="color: inherit;">QUADRA: <span
+                                class="QUADRA_RESIDENCIAL token_d4s">${contratoCliente.quadraResidencial}</span>&nbsp;</span>
+                    </p>
+                    <p><span style="color: inherit;">LOTE: <span
+                                class="LOTE_RESIDENCIAL token_d4s">${contratoCliente.loteResidencial}</span>&nbsp;</span>
+                    </p>
                         </div>
                         <p></p>
                         <div class="edit">
@@ -2155,6 +2173,12 @@ function ContratoContentFinalizarOff({ navigation }) {
                   <p><span style="color: inherit;">U.F: <span
                               class="ESTADO_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.estadoResidencial : contratoCliente.estadoCobranca}</span>&nbsp;</span>
                   </p>
+                  <p><span style="color: inherit;">QUADRA: <span
+                                class="QUADRA_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.quadraResidencial : contratoCliente.quadraCobranca}</span>&nbsp;</span>
+                    </p>
+                    <p><span style="color: inherit;">LOTE: <span
+                                class="LOTE_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.loteResidencial : contratoCliente.loteCobranca}</span>&nbsp;</span>
+                    </p>
               </div>
               <p></p>
                       </div>
@@ -3621,6 +3645,12 @@ function ContratoContentFinalizarOff({ navigation }) {
                     <p><span style="color: inherit;">U.F: <span
                                 class="ESTADO_RESIDENCIAL token_d4s">${contratoCliente.estadoResidencial}</span>&nbsp;</span>
                     </p>
+                    <p><span style="color: inherit;">QUADRA: <span
+                                class="QUADRA_RESIDENCIAL token_d4s">${contratoCliente.quadraResidencial}</span>&nbsp;</span>
+                    </p>
+                    <p><span style="color: inherit;">LOTE: <span
+                                class="LOTE_RESIDENCIAL token_d4s">${contratoCliente.loteResidencial}</span>&nbsp;</span>
+                    </p>
                 </div>
                 <p></p>
                 <div class="edit">
@@ -3645,6 +3675,12 @@ function ContratoContentFinalizarOff({ navigation }) {
                   <p><span style="color: inherit;">U.F: <span
                               class="ESTADO_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.estadoResidencial : contratoCliente.estadoCobranca}</span>&nbsp;</span>
                   </p>
+                  <p><span style="color: inherit;">QUADRA: <span
+                                class="QUADRA_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.quadraResidencial : contratoCliente.quadraCobranca}</span>&nbsp;</span>
+                    </p>
+                    <p><span style="color: inherit;">LOTE: <span
+                                class="LOTE_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.loteResidencial : contratoCliente.loteCobranca}</span>&nbsp;</span>
+                    </p>
               </div>
               <p></p>
             </div>
@@ -4852,6 +4888,12 @@ function ContratoContentFinalizarOff({ navigation }) {
                                 >&nbsp;</span
                               >
                             </p>
+                            <p><span style="color: inherit;">QUADRA: <span
+                                class="QUADRA_RESIDENCIAL token_d4s">${contratoCliente.quadraResidencial}</span>&nbsp;</span>
+                    </p>
+                    <p><span style="color: inherit;">LOTE: <span
+                                class="LOTE_RESIDENCIAL token_d4s">${contratoCliente.loteResidencial}</span>&nbsp;</span>
+                    </p>
                           </div>
                           <p></p>
                           <div class="edit">
@@ -4876,6 +4918,12 @@ function ContratoContentFinalizarOff({ navigation }) {
                   <p><span style="color: inherit;">U.F: <span
                               class="ESTADO_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.estadoResidencial : contratoCliente.estadoCobranca}</span>&nbsp;</span>
                   </p>
+                  <p><span style="color: inherit;">QUADRA: <span
+                                class="QUADRA_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.quadraResidencial : contratoCliente.quadraCobranca}</span>&nbsp;</span>
+                    </p>
+                    <p><span style="color: inherit;">LOTE: <span
+                                class="LOTE_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.loteResidencial : contratoCliente.loteCobranca}</span>&nbsp;</span>
+                    </p>
               </div>
               <p></p>
                         </div>
@@ -6687,6 +6735,12 @@ function ContratoContentFinalizarOff({ navigation }) {
                 >&nbsp;</span
               >
             </p>
+            <p><span style="color: inherit;">QUADRA: <span
+                                class="QUADRA_RESIDENCIAL token_d4s">${contratoCliente.quadraResidencial}</span>&nbsp;</span>
+                    </p>
+                    <p><span style="color: inherit;">LOTE: <span
+                                class="LOTE_RESIDENCIAL token_d4s">${contratoCliente.loteResidencial}</span>&nbsp;</span>
+                    </p>
           </div>
           <p></p>
           <div class="edit">
@@ -6711,6 +6765,12 @@ function ContratoContentFinalizarOff({ navigation }) {
                   <p><span style="color: inherit;">U.F: <span
                               class="ESTADO_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.estadoResidencial : contratoCliente.estadoCobranca}</span>&nbsp;</span>
                   </p>
+                  <p><span style="color: inherit;">QUADRA: <span
+                                class="QUADRA_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.quadraResidencial : contratoCliente.quadraCobranca}</span>&nbsp;</span>
+                    </p>
+                    <p><span style="color: inherit;">LOTE: <span
+                                class="LOTE_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.loteResidencial : contratoCliente.loteCobranca}</span>&nbsp;</span>
+                    </p>
               </div>
               <p></p>
         </div>
@@ -8473,6 +8533,12 @@ function ContratoContentFinalizarOff({ navigation }) {
                         >&nbsp;</span
                       >
                     </p>
+                    <p><span style="color: inherit;">QUADRA: <span
+                                class="QUADRA_RESIDENCIAL token_d4s">${contratoCliente.quadraResidencial}</span>&nbsp;</span>
+                    </p>
+                    <p><span style="color: inherit;">LOTE: <span
+                                class="LOTE_RESIDENCIAL token_d4s">${contratoCliente.loteResidencial}</span>&nbsp;</span>
+                    </p>
                   </div>
                   <p></p>
                   <div class="edit">
@@ -8496,6 +8562,12 @@ function ContratoContentFinalizarOff({ navigation }) {
                   </p>
                   <p><span style="color: inherit;">U.F: <span
                               class="ESTADO_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.estadoResidencial : contratoCliente.estadoCobranca}</span>&nbsp;</span>
+                  </p>
+                  <p><span style="color: inherit;">QUADRA: <span
+                    class="QUADRA_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.quadraResidencial : contratoCliente.quadraCobranca}</span>&nbsp;</span>
+                  </p>
+                  <p><span style="color: inherit;">LOTE: <span
+                    class="LOTE_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.loteResidencial : contratoCliente.loteCobranca}</span>&nbsp;</span>
                   </p>
               </div>
               <p></p>
@@ -10691,6 +10763,12 @@ function ContratoContentFinalizarOff({ navigation }) {
             >&nbsp;</span
           >
         </p>
+        <p><span style="color: inherit;">QUADRA: <span
+                                class="QUADRA_RESIDENCIAL token_d4s">${contratoCliente.quadraResidencial}</span>&nbsp;</span>
+                    </p>
+                    <p><span style="color: inherit;">LOTE: <span
+                                class="LOTE_RESIDENCIAL token_d4s">${contratoCliente.loteResidencial}</span>&nbsp;</span>
+                    </p>
       </div>
       <p></p>
       <div class="edit">
@@ -10764,6 +10842,12 @@ function ContratoContentFinalizarOff({ navigation }) {
             >&nbsp;</span
           >
         </p>
+        <p><span style="color: inherit;">QUADRA: <span
+                                class="QUADRA_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.quadraResidencial : contratoCliente.quadraCobranca}</span>&nbsp;</span>
+                    </p>
+                    <p><span style="color: inherit;">LOTE: <span
+                                class="LOTE_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.loteResidencial : contratoCliente.loteCobranca}</span>&nbsp;</span>
+                    </p>
       </div>
       <p></p>
     </div>
