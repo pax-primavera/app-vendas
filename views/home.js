@@ -21,38 +21,13 @@ function Home({ navigation }) {
     const setup = async () => {
         NetInfo.refresh().then(async (state) => {
             if (state.isConnected) {
-                let datetime = moment().utcOffset('-04:00').format('HH:mm');
-                if (datetime >= '07:30' && datetime <= '08:00') {
+                let date = moment().format('d');
+                let time = moment().format('HH:mm');
+                console.log(time)
+                if (date == 1 && time >= '07:30' && time <= '08:00') {
                     setCarregamentoTela(true)
-                    await sincronismo()
-                    setCarregamentoTela(false)
-                    return toast.show({
-                        placement: "top",
-                        render: () => {
-                            return (
-                                <ComponentToast
-                                    message={`Conexão estabelecida com sucesso. Contratos Sincronizados`}
-                                />
-                            );
-                        },
-                    });
-                } else if (datetime >= '11:30' && datetime <= '12:00') {
-                    setCarregamentoTela(true)
-                    await sincronismo()
-                    setCarregamentoTela(false)
-                    return toast.show({
-                        placement: "top",
-                        render: () => {
-                            return (
-                                <ComponentToast
-                                    message={`Conexão estabelecida com sucesso. Contratos Sincronizados`}
-                                />
-                            );
-                        },
-                    });
-                } else if (datetime >= '17:30' && datetime <= '18:00') {
-                    setCarregamentoTela(true)
-                    await sincronismo()
+                    await executarSQL(`DELETE from dependente where titular_id IN (SELECT id FROM titular where status = 3)`);
+                    await executarSQL(`DELETE from titular WHERE status = 3`);
                     setCarregamentoTela(false)
                     return toast.show({
                         placement: "top",

@@ -371,11 +371,8 @@ function ContratoContentTitularOff({ navigation }) {
                                             placeholder="Selecione um gênero:"
                                         >
                                             {sexo.map((item) => (
-                                                <Select.Item
-                                                    key={item.id}
-                                                    label={item["descricao"].toUpperCase()}
-                                                    value={item["descricao"]}
-                                                />
+                                                console.log(item.descricao)
+
                                             ))}
                                         </Select>
                                     </FormControl>

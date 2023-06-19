@@ -285,8 +285,9 @@ function VendasPendentes({ navigation }) {
                   await api.post(`/api/venda/sincronismoanexo`, anexoBody5, { headers }).then(async () => {
                     await api.post(`/api/venda/sincronismoanexo`, anexoBody6, { headers }).then(async () => {
                       await api.post(`/api/venda/sincronismoanexo`, anexoBody7, { headers }).then(async () => {
-                        await executarSQL(`DELETE from dependente where titular_id = ${result.data.id}`);
-                        await executarSQL(`DELETE from titular WHERE id = ${result.data.id}`);
+                        await executarSQL(`UPDATE titular SET status = 3 where id = ${result.data.id}`);
+                        // await executarSQL(`DELETE from dependente where titular_id = ${result.data.id}`);
+                        // await executarSQL(`DELETE from titular WHERE id = ${result.data.id}`);
                       }).catch((err) => {
                         alert(err)
                       });

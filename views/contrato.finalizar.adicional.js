@@ -322,6 +322,7 @@ function ContratoContentFinalizarAdicional({ navigation }) {
         if (dep && dep.is_pet == 0) {
           if (dep.adicional == 1) {
             valorTotalMensalidade += plano._array[0].valorAdicional;
+            console.log(valorTotalMensalidade)
           }
           adesaoHumano += dep.valorAdesao;
           mensalidadeHumano += dep.valorMensalidade;
@@ -338,6 +339,7 @@ function ContratoContentFinalizarAdicional({ navigation }) {
           adesaoPet += dep.valorAdesao;
           mensalidadePet += dep.valorMensalidade
         }
+        console.log(dep.resgate)
         return (htmlDependentesPet += `
           <div class="edit">
             <p>PET ${index + 1}:${dep.nome}</p>
@@ -348,7 +350,7 @@ function ContratoContentFinalizarAdicional({ navigation }) {
               <p>Porte: ${dep.porte}</p>
               <p>Cor: ${dep.cor}</p>
               <p>Data de Nascimento: ${moment(dep.dataNascimento).format('DD/MM/YYYY')}</p>
-              <p>Modalidade: ${dep.resgate == 1 ? "Com resgate" : "Sem resgate"}</p>
+              <p>Modalidade: ${dep.resgate == 'true' ? "Com resgate" : "Sem resgate"}</p>
               <p><span style="color: inherit;"><br></span></p>
           </div>
         `);
