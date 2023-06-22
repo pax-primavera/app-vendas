@@ -235,6 +235,7 @@ function ContratoContentFinalizar({ navigation }) {
         valorTotalMensalidade += dep.valorMensalidade;
         adesaoCremacao += dep.valorAdesao;
         mensalidadeCremacao += dep.valorMensalidade;
+
         if (dep && dep.is_pet == 0) {
           if (plano._array[0].limiteDependente > 0) {
             valorTotalMensalidade += (index + 1 <= plano._array[0].limiteDependente ? 0.00 : plano._array[0].valorAdicional);

@@ -458,6 +458,12 @@ function VendasPendentes({ navigation }) {
                                     Status: Finalizado
                                   </Text>
                                 </>
+                              ) : data.status === 3 ? (
+                                <>
+                                  <Text mt="3" fontWeight="bold" color="green.600">
+                                    Status: Sincronizado
+                                  </Text>
+                                </>
                               ) : (
                                 <>
                                   <Text mt="3" fontWeight="medium" color="red.600">
@@ -497,8 +503,20 @@ function VendasPendentes({ navigation }) {
                                         </Center>
                                       </Pressable>
                                     </>
+                                  ) : data.status === 3 ? (
+                                    <>
+                                      <Pressable onPress={() => { sincronizar(data.id) }} w="33%" bg="white" rounded="md" shadow={3}>
+                                        <Center h="60">
+                                          <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
+                                            Sincronizar
+                                          </Heading>
+                                          <Icon as={MaterialCommunityIcons} size="10" name="database-refresh" color={colors.COLORS.PAXCOLOR_1} />
+                                        </Center>
+                                      </Pressable>
+                                    </>
                                   ) : (
-                                    <></>
+                                    <>
+                                    </>
                                   )}
                                 </HStack>
                               </Center>

@@ -252,14 +252,15 @@ function ContratoContentFinalizarAdicional({ navigation }) {
             peso,
             cor,
             is_pet,
-            (select a.valorAdesao from adicional a where d.is_pet = 1 and a.porte=d.porte and a.unidadeId=${unidadeID} and (case when LOWER(d.resgate) = 'true' THEN 1 ELSE 0 END = a.resgate) limit 1) as valorAdesao,
-            (select a.valorMensalidade from adicional a where d.is_pet = 1 and a.porte=d.porte and  a.unidadeId=${unidadeID} and (case when LOWER(d.resgate) = 'true' THEN 1 ELSE 0 END = a.resgate) limit 1) as valorMensalidade
+            (select a.valorAdesao from adicional a where d.is_pet = 1 and a.porte=d.porte and a.unidadeId=${unidadeID} and (case when LOWER(d.resgate) = '1' THEN 1 ELSE 0 END = a.resgate) limit 1) as valorAdesao,
+            (select a.valorMensalidade from adicional a where d.is_pet = 1 and a.porte=d.porte and  a.unidadeId=${unidadeID} and (case when LOWER(d.resgate) = '1' THEN 1 ELSE 0 END = a.resgate) limit 1) as valorMensalidade
             from dependente d
             left join raca r on r.id = d.raca
             left join especie e on e.id = d.especie
             where titular_id = '${contratoID}' and is_pet = 1
           `);
       }
+      console.log(dependentesPets)
 
 
       const dependentes = [
@@ -339,7 +340,6 @@ function ContratoContentFinalizarAdicional({ navigation }) {
           adesaoPet += dep.valorAdesao;
           mensalidadePet += dep.valorMensalidade
         }
-        console.log(dep.resgate)
         return (htmlDependentesPet += `
           <div class="edit">
             <p>PET ${index + 1}:${dep.nome}</p>
@@ -350,7 +350,7 @@ function ContratoContentFinalizarAdicional({ navigation }) {
               <p>Porte: ${dep.porte}</p>
               <p>Cor: ${dep.cor}</p>
               <p>Data de Nascimento: ${moment(dep.dataNascimento).format('DD/MM/YYYY')}</p>
-              <p>Modalidade: ${dep.resgate == 'true' ? "Com resgate" : "Sem resgate"}</p>
+              <p>Modalidade: ${dep.resgate == 1 ? "Com resgate" : "Sem resgate"}</p>
               <p><span style="color: inherit;"><br></span></p>
           </div>
         `);
