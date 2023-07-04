@@ -145,15 +145,16 @@ function ContratoContentTermoAdesaoOff({ navigation }) {
 
     const setup = async () => {
         setCarregamentoTela(true);
-
         executarSQL(`select id,descricao from plano where unidadeId = ${unidadeID}`).then((response) => {
             setPlanos(response._array)
         }), () => {
             Alert.alert('Erro ao executar SQL', sqlError.toString());
         }
 
-        executarSQL(`select uf from unidade where id = ${unidadeID}`).then((response) => {
+        executarSQL(`select regiao, uf from unidade where id = ${unidadeID}`).then((response) => {
             if (response._array[0].uf == 'PR') {
+                setTipos(tiposContratosPR)
+            } else if (response._array[0].uf == 'MS' && response._array[0].regiao == 1) {
                 setTipos(tiposContratosPR)
             } else if (response._array[0].uf == 'MS') {
                 setTipos(tiposContratos)

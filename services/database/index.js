@@ -39,7 +39,7 @@ export const insertIdSQL = (sql) => {
 export const executarListSQL = () => {
 
     return new Promise((resolve, reject) => db.transaction(tx => {
-        tx.executeSql(`select * from ${table} ORDER BY ${table}.dataContrato DESC `, [], (_, { rows }) => {
+        tx.executeSql(`select * from ${table} ORDER BY ${table}.dataContrato ASC `, [], (_, { rows }) => {
             resolve(rows)
 
         }), (sqlError) => {

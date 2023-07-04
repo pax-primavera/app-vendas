@@ -166,6 +166,7 @@ function ContratoContentTermoAdesao({ navigation }) {
 
     executarSQL(`select uf, regiao from unidade where id = ${unidadeID}`).then((response) => {
       setEstado(response._array[0].uf)
+      console.log(response._array[0].regiao)
       if (response._array[0].uf == 'PR') {
         setTipos(tiposContratosPR)
       } else if (response._array[0].uf == 'MS') {
