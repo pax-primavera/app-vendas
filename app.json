@@ -2,7 +2,7 @@
   "expo": {
     "name": "Pax Vendedor",
     "slug": "PaxVendedorMS",
-    "version": "3.1.6",
+    "version": "3.2.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -30,7 +30,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode":10, 
+      "versionCode":16, 
       "package": "com.vendas.ms",
       "permissions": [
         "android.permission.CAMERA",

@@ -141,6 +141,7 @@ function ContratoContentFinalizar({ navigation }) {
       const contratoTratado = trimObject(contrato._array[0]);
 
       const result = tiposContratos.find(tipo => tipo.descricao === contratoTratado.tipo);
+      console.log(result)
 
       //SELCIONA O PLANO DO CONTRATO E COLOCA EM UM ARRAY
       const plano = await executarSQL(`select id, descricao, valorMensalidade, valorAdicional, limiteDependente, carenciaNovo, ativo, unidadeId,
@@ -237,6 +238,7 @@ function ContratoContentFinalizar({ navigation }) {
       dependentes.map(async (dep, index) => {
         valorTotalAdesao += dep.valorAdesao;
         valorTotalMensalidade += dep.valorMensalidade;
+        console.log(dep.valorAdesao)
         adesaoCremacao += dep.valorAdesao;
         mensalidadeCremacao += dep.valorMensalidade;
 
@@ -5180,7 +5182,7 @@ function ContratoContentFinalizar({ navigation }) {
                         <p></p>
                         <ul>
                           <li>Plano Funerário: R$ ${planoTratado.valorAdesao}</li>
-                          <li>Adicional de Cremação Humana: R$ ${result.id >= 2 ? 0 : adesaoHumano}</li>
+                          <li>Adicional de Cremação Humana: R$ ${adesaoHumano}</li>
                           <li style="font-size: 14px">
                             <b style="font-size: 16px"
                               >Total da Taxa de Adesão:R$ ${result.id >= 2 ? planoTratado.valorAdesao : valorTotalAdesao}</b
@@ -7867,10 +7869,10 @@ function ContratoContentFinalizar({ navigation }) {
                         <p></p>
                         <ul>
                           <li>Plano Funerário: R$ ${planoTratado.valorAdesao}</li>
-                          <li>Adicional de Cremação Humana: R$ ${result.id >= 2 ? 0 : adesaoHumano}</li>
+                          <li>Adicional de Cremação Humana: R$ ${adesaoHumano}</li>
                           <li style="font-size: 14px">
                             <b style="font-size: 16px"
-                              >Total da Taxa de Adesão:R$ ${result.id >= 2 ? planoTratado.valorAdesao : valorTotalAdesao}</b
+                              >Total da Taxa de Adesão:R$ ${valorTotalAdesao}</b
                             >
                           </li>
                         </ul>
@@ -11463,10 +11465,10 @@ function ContratoContentFinalizar({ navigation }) {
                 <p></p>
                 <ul>
                   <li>Plano Funerário: R$ ${planoTratado.valorAdesao}</li>
-                  <li>Adicional de Cremação PET: R$ ${result.id >= 2 ? 0 : adesaoPet}</li>
-                  <li>Adicional de Cremação Humana: R$ ${result.id >= 2 ? 0 : adesaoHumano}</li>
+                  <li>Adicional de Cremação PET: R$ ${adesaoPet}</li>
+                  <li>Adicional de Cremação Humana: R$ ${adesaoHumano}</li>
                   <li style="font-size: 14px">
-                 <b style="font-size: 16px">Total da Taxa de Adesão:R$ ${result.id >= 2 ? planoTratado.valorAdesao : valorTotalAdesao}
+                 <b style="font-size: 16px">Total da Taxa de Adesão:R$ ${valorTotalAdesao}
                  </b>
                 </li>
                 </ul >

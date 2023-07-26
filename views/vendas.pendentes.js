@@ -228,7 +228,7 @@ function VendasPendentes({ navigation }) {
         dataVencimentoAtual,
         dataVencimento,
         status,
-        unidadeId, '${logado._array[0].nome}' as "createBy" from titular where status = 1 and id = ${id}`);
+        unidadeId, '${logado._array[0].nome}' as "createBy" from titular where id = ${id}`);
 
       if (contrato._array.length <= 0) {
         toast.show({
@@ -476,14 +476,21 @@ function VendasPendentes({ navigation }) {
                             <HStack space={1} justifyContent="center">
                               <Center mt="5" ml="5" mr="5">
                                 <HStack space={2} justifyContent="center">
-                                  <Pressable onPress={() => { finalizar(data.id, data.tipo, data.status) }} w="33%" bg="white" rounded="md" shadow={1}>
-                                    <Center h="60">
-                                      <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
-                                        Editar
-                                      </Heading>
-                                      <Icon as={MaterialCommunityIcons} size="10" name="file-document-edit-outline" color={colors.COLORS.PAXCOLOR_1} />
-                                    </Center>
-                                  </Pressable>
+                                  {data.status != 3 ? (
+                                    <>
+                                      <Pressable onPress={() => { finalizar(data.id, data.tipo, data.status) }} w="33%" bg="white" rounded="md" shadow={1}>
+                                        <Center h="60">
+                                          <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
+                                            Editar
+                                          </Heading>
+                                          <Icon as={MaterialCommunityIcons} size="10" name="file-document-edit-outline" color={colors.COLORS.PAXCOLOR_1} />
+                                        </Center>
+                                      </Pressable>
+                                    </>
+                                  ) : (
+                                    <>
+                                    </>
+                                  )}
                                   <Pressable onPress={() => { deletePendente(data.id) }} w="33%" bg="white" rounded="md" shadow={3}>
                                     <Center h="60">
                                       <Heading size="sm" fontWeight="bold" color={colors.COLORS.PAXCOLOR_1} >
