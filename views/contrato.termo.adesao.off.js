@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, Center, Box, VStack, Heading, HStack, ScrollView, Button, useToast, FormControl, Input, Select, Radio, Icon } from "native-base";
 import { web, light, styleButtonText, styleButton, styleInputFocus, containerFoto, styleButtonAdd, styleButtonTextAdd } from '../utils/styles/index';
 import colors from '../utils/styles/colors';
-import { tiposContratos, tiposContratosPR, tiposContratosGO, locaisCobrancas } from '../utils/generic/data';
+import { tiposContratos, tiposContratosPR, tiposContratosGO, locaisCobrancas, tiposContratosMT } from '../utils/generic/data';
 import { useRoute } from '@react-navigation/native';
 import axiosAuth from '../utils/config/axios/private.js';
 import { timeMask, dataMask, dataMaskEUA } from "../utils/generic/format";
@@ -152,7 +152,9 @@ function ContratoContentTermoAdesaoOff({ navigation }) {
         }
 
         executarSQL(`select regiao, uf from unidade where id = ${unidadeID}`).then((response) => {
-            if (response._array[0].uf == 'PR') {
+            if (response._array[0].uf == 'MT') {
+                setTipos(tiposContratosMT)
+            } else if (response._array[0].uf == 'PR') {
                 setTipos(tiposContratosPR)
             } else if (response._array[0].uf == 'MS' && response._array[0].regiao == 1) {
                 setTipos(tiposContratosPR)

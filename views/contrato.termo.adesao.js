@@ -36,7 +36,7 @@ import { Alert } from "react-native";
 import moment from "moment";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
-import { tiposContratos, tiposContratosPR, tiposContratosGO, locaisCobrancas } from "../utils/generic/data";
+import { tiposContratos, tiposContratosPR, tiposContratosGO, locaisCobrancas, tiposContratosMT } from "../utils/generic/data";
 
 function ContratoContentTermoAdesao({ navigation }) {
   /// Config
@@ -167,7 +167,10 @@ function ContratoContentTermoAdesao({ navigation }) {
     executarSQL(`select uf, regiao from unidade where id = ${unidadeID}`).then((response) => {
       setEstado(response._array[0].uf)
       console.log(response._array[0].regiao)
-      if (response._array[0].uf == 'PR') {
+      console.log(response._array[0].uf)
+      if (response._array[0].uf == 'MT') {
+        setTipos(tiposContratosMT)
+      } else if (response._array[0].uf == 'PR') {
         setTipos(tiposContratosPR)
       } else if (response._array[0].uf == 'MS') {
         if (response._array[0].regiao == 1) {

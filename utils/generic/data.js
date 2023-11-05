@@ -187,6 +187,41 @@ const tiposContratosGO = [
     },
 ];
 
+const tiposContratosMT = [
+    {
+        id: 1,
+        descricao: 'Contrato Novo'
+    },
+    // {
+    //     id: 2,
+    //     descricao: 'Transferência de Titularidade (Com Obito)'
+    // },
+    // {
+    //     id: 3,
+    //     descricao: 'Transferência de Filial'
+    // },
+    // {
+    //     id: 4,
+    //     descricao: 'Transferência de PLANO PIRITA para PLANO CRISTAL'
+    // },
+    // {
+    //     id: 5,
+    //     descricao: 'Transferência de PLANO PIRITA para PLANO APOLLO'
+    // },
+    // {
+    //     id: 6,
+    //     descricao: 'Transferência de PLANO CRISTAL para PLANO APOLLO'
+    // },
+    // {
+    //     id: 7,
+    //     descricao: 'Transferência de PLANO APOLLO para PLANO CRISTAL'
+    // },
+    // {
+    //     id: 8,
+    //     descricao: 'Transferência de OUTRA EMPRESA para PAX - PLANO CRISTAL'
+    // },
+];
+
 const estados = [
     {
         id: 1,
@@ -458,6 +493,7 @@ export {
     tiposContratos,
     tiposContratosPR,
     tiposContratosGO,
+    tiposContratosMT,
     nacionalidade,
     estados,
     religioes,

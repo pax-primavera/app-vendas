@@ -29,7 +29,7 @@ import { useRef } from "react";
 import { templates, templatesSemPET, templatesSemPETSemCREM } from "../utils/generic/data";
 import { dataMask, dataMaskEUA, cnpjMask } from "../utils/generic/format";
 import moment from 'moment';
-import { tiposContratos, tiposContratosPR, tiposContratosGO } from "../utils/generic/data";
+import { tiposContratos, tiposContratosPR, tiposContratosGO, tiposContratosMT } from "../utils/generic/data";
 
 function ContratoContentFinalizar({ navigation }) {
   /// Config
@@ -73,7 +73,9 @@ function ContratoContentFinalizar({ navigation }) {
 
       console.log(templatesContrato)
 
-      if (response._array[0].uf == 'MS') {
+      if (response._array[0].uf == 'MT') {
+        tiposContratosMT.map((item) => (setTipo(item.id)))
+      } else if (response._array[0].uf == 'MS') {
         if (response._array[0].regiao == 0) {
 
           {
@@ -81,7 +83,6 @@ function ContratoContentFinalizar({ navigation }) {
               setTipo(item.id)
             ))
           }
-
         } else {
           {
             tiposContratosPR.map((item) => (
@@ -141,7 +142,6 @@ function ContratoContentFinalizar({ navigation }) {
       const contratoTratado = trimObject(contrato._array[0]);
 
       const result = tiposContratos.find(tipo => tipo.descricao === contratoTratado.tipo);
-      console.log(result)
 
       //SELCIONA O PLANO DO CONTRATO E COLOCA EM UM ARRAY
       const plano = await executarSQL(`select id, descricao, valorMensalidade, valorAdicional, limiteDependente, carenciaNovo, ativo, unidadeId,
@@ -238,7 +238,6 @@ function ContratoContentFinalizar({ navigation }) {
       dependentes.map(async (dep, index) => {
         valorTotalAdesao += dep.valorAdesao;
         valorTotalMensalidade += dep.valorMensalidade;
-        console.log(dep.valorAdesao)
         adesaoCremacao += dep.valorAdesao;
         mensalidadeCremacao += dep.valorMensalidade;
 
@@ -247,13 +246,16 @@ function ContratoContentFinalizar({ navigation }) {
             valorTotalMensalidade += (index + 1 <= plano._array[0].limiteDependente ? 0.00 : plano._array[0].valorAdicional);
             qtdAdicional += (index + 1 <= plano._array[0].limiteDependente ? 0 : 1);
             valorAdicional += (index + 1 <= plano._array[0].limiteDependente ? 0.00 : plano._array[0].valorAdicional)
+
           } else {
             if (dep.adicional == 1) {
               qtdAdicional++;
               valorAdicional += plano._array[0].valorAdicional
               valorTotalMensalidade += plano._array[0].valorAdicional;
+              valorTotalAdesao += plano._array[0].valorAdicional;
             }
           }
+
           adesaoHumano += dep.valorAdesao;
           mensalidadeHumano += dep.valorMensalidade;
           return (htmlDependentesHumano += `
@@ -267,6 +269,8 @@ function ContratoContentFinalizar({ navigation }) {
               </div>
           `);
         }
+        console.log(valorTotalMensalidade)
+        console.log(valorAdicional)
         if (dep && dep.is_pet == 1) {
           adesaoPet += dep.valorAdesao;
           mensalidadePet += dep.valorMensalidade
@@ -370,8 +374,816 @@ function ContratoContentFinalizar({ navigation }) {
 
       contratoBody.append("body", JSON.stringify(contratoCliente));
 
+      //console.log(contratoBody);
+
       let html;
-      if (estado == 'PR') {
+      if (estado == 'MT') {
+        html = `<!DOCTYPE html>
+        <html lang="pt-br">
+        
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Document</title>
+        </head>
+        
+        <body>
+        
+            <body>
+                <div>
+                    <p style="text-align: center;"><b><span style="font-size: 16px;">CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE
+                                ASSISTÊNCIA FUNERÁRIA</span></b><br>
+                    </p>
+                    <p></p>
+                </div>
+                <div>
+                    <p style="text-align: justify;"><span style="font-size: 14px;">Pelo
+                            presente instrumento particular de contrato de prestação de serviços de
+                            assistência funerária, de um lado, simplesmente denominada CONTRATADA, a
+                            empresa ${unidadeTratado.razaoSocial}, pessoa jurídica de direito
+                            privado, inscrita no CNPJ sob o nº ${cnpjMask(unidade._array[0].cnpj)}, com sede à rua
+                            ${unidadeTratado.rua}, nº ${unidadeTratado.numero}, Bairro ${unidadeTratado.bairro}, CEP 79.826-110,
+                            ${unidadeTratado.municipio}/${unidadeTratado.uf}, por seu
+                            representante legal ao final assinado e do outro lado, o(a) consumidor(a),
+                            identificado e qualificado na Ficha de Qualificação, parte integrante e
+                            indissociável deste contrato, simplesmente denominado CONTRATANTE.</span><br>
+                    </p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <h4 style="text-align: center;"><b style="font-size: 16px;">1. CLÁUSULA PRIMERA – DO OBJETO DO CONTRATO</b>
+                    </h4>
+                </div>
+                <div>
+                    <p><span style="font-size: 14px;"><b>1.1</b>&nbsp;Pelo presente instrumento contratual, a CONTRATADA,
+                            através de recursos próprios ou de empresas designadas por ela, disponibilizará ao CONTRATANTE e
+                            seus BENEFICIÁRIOS o Plano de Assistência Familiar, objetivando prestação de serviços de assistência
+                            funerária, de acordo com a Lei 13.261/2016, com os parâmetros do plano optado e as condições
+                            especificadas abaixo:</span>
+                    </p>
+                    <p><span style="font-size: 14px;"><b>1.2</b>&nbsp;Os serviços de exumação, confecção de pedras, fotos,
+                            embelezamento e fornecimento de jazigo/gaveta (túmulo), não serão cobertos neste contrato, sendo
+                            eventuais despesas de inteira responsabilidade do(a)CONTRATANTE.</span>
+                    </p>
+                    <p><span style="font-size: 14px;"><b>1.3</b>&nbsp;Serviços e despesas não contempladas neste contrato serão
+                            custeados pelo (a) CONTRATANTE e/ou BENEFICIÁRIO responsável pelo funeral;</span>
+                    </p>
+                    <p><span style="font-size: 14px;"><b>1.4</b>&nbsp;Todo o serviço solicitado ou material adquirido que não
+                            atenda às especificações deste contrato, bem como todo serviço ou produto adquirido junto a
+                            terceiros ou empresas congêneres, sem autorização por escrito da CONTRATADA, será de inteira e
+                            exclusiva responsabilidade do (a) CONTRATANTE e seus BENEFICIÁRIOS, não cabendo neste caso, qualquer
+                            tipo de restituição, reembolso, devolução ou indenização;</span>
+                    </p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <h4 style="text-align: center;"><b style="font-size: 16px;">2. CLÁUSULA SEGUNDA – DA ABRANGÊNCIA
+                            GEOGRÁFICA</b>
+                    </h4>
+                </div>
+                <div>
+                    <p style="text-align: justify;"><span style="font-size: 14px;"><b>2.1</b>&nbsp;
+                            A abrangência geográfica dos serviços disponibilizados pela CONTRATADA compreende a localidade onde
+                            o contrato foi firmado, conforme declarado no termo de adesão em anexo, e em todas as localidades
+                            que a CONTRATADA possuir filiais;</span>
+                    </p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <h4 style="text-align: center;"><b><span style="font-size: 16px;">3.&nbsp;CLÁUSULA TERCEIRA – DOS SERVIÇOS
+                                CONTRATADOS</span></b>
+                    </h4>
+                </div>
+                <div>
+                    <p><span style="font-size: 14px;"><b>3.1</b>&nbsp;A CONTRATADA obriga-se a prestar os seguintes
+                            serviços:<br></span>
+                    </p>
+                    <p></p>
+                    <ul>
+                        <li><span style="font-size: 14px;">Plantão 24 horas para atendimento telefônico e auxilio de informações
+                                ao CONTRATANTE e seus BENEFICIÁRIOS;<br></span>
+                        </li>
+                        <li><span style="font-size: 14px;">Atendimento funerário na localidade onde o contrato foi firmado,
+                                conforme declarado no termo de adesão em anexo, e em todas as localidades que a CONTRATADA
+                                possuir filiais, conforme cláusula segunda deste contrato;<br></span>
+                        </li>
+                        <li><span style="font-size: 14px;">Traslado rodoviário para as áreas de atuação acima descrita, nos
+                                limites do plano contratado e assinalado no termo de adesão;<br></span>
+                        </li>
+                        <li><span style="font-size: 14px;">Uma urna mortuária estilo sextavado em conformidade com o plano
+                                adquirido;<br></span>
+                        </li>
+                        <li><span style="font-size: 14px;">Paramentação
+                                conforme o credo religioso;<br></span>
+                        </li>
+                        <li><span style="font-size: 14px;">Carro
+                                funerário para remoção e cortejo ;<br></span>
+                        </li>
+                        <li><span style="font-size: 14px;">Decoração
+                                de flores naturais e/ou artificiais na urna, conforme a disponibilidade de
+                                mercado onde serão executados os serviços;<br></span>
+                        </li>
+                        <li><span style="font-size: 14px;">Velas;<br></span></li>
+                        <li><span style="font-size: 14px;">Véu;<br></span></li>
+                        <li><span style="font-size: 14px;">Livro
+                                de presença;<br></span>
+                        </li>
+                        <li><span style="font-size: 14px;">Sala
+                                de velório, se necessário conforme cobertura do plano optado.</span>
+                        </li>
+                    </ul>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <h4 style="text-align: center;"><b style="font-size: 16px;">4.&nbsp;CLÁUSULA QUARTA – DOS SERVIÇOS DE
+                            ALIMENTAÇÃO</b></h4>
+                </div>
+                <div>
+                    <p><span style="font-size: 14px;"><b>4.1</b>&nbsp;Lanche
+                            servido na capela: pacotes de bolacha de água e sal; Chá e café.</span>
+                    </p>
+                    <p style=""><span style="font-size: 14px;"><b style="">4.2</b>&nbsp;Kit
+                            lanche para residencial: 500g (quinhentos gramas) de chá; 500g (quinhentos
+                            gramas) de café; 02kg (dois quilos) de açúcar; 01 (um) pacote de bolacha de
+                            água e sal; 100 (cem) copos de
+                            café.</span>
+                    </p>
+                    <p></p>
+                    <blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;">
+                        <p><span style="font-size: 12px;"><b>Parágrafo
+                                    Primeiro:</b> Eventual substituição de produto em decorrência da falta de fabricação ou
+                                distribuição do mercado, será substituído por produto equivalente ou de igual valor de escolha
+                                do (a) CONTRATANTE.<br></span>
+                        </p>
+                        <p><span style="font-size: 12px;"><b>Parágrafo
+                                    Segundo:</b> Os itens compreendidos acima fazem referência aos serviços e produtos mínimos
+                                ofertados para todos os planos da CONTRATADA.</span>
+                        </p>
+                    </blockquote>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <h4 style="text-align: center;"><b><span style="font-size: 16px;">5.&nbsp;CLÁUSULA QUINTA – DOS SERVIÇOS DE
+                            TRANSLADO </span></b></h4>
+                <div>
+                    <p><span style="font-size: 14px;"><b>5.1</b>O meio de transporte a ser utilizado para o translado do corpo
+                            será o rodoviário. Se necessário o uso de transporte aéreo, poderá a CONTRATADA proceder à
+                            intermediação, ficando as despesas daí decorrentes por conta do (a) CONTRATANTE ou do beneficiário
+                            responsável ou dos seus herdeiros, caso aquele venha falecer;</span></p>
+                    <p></p>
+                    <blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;">
+                        <p><span style="font-size: 12px;"><b>Parágrafo Único:</b>&nbsp;O uso de transporte aéreo será de inteira
+                                responsabilidade do CONTRATANTE, podendo a CONTRATADA proceder apenas com a intermediação de
+                                informações e apoio.</span></p>
+                    </blockquote>
+                    <span style="color: inherit; font-size: 14px;">
+                        <p><b style="color: inherit;">5.2</b><span style="color: inherit;">Não haverá qualquer tipo de reembolso
+                                de quaisquer despesas efetuadas pelo (a) CONTRATANTE em caso de solicitação de serviços não
+                                previstos no respectivo plano optado.</span><br></p>
+                    </span>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <h4 style="text-align: center;"><b><span style="font-size: 16px;">6.&nbsp;CLÁUSULA SEXTA – DA ADESÃO AO PLANO E
+                            DEPENDENTES</span></b></h4>
+                <div>
+                    <p><span style="font-size: 14px;"><b>6.1</b>Com a adesão ao plano escolhido no termo de adesão, a CONTRATADA
+                            fornecerá os serviços funerários correspondentes ao CONTRATANTE e seus dependentes (seus pais,
+                            esposa (o), filhos solteiros menores de 21 anos de idade, filhos solteiros incapazes, menores de 18
+                            anos de idade com guarda judicial comprovada documentalmente ou quem mais ele possa indicar na
+                            qualidade de adicional);</span></p>
+                    <p></p>
+                    <blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;">
+                        <p><span style="font-size: 12px;"><b>Parágrafo Único:</b>&nbsp;A alteração das condições especificadas
+                                na cláusula acima excluirá a condição de dependentes e/ou beneficiários do respectivo
+                                contrato.</span></p>
+        
+                    </blockquote>
+                    <span style="color: inherit; font-size: 14px;">
+                        <p><b style="color: inherit;">6.2</b>
+                            <span style="color: inherit;">
+                                A inclusão de cada novo BENEFICIÁRIO na qualidade de
+                                adicional, excetuado os pais, esposa (o), filhos solteiros
+                                menores de 21 anos de idade, filhos solteiros incapazes,
+                                menores de 18 anos de idade com guarda judicial comprovada
+                                documentalmente do (a) CONTRATANTE, acrescerá 10% (dez por
+                                cento) na mensalidade total do plano ao qual o (a) CONTRANTE
+                                é vinculado;</span><br>
+                        </p>
+                    </span>
+                    <p></p>
+                    <blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;">
+                        <p><span style="font-size: 12px;"><b>Parágrafo Primeiro:</b>&nbsp;
+                                Para cada inclusão posterior de novos BENEFICIÁRIOS será considerada individualmente a obrigação
+                                do cumprimento da carência de 90 (noventa) dias, que será contada a partir do pagamento da
+                                primeira mensalidade que já contemple o valor relativo à inclusão do mesmo;</span></p>
+                        <p><span style="font-size: 12px;"><b>Parágrafo Segundo:</b>&nbsp;O (a) CONTRATANTE poderá optar no termo
+                                de adesão, entre seus pais ou os pais de sua (seu) cônjuge, não sendo permitida a cobertura da
+                                prestação para ambos simultaneamente;</span></p>
+                        <p><span style="font-size: 12px;"><b>Parágrafo Terceiro:</b>&nbsp;
+                                As informações dos dependentes prestadas no termo de adesão e no contrato de prestação de
+                                assistência funerária serão consideradas verdadeiras, sob pena de responsabilidade civil e
+                                criminal do (a) CONTRATANTE;</span></p>
+                    </blockquote>
+                    <p><span style="color: inherit; font-size: 14px;"><b>6.3</b>O (a) CONTRATANTE pagará a CONTRATADA como taxa
+                            de adesão, no ato da assinatura do presente contrato, o valor estipulado no termo de
+                            adesão.<br></span></p>
+                    <p><span style="color: inherit; font-size: 14px;"><b>6.4</b>Todas as parcelas de preço terão seus
+                            vencimentos na data apontada no termo de adesão, salvo nos casos em que o vencimento recair em
+                            finais de semana e feriados nacionais e locais, hipótese em que serão automaticamente prorrogadas
+                            para o primeiro dia útil seguinte.<br></span>
+                    </p>
+                    <p><span style="color: inherit; font-size: 14px;"><b>6.5</b>Caberá ainda ao(a) CONTRATANTE o pagamento da
+                            mensalidade total fixada para cada ano-base no termo de adesão, conforme tabela de preços descritos
+                            no termo de adesão vigente à época, que estará sujeita a reajuste anual através da aplicação da
+                            variação positiva do Índice Geral de Preços - Mercado, divulgado pela Fundação Getúlio Vargas (IGP-M
+                            -Índice Geral de Preços do Mercado), sendo que a data base para o reajuste se dará no primeiro dia
+                            de cada ano ou, no caso de extinção do IGP-M, por outro índice que reflita a variação positiva dos
+                            preços no período em questão, podendo ainda ser revista, a qualquer tempo, sempre que houver
+                            necessidade de recomposição real de perdas inflacionárias não refletidas no índice adotado ou quando
+                            a estrutura de custos da CONTRATADA assim o exigir.<br></span>
+                    </p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <h4 style="text-align: center;"><b style="font-size: 16px;">7.&nbsp;CLÁUSULA SÉTIMA – DOS PRAZOS DE
+                        PAGAMENTO</b>
+                </h4>
+                <div>
+                    <p><span style="font-size: 14px;"><b>7.1</b>O presente contrato entrará em vigor na data em que houver o
+                            efetivo pagamento da taxa de adesão e assim permanecerá pelo prazo de 60 (sessenta) meses, podendo
+                            ser renovados pela vontade das partes, desde que o (a) CONTRATANTE cumpra todas as obrigações ora
+                            assumidas neste contrato.</span></p>
+                    <p></p>
+                    <blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;">
+                        <p><span style="font-size: 12px;"><b>Parágrafo Único:</b>&nbsp;Para os efeitos da cláusula 7.1 acima,
+                                “efetivo pagamento” será considerado o momento do recebimento do valor pactuado à vista em moeda
+                                corrente;</span></p>
+                    </blockquote>
+                    <span style="color: inherit; font-size: 14px;">
+                        <p><span style="font-size: 14px;"><b>7.2</b> Fica pactuado que o (a) CONTRATANTE e os beneficiários do
+                                presente contrato terão direito a usufruir dos benefícios contratados e relativos ao plano
+                                escolhido após a carência de 90 (noventa) dias, contados da data do pagamento integral da taxa
+                                de adesão, ou da primeira parcela, no caso de parcelamento. A CONTRATADA, então, não fica
+                                obrigada a prestar nenhum serviço antes do término da carência.</span></p>
+                    </span>
+                    <p></p>
+                    <blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;">
+                        <p><span style="font-size: 12px;"><b>Parágrafo Primeiro:</b>&nbsp;O (A) CONTRATANTE será considerado
+                                (a)constituído (a) em mora a partir do primeiro dia do vencimento da primeira mensalidade
+                                referente ao plano aderido no termo de adesão, independente de notificação, sendo os serviços
+                                terminantemente suspensos;</span></p>
+                        <p><span style="font-size: 12px;"><b>Parágrafo Segundo:</b>&nbsp;O contrato será rescindo após três
+                                meses de atraso.</span></p>
+                    </blockquote>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <h4 style="font-size: 16px; text-align: center;"><b>8.&nbsp;CLÁUSULA OITAVA – DO PAGAMENTO EM ATRASO</b>
+                    </h4>
+                </div>
+                <div>
+                    <p><span style="font-size: 14px;"><b>8.1</b>&nbsp;O não pagamento das quantias devidas dentro do prazo
+                            convencionado na aquisição do termo de adesão implicará na incidência de multa equivalente a 2%
+                            (dois por cento) do valor devido e não pago, acrescida de juros de mora de 1%, (um por cento) ao mês
+                            e correção monetária pelo Índice Geral de Preços - Mercado, divulgado pela Fundação Getúlio Vargas
+                            (IGP-M -Índice Geral de Preços do Mercado), calculados sobre o valor devido até a data do efetivo
+                            pagamento;</span><br>
+                    </p>
+                    <p><span style="font-size: 14px;"><b>8.2</b>&nbsp;A prerrogativa assegurada em favor da CONTRATADA, que lhe
+                            garante contra o (a) CONTRATANTE, no caso de não pagamento dos valores previstos no termo de adesão,
+                            não prejudica ou afeta a exequibilidade deste contrato e seus anexos, que fica valendo, para todos
+                            os efeitos, como título executivo extrajudicial.</span><br>
+                    </p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <h4 style="text-align: center;"><b style="font-size: 16px;">9.&nbsp;CLÁUSULA NONA – DAS OBRIGAÇÕES DAS
+                            PARTES</b></h4>
+                </div>
+                <div>
+                    <p><b>DO(A) CONTRATANTE:</b></p>
+                    <p><span style="font-size: 14px;"><b>9.1</b>&nbsp;Manter em dia o pagamento das mensalidades, seus dados
+                            cadastrais devidamente atualizados, bem como, comunicar, imediatamente, o falecimento de qualquer
+                            dos beneficiários do plano, para que se possa usufruir dos serviços contratados;</span>
+                    </p>
+                    <p><b>DA CONTRATADA</b></p>
+                    <p><span style="font-size: 14px;"><b>9.2</b>&nbsp;Executar os serviços contratados de forma objetiva e
+                            eficiente ao (a) CONTRATANTE.</span>
+                    </p>
+                    <p><span style="font-size: 14px;"><b>9.3</b>&nbsp;Promover adequação e modernização da infraestrutura de
+                            atendimento;</span>
+                    </p>
+                    <p><span style="font-size: 14px;"><b>9.4</b>&nbsp;Facilitar acesso as informações necessárias dos serviços
+                            oferecidos aos beneficiários;</span>
+                    </p>
+                    <p><span style="font-size: 14px;"><b>9.5</b>&nbsp;Cumprir o plano contratado com estrita observância as
+                            condições e cláusulas descritas neste contrato e anexos.</span>
+                    </p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <h4 style="text-align: center;"><b style="font-size: 16px;">10. CLÁUSULA DÉCIMA - DA RESCISÃO CONTRATUAL E
+                            SEUS
+                            EFEITOS</b></h4>
+                </div>
+                <div>
+                    <p>Este contrato poderá ser rescindido nas hipóteses abaixo delineadas: </p>
+                    <div class="edit">
+                        <p><span style="font-size: 14px;"><b>10.1</b>&nbsp;No caso de inadimplência continuada pelo período de
+                                três mensalidades, o contrato será extinto sem que haja a incidência de qualquer multa, desde
+                                que não tenha o (a) CONTRATANTE e/ou os seu beneficiário usufruído dos serviços fúnebres;</span>
+                        </p>
+                        <p><span style="font-size: 14px;"><b>10.2</b>&nbsp;Após a prestação dos serviços fúnebres e caso o
+                                contrato vigente tenha mais de 60 (sessenta) meses de duração, poderão os herdeiros requisitar o
+                                cancelamento do contrato sem qualquer ônus, no entanto, se o contrato for cancelado antes do
+                                período citado e havendo a prestação de serviços fúnebres, caberá aos herdeiros o pagamento do
+                                residual gasto com o serviço prestado, independente da desvinculação pelo cancelamento
+                                contratual.</span>
+                        </p>
+                        <p><span style="font-size: 14px;"><b>10.3</b>&nbsp;Ensejando no cancelamento do contrato e com a devida
+                                prestação dos serviços, a CONTRATADA estará responsável pela apuração do saldo devedor para a
+                                devida quitação dos serviços prestados, apresentando de forma objetiva e clara os custos dos
+                                serviços para sua devida quitação.</span>
+                        </p>
+                        <p><span style="font-size: 14px;"><b>10.4</b>&nbsp;O saldo remanescente deverá ser quitado na forma à
+                                vista, ou por meio de confissão de dívida para emissão de boleto bancário.</span>
+                        </p>
+                        <p><span><span style="font-size: 14px;"><b>10.5</b>&nbsp;Emitido o boleto, e não havendo o pagamento no
+                                    vencimento, o devedor será inserido no SCPC e Serasa, bem como, serão tomadas as medidas
+                                    judiciais cabíveis para a devida quitação da dívida.</span><br></span>
+                        </p>
+                    </div>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <h1 style="font-size: 16px; text-align: center;"><b>11. CLÁUSULA DÉCIMA PRIMEIRA - DAS ALTERAÇÕES DE
+                            TITULARIDADE</b></h1>
+                </div>
+                <div>
+                    <p></p>
+                    <div class="edit">
+                        <p><span style="font-size: 14px;"><b>11.1</b>&nbsp;Em caso de falecimento do (a) CONTRATANTE, poderá
+                                seus dependentes, se houver, ou responsável, assumir o contrato principal, passando assim a ser
+                                responsável legal dos direitos e obrigações assumidos neste contrato;</span>
+                        </p>
+                        <p><span style="font-size: 14px;"><b>11.2</b>&nbsp;Para a transferência da titularidade, é
+                                imprescindível que o contrato esteja livre de qualquer débito.</span>
+                        </p>
+                    </div>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <h1 style="font-size: 16px; text-align: center;"><b>12. CLÁUSULA DÉCIMA SEGUNDA - DAS DISPOSIÇÕES GERAIS</b>
+                    </h1>
+                </div>
+                <div>
+                    <p></p>
+                    <div class="edit">
+                        <p><span style="font-size: 14px;"><b style="">12.1</b>&nbsp;Cada parte declara e garante em benefício da
+                                outra que possui plenos poderes e está devidamente autorizada a celebrar o presente contrato e a
+                                cumprir todas as obrigações nele assumidas;</span>
+                        </p>
+                        <p><span style="font-size: 14px;"><b>12.2</b>&nbsp;Referências a qualquer documento, anexo ou outros
+                                instrumentos incluem todas as suas alterações, substituições, consolidações e respectivas
+                                complementações, salvo se expressamente disposto de forma diversa</span>
+                        </p>
+                        <p><span style="font-size: 14px;"><b>12.3</b>&nbsp;Caso uma mesma pessoa seja designada beneficiária em
+                                mais de um contrato, será válido apenas um dos contratos. Portanto, fica os demais contratos sem
+                                efeito algum</span>
+                        </p>
+                        <p><b style="font-size: 14px; color: inherit;">12.4</b><span
+                                style="font-size: 14px; color: inherit;">&nbsp;Todas as referências a quaisquer partes deste
+                                contrato incluem seus sucessores, beneficiários, representantes.</span>
+                        </p>
+                        <p><b style="font-size: 14px; color: inherit;">12.5</b><span
+                                style="font-size: 14px; color: inherit;">&nbsp;Faz parte integrante e indissociável deste
+                                contrato, como se nele estivessem transcritos, o termo de adesão e demais anexos, cujo conteúdo
+                                o(a)CONTRATANTE declara haver tomado amplo conhecimento, tendo aceitado todos os seus termos,
+                                sem qualquer restrição ou objeção;</span>
+                        </p>
+                        <p><span style="font-size: 14px; color: inherit;"><b>12.6&nbsp;</b>As partes reconhecem como válidas,
+                                eficazes e suficientes as comunicações, notificações e cobranças enviadas para o endereço
+                                indicado pelo(a)CONTRATANTE no termo de adesão, cabendo a este informar a CONTRATADA sobre
+                                qualquer alteração de endereço ou de seus dados cadastrais, sempre por escrito e no prazo máximo
+                                de 30 (trinta) dias contados do evento;</span>
+                        </p>
+                        <p><span style="font-size: 14px; color: inherit;"><b>12.7</b>&nbsp;A mensalidade tem como principal
+                                objetivo a manutenção e disponibilização de toda a infraestrutura necessária ao atendimento
+                                desse serviço e, desta forma, a não ocorrência de falecimento dos BENEFICIÁRIOS não implica em
+                                qualquer forma de reembolso de pagamentos pela CONTRATADA ao CONTRATANTE ou aos
+                                BENEFICIÁRIOS.</span>
+                        </p>
+                        <p><span style="font-size: 14px; color: inherit;"><b>12.8</b>&nbsp;O não exercício, da CONTRATADA, de
+                                quaisquer dos direitos ou prerrogativas previstas neste contrato ou seus anexos, ou mesmo na
+                                legislação aplicável, será tido como ato de mera liberalidade, não constituindo alteração ou
+                                novação das obrigações ora estabelecidas, cujo cumprimento poderá ser exigido a qualquer tempo,
+                                independentemente de comunicação prévia à outra parte.</span>
+                        </p>
+                    </div>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <p><span style="font-size: 14px;"><strong>PARTES:</strong> Confirmo, <strong>via assinatura</strong>,
+                            nos moldes do art. 10 da MP 2.200/01 em vigor no Brasil, que estou De Acordo com o presente
+                            CONTRATO, por estar plenamente ciente dos termos, reafirmo meu dever de observar e fazer cumprir as
+                            cláusulas aqui
+                            estabelecidas.</span></p>
+                    <p><span style="font-size: 14px;"><strong>TESTEMUNHA:</strong> Confirmo, <strong>via assinatura
+                                eletrônica</strong>, nos moldes do art. 10 da MP 2.200/01 em vigor no Brasil, a celebração,
+                            entre as partes, do CONTRATO.</span></p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <p style="text-align: center; font-size: 14px;">${unidadeTratado.municipio} - ${unidadeTratado.uf},
+                        ${contratoCliente.dataContrato}</p>
+                </div>
+                <div style="page-break-after: always;" class="pagebreak">&nbsp;</div>
+                <div>
+                    <h1 style="font-size: 16px; text-align: center;"><b>ANEXO 01 - FICHA DE QUALIFICAÇÃO</b></h1>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <p><b>DADOS DO TITULAR</b></p>
+                    <p>Nome:&nbsp;<span class="NOME_TITULAR token_d4s" style="">${contratoCliente.nomeTitular}</span>&nbsp;</p>
+                    <p>R.G.:&nbsp;<span class="RG_TITULAR token_d4s">${contratoCliente.rgTitular}</span>&nbsp;</p>
+                    <p>CPF:&nbsp;<span class="CPF_TITULAR token_d4s">${contratoCliente.cpfTitular}</span>&nbsp;</p>
+                    <p>Sexo: <span class="SEXO_TITULAR token_d4s">${contratoCliente.sexoTitular}</span>&nbsp;</p>
+                    <p>Data de Nascimento:&nbsp;<span class="Data_Nasc_Titular token_d4s"><span
+                                class="DA_Nasc_Titular token_d4s"><span
+                                    class="DATA_NASC_TITULAR token_d4s">${contratoCliente.dataNascTitular}</span>&nbsp;</span></span>
+                    </p>
+                    <p>Estado Civil:&nbsp;<span class="Estado_Civil_Titular token_d4s"><span
+                                class="ESTADO_CIVIL_TITULAR token_d4s">${contratoCliente.estadoCivilTitular}</span>&nbsp;</span>
+                    </p>
+                    <p><span style="color: inherit;">Profissão: <span
+                                class="PROFISSAO_TITULAR token_d4s">${contratoCliente.profissaoTitular}</span>&nbsp;</span></p>
+                    <p><span style="color: inherit;">Religião:&nbsp;<span class="Religiao_Titular token_d4s"><span
+                                    class="RELIGIAO_TITULAR token_d4s">${contratoCliente.religiaoTitular}</span>&nbsp;</span></span>
+                    </p>
+                    <p>Naturalidade: ${contratoCliente.naturalidadeTitular}</p>
+                    <p>Nacionalidade: <span
+                            class="NACIONALIDADE_TITULAR token_d4s">${contratoCliente.nacionalidadeTitular}</span>&nbsp;</p>
+                    <p>Telefone 01: <span class="TELEFONE_01 token_d4s">${contratoCliente.telefone1}</span>&nbsp;</p>
+                    <p>Telefone 02: <span class="TELEFONE_02 token_d4s">${contratoCliente.telefone2 == "null" ? "" :
+            contratoCliente.telefone2}</span>&nbsp;</p>
+                    <p>E-mail 01: <span class="EMAIL01 token_d4s"><span
+                                class="EMAIL_01 token_d4s">${contratoCliente.email1}</span>&nbsp;</span>&nbsp;</p>
+                    <p>E-mail 02: <span class="EMAIL_02 token_d4s" style="">${contratoCliente.email2 == "null" ? "" :
+            contratoCliente.email2}</span>&nbsp;</p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <div class="edit">
+                        <p><b>DADOS RESIDENCIAIS</b></p>
+                        <p><span style="color: inherit;">Endereço Residencial:&nbsp;</span><span style="color: inherit;"><span
+                                    class="ENDERECO_RES token_d4s"><span
+                                        class="ENDERECO_RESIDENCIAL token_d4s">${contratoCliente.tipoLogradouroResidencial}
+                                        ${contratoCliente.nomeLogradouroResidencial}</span></span></span></p>
+                        <p><span style="color: inherit;">Número: <span
+                                    class="NUMERO_END_RESIDENCIAL token_d4s">${contratoCliente.numeroResidencial}</span>&nbsp;</span>
+                        </p>
+                        <p><span style="color: inherit;">Complemento: <span
+                                    class="COMPLEMENTO_END_RESIDENCIAL token_d4s">${contratoCliente.complementoResidencial}</span>&nbsp;</span>
+                        </p>
+                        <p><span style="color: inherit;">Bairro: <span
+                                    class="BAIRRO_RESIDENCIAL token_d4s">${contratoCliente.bairroResidencial}</span>&nbsp;</span>
+                        </p>
+                        <p><span style="color: inherit;">CEP: <span
+                                    class="CEP_RESIDENCIAL token_d4s">${contratoCliente.cepResidencial}</span>&nbsp;</span></p>
+                        <p><span style="color: inherit;">Cidade: <span
+                                    class="CIDADE_RESIDENCIAL token_d4s">${contratoCliente.cidadeResidencial}</span>&nbsp;</span>
+                        </p>
+                        <p><span style="color: inherit;">U.F: <span
+                                    class="ESTADO_RESIDENCIAL token_d4s">${contratoCliente.estadoResidencial}</span>&nbsp;</span>
+                        </p>
+                    </div>
+                    <p></p>
+                    <div class="edit">
+                        <p><b>DADOS COMERCIAIS</b></p>
+                        <p>Endereço Comercial:&nbsp;${contratoCliente.enderecoCobrancaIgualResidencial == 1 ?
+            contratoCliente.tipoLogradouroResidencial : contratoCliente.tipoLogradouroCobranca}
+                            ${contratoCliente.enderecoCobrancaIgualResidencial == 1 ? contratoCliente.nomeLogradouroResidencial
+            : contratoCliente.nomeLogradouroCobranca}
+                        </p>
+                        <p><span style="color: inherit;">Número: <span
+                                    class="NUMERO_END_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial
+            == 1 ? contratoCliente.numeroResidencial :
+            contratoCliente.numeroCobranca}</span>&nbsp;</span>
+                        </p>
+                        <p><span style="color: inherit;">Complemento: <span
+                                    class="COMPLEMENTO_END_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial
+            == 1 ? contratoCliente.complementoResidencial :
+            contratoCliente.complementoCobranca}</span>&nbsp;</span>
+                        </p>
+                        <p><span style="color: inherit;">Bairro: <span
+                                    class="BAIRRO_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1
+            ? contratoCliente.bairroResidencial : contratoCliente.bairroCobranca}</span>&nbsp;</span>
+                        </p>
+                        <p><span style="color: inherit;">CEP: <span
+                                    class="CEP_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1 ?
+            contratoCliente.cepResidencial : contratoCliente.cepCobranca}</span>&nbsp;</span></p>
+                        <p><span style="color: inherit;">Cidade: <span
+                                    class="CIDADE_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1
+            ? contratoCliente.cidadeResidencial : contratoCliente.cidadeCobranca}</span>&nbsp;</span>
+                        </p>
+                        <p><span style="color: inherit;">U.F: <span
+                                    class="ESTADO_RESIDENCIAL token_d4s">${contratoCliente.enderecoCobrancaIgualResidencial == 1
+            ? contratoCliente.estadoResidencial : contratoCliente.estadoCobranca}</span>&nbsp;</span>
+                        </p>
+                    </div>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <div class="edit">
+                        <p><b>DEPENDENTES</b></p>
+                        ${htmlDependentesHumano}
+                    </div>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <p style="text-align: center; font-size: 14px;">${unidadeTratado.municipio} - ${unidadeTratado.uf},
+                        ${contratoCliente.dataContrato}</p>
+                </div>
+                <div style="page-break-after: always;" class="pagebreak">&nbsp;</div>
+                <div>
+                    <h1 style="font-size: 16px; text-align: center;"><b>ANEXO 02 - DESCRIÇÃO DOS PLANOS</b></h1>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <p><b><span style="font-size: 14px;">PLANO CRISTAL</span></b></p>
+                    <p style="text-align: justify;"></p>
+                    <ul>
+                        <li><span style="font-size: 14px;">URNA MORTUÁRIA: Estilo sextavado com 1,90m internamente, silkscreen
+                                prateado, guarnição (friso) na tampa, madeira pinnus, tingida na cor nogueira, verniz alto
+                                brilho, fundo e tampa de eucatex, 6 (seis) alças parreira, 4 (quatro) chavetas, ambas na cor
+                                dourada, forro e babado rendão tecido 50g branco, taxas douradas, travesseiro solto<br></span>
+                        </li>
+                        <li><span style="font-size: 14px;"><span style="color: inherit;">Paramentação de
+                                    metal;</span><br></span></li>
+                        <li><span style="color: inherit;"><span style="font-size: 14px;">Velas;<br></span></span></li>
+                        <li><span style="color: inherit;"><span style="font-size: 14px;">Carro funerário para remoção e
+                                    sepultamento (obedecendo os limites de km);<br></span></span></li>
+                        <li><span style="color: inherit;"><span style="font-size: 14px;">Véu;<br></span></span></li>
+                        <li><span style="color: inherit;"><span style="font-size: 14px;">Sala de velório, se necessário (onde a
+                                    contratada tiver disponível);<br></span></span></li>
+                        <li><span style="color: inherit;"><span style="font-size: 14px;">Decoração de flores naturais e/ou
+                                    artificiais na urna (conforme a disponibilidade de mercado onde será executado os
+                                    serviços);<br></span></span></li>
+                        <li><span style="color: inherit;"><span style="font-size: 14px;">Tanatopraxia (preparação do
+                                    corpo);</span></span>
+                        <li><span style="color: inherit;"><span style="font-size: 14px;">Transporte de até 100Km.</span></span>
+                        </li>
+                    </ul>
+                    <p></p>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+        
+                <div style="page-break-after: always;" class="pagebreak">&nbsp;</div>
+                <div>
+                    <h1 style="font-size: 16px; text-align: center;"><b style="font-size: 16px;">ANEXO 03 - TERMO DE ADESÃO</b>
+                    </h1>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <p><b>DADOS DO CONTRATO</b></p>
+                    <p></p>
+                    <ul>
+                        <li>Plano Selecionado:&nbsp;<span
+                                class="PLANO_SELECIONADO token_d4s">${planoTratado.descricao}</span>&nbsp;
+                        </li>
+                        <li><span style="color: inherit;">Formato da&nbsp;Venda: </span><span
+                                class="CONTRATO_NOVO_OU_TRANSFERENCIA token_d4s"
+                                style="color: inherit;">${contratoCliente.tipo}</span><span
+                                style="color: inherit;">&nbsp;</span>
+                        </li>
+                        <ul>
+                            <li><span style="font-size: 12px;"><b>Em caso de transferência:</b></span></li>
+                            <ul>
+                                <li><span style="font-size: 12px;">Empresa Anterior: <span
+                                            class="EMPRESA_ANTERIOR token_d4s">${contratoCliente.empresaAntiga == 'null' ? " " :
+            contratoCliente.empresaAntiga}</span>&nbsp;</span>
+                                </li>
+                                <li><span style="font-size: 12px;">Data de Assinatura do Contrato Anterior: <span
+                                            class="DATA_CONTRATO_ANTERIOR token_d4s">${contratoCliente.dataContratoAntigo ==
+            'null' ? " " : contratoCliente.dataContratoAntigo}</span>&nbsp;</span>
+                                </li>
+                            </ul>
+                        </ul>
+                    </ul>
+                    <blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;">
+                        <blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;">
+                            <p></p>
+                        </blockquote>
+                    </blockquote>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <p><b style="font-size: 14px;">TAXA DE ADESÃO</b></p>
+                    <p></p>
+                    <ul>
+                        <li>Plano Funerário: R$ ${planoTratado.valorAdesao}</li>
+                        <li style="font-size: 14px;"><b style="font-size: 16px;">Total da Taxa de Adesão:R$
+                        ${planoTratado.valorAdesao}</b></li>
+                    </ul>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <p><b style="font-size: 14px;">MENSALIDADE</b></p>
+                    <p></p>
+                    <ul>
+                    <li>Plano Funerário: R$ ${planoTratado.valorMensalidade}&nbsp</li>
+                    <li>Acréscimo de Adicionais: R$ ${valorAdicional}</li>
+                    <li>Quantidade de Adicionais: ${qtdAdicional}</li>
+                    <li><b><span style="font-size: 16px;">Total da Mensalidade: <span
+                                    class="MENSALIDADE_TOTAL token_d4s">R$ ${valorTotalMensalidade}</span>&nbsp;</span></b></li>
+                </ul>
+                <p><b style="font-size: 14px;">REAJUSTE CONFORME IGPM</b></p>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <p><span style="font-size: 14px;"><b>DADOS DE PAGAMENTO</b></span></p>
+                    <p></p>
+                    <ul>
+                        <li>Data de Vencimento da Primeira Mensalidade:${contratoCliente.dataPrimeiraMensalidade}
+                        </li>
+                        <li>Forma de Pagamento: <span
+                                class="FORMA_PAGAMENTO token_d4s">${contratoCliente.localCobranca}</span>&nbsp;</li>
+                        <ul>
+                            <li>Em caso de cobrador, qual o endereço de cobrança?</li>
+                            <ul>
+                                <li>Endereço de Cobrança: <span
+                                        class="ENDERECO_COBRANCA token_d4s">${contratoCliente.tipoLogradouroResidencial}
+                                        ${contratoCliente.nomeLogradouroResidencial}, ${contratoCliente.numeroResidencial},
+                                        QUADRA:${contratoCliente.quadraResidencial == null ? "" :
+            contratoCliente.quadraResidencial},
+                                        LOTE: ${contratoCliente.loteResidencial == null ? "" : contratoCliente.loteResidencial},
+                                        Complemento:
+                                        ${contratoCliente.complementoResidencial}, Bairro: ${contratoCliente.bairroResidencial},
+                                        ${contratoCliente.cepResidencial}</span>&nbsp;</li>
+                                <li>Melhor Horário: <span
+                                        class="HORARIO_COBRANCA token_d4s">${contratoCliente.melhorHorario}</span>&nbsp;</li>
+                            </ul>
+                        </ul>
+                    </ul>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <ul>
+                        <li><span style="font-size: 14px;">Caso
+                                a cobrança não seja efetuada até a data do vencimento, o CONTRATANTE se
+                                responsabiliza a efetuar o pagamento no escritório da CONTRATADA.</span>
+                        </li>
+                        <li><span style="font-size: 14px;">A
+                                CONTRATADA se reserva ao direito de alterar as formas de pagamento
+                                disponibilizadas para o CONTRATANTE.</span><br>
+                        </li>
+                    </ul>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <p><span style="font-size: 14px;"><strong>PARTES:</strong> Confirmo, <strong>via assinatura
+                                eletrônica</strong>,
+                            nos moldes do art. 10 da MP 2.200/01 em vigor no Brasil, que estou De Acordo com o presente
+                            CONTRATO, e,
+                            por estar plenamente ciente dos termos, reafirmo meu dever de observar e fazer cumprir as cláusulas
+                            aqui
+                            estabelecidas.</span></p>
+                    <p><span style="font-size: 14px;"><strong>TESTEMUNHA:</strong> Confirmo, <strong>via assinatura
+                                eletrônica</strong>, nos moldes do art. 10 da MP 2.200/01 em vigor no Brasil, a celebração,
+                            entre as
+                            partes, do CONTRATO.</span></p>
+                </div>
+                <div>
+                    <p></p>
+                    <hr>
+                    <p></p>
+                </div>
+                <div>
+                    <p style="text-align: center; font-size: 14px;">${unidadeTratado.municipio} - ${unidadeTratado.uf},
+                        ${contratoCliente.dataContrato}</p>
+                </div>
+            </body>
+        
+        </html>`;
+      } else if (estado == 'PR') {
         if (templateID == 1) {
           html = `
                   <!DOCTYPE html>
@@ -5182,7 +5994,7 @@ function ContratoContentFinalizar({ navigation }) {
                         <p></p>
                         <ul>
                           <li>Plano Funerário: R$ ${planoTratado.valorAdesao}</li>
-                          <li>Adicional de Cremação Humana: R$ ${adesaoHumano}</li>
+                          <li>Adicional de Cremação Humana: R$ ${result.id >= 2 ? 0 : adesaoHumano}</li>
                           <li style="font-size: 14px">
                             <b style="font-size: 16px"
                               >Total da Taxa de Adesão:R$ ${result.id >= 2 ? planoTratado.valorAdesao : valorTotalAdesao}</b
@@ -6521,7 +7333,7 @@ function ContratoContentFinalizar({ navigation }) {
               <p></p>
               <ul>
                   <li>Plano Funerário: R$ ${planoTratado.valorAdesao}</li>
-                  <li style="font-size: 14px;"><b style="font-size: 16px;">Total da Taxa de Adesão:R$ ${planoTratado.valorAdesao}</b></li>
+                  <li style="font-size: 14px;"><b style="font-size: 16px;">Total da Taxa de Adesão:R$ ${valorTotalAdesao}</b></li>
               </ul>
               <p></p>
           </div>
@@ -6537,7 +7349,7 @@ function ContratoContentFinalizar({ navigation }) {
                   <li>Plano Funerário: <span
                           class="MENSALIDADE_PLANOFUNERARIO token_d4s">R$ ${planoTratado.valorMensalidade}</span>&nbsp;</li>
                   <li><b><span style="font-size: 16px;">Total da Mensalidade: <span
-                                  class="MENSALIDADE_TOTAL token_d4s">R$ ${planoTratado.valorMensalidade}</span>&nbsp;</span></b></li>
+                                  class="MENSALIDADE_TOTAL token_d4s">R$ ${valorTotalMensalidade}</span>&nbsp;</span></b></li>
               </ul>
               <p></p>
           </div>
@@ -7869,10 +8681,10 @@ function ContratoContentFinalizar({ navigation }) {
                         <p></p>
                         <ul>
                           <li>Plano Funerário: R$ ${planoTratado.valorAdesao}</li>
-                          <li>Adicional de Cremação Humana: R$ ${adesaoHumano}</li>
+                          <li>Adicional de Cremação Humana: R$ ${result.id >= 2 ? 0 : adesaoHumano}</li>
                           <li style="font-size: 14px">
                             <b style="font-size: 16px"
-                              >Total da Taxa de Adesão:R$ ${valorTotalAdesao}</b
+                              >Total da Taxa de Adesão:R$ ${result.id >= 2 ? planoTratado.valorAdesao : valorTotalAdesao}</b
                             >
                           </li>
                         </ul>
@@ -11465,10 +12277,10 @@ function ContratoContentFinalizar({ navigation }) {
                 <p></p>
                 <ul>
                   <li>Plano Funerário: R$ ${planoTratado.valorAdesao}</li>
-                  <li>Adicional de Cremação PET: R$ ${adesaoPet}</li>
-                  <li>Adicional de Cremação Humana: R$ ${adesaoHumano}</li>
+                  <li>Adicional de Cremação PET: R$ ${result.id >= 2 ? 0 : adesaoPet}</li>
+                  <li>Adicional de Cremação Humana: R$ ${result.id >= 2 ? 0 : adesaoHumano}</li>
                   <li style="font-size: 14px">
-                 <b style="font-size: 16px">Total da Taxa de Adesão:R$ ${valorTotalAdesao}
+                 <b style="font-size: 16px">Total da Taxa de Adesão:R$ ${result.id >= 2 ? planoTratado.valorAdesao : valorTotalAdesao}
                  </b>
                 </li>
                 </ul >

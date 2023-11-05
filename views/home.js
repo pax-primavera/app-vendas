@@ -212,7 +212,7 @@ function Home({ navigation }) {
                                         await api.post(`/api/venda/sincronismoanexo`, anexoBody5, { headers }).then(async () => {
                                             await api.post(`/api/venda/sincronismoanexo`, anexoBody6, { headers }).then(async () => {
                                                 await api.post(`/api/venda/sincronismoanexo`, anexoBody7, { headers }).then(async () => {
-
+                                                    await executarSQL(`UPDATE titular SET status = 3 where id = ${request.data.id}`);
                                                 }).catch((err) => {
                                                     alert(err)
                                                 });
@@ -237,12 +237,12 @@ function Home({ navigation }) {
                     }).catch((err) => {
                         alert(err)
                     });
-                    await executarSQL(`
-                        DELETE from dependente where titular_id = ${request.data.id}`
-                    );
-                    await executarSQL(`
-                        DELETE from titular WHERE id = ${request.data.id}`
-                    );
+                    // await executarSQL(`
+                    //     DELETE from dependente where titular_id = ${request.data.id}`
+                    // );
+                    // await executarSQL(`
+                    //     DELETE from titular WHERE id = ${request.data.id}`
+                    // );
                     toast.show({
                         placement: "top",
                         render: () => {

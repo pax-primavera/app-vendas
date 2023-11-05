@@ -245,6 +245,7 @@ function ContratoContentFinalizarOff({ navigation }) {
               qtdAdicional++;
               valorAdicional += plano._array[0].valorAdicional
               valorTotalMensalidade += plano._array[0].valorAdicional;
+              valorTotalAdesao += plano._array[0].valorAdicional;
             }
           }
           adesaoHumano += dep.valorAdesao;
@@ -6605,7 +6606,7 @@ function ContratoContentFinalizarOff({ navigation }) {
                 <p></p>
                 <ul>
                     <li>Plano Funerário: R$ ${planoTratado.valorAdesao}</li>
-                    <li style="font-size: 14px;"><b style="font-size: 16px;">Total da Taxa de Adesão:R$ ${planoTratado.valorAdesao}</b></li>
+                    <li style="font-size: 14px;"><b style="font-size: 16px;">Total da Taxa de Adesão:R$ ${valorTotalAdesao}</b></li>
                 </ul>
                 <p></p>
             </div>
@@ -6621,7 +6622,7 @@ function ContratoContentFinalizarOff({ navigation }) {
                     <li>Plano Funerário: <span
                             class="MENSALIDADE_PLANOFUNERARIO token_d4s">R$ ${planoTratado.valorMensalidade}</span>&nbsp;</li>
                     <li><b><span style="font-size: 16px;">Total da Mensalidade: <span
-                                    class="MENSALIDADE_TOTAL token_d4s">R$ ${planoTratado.valorMensalidade}</span>&nbsp;</span></b></li>
+                                    class="MENSALIDADE_TOTAL token_d4s">R$ ${valorTotalMensalidade}</span>&nbsp;</span></b></li>
                 </ul>
                 <p></p>
             </div>
